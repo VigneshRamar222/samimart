@@ -1,5 +1,4 @@
 <!DOCTYPE html><html lang="en">
-<!-- Mirrored from vivid-chocolate-vq0-draft.caffeine.xyz/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Mar 2026 01:12:04 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -167,7 +166,6 @@
           <ul class="list-unstyled fm-footer-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="categories.html">Categories</a></li>
-            <!-- <li><a href="offers.html">Offers</a></li> -->
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
@@ -175,11 +173,11 @@
         <div class="col-6 col-md-3">
           <h6 class="text-white fw-bold mb-3">Categories</h6>
           <ul class="list-unstyled fm-footer-links">
-            <li><a href="categories.html">Fresh Produce</a></li>
-            <li><a href="categories.html">Dairy &amp; Eggs</a></li>
-            <li><a href="categories.html">Bakery</a></li>
-            <li><a href="categories.html">Beverages</a></li>
-            <li><a href="categories.html">Stationery</a></li>
+             <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
+            <li><a href="categories.html?catid=2">Staples</a></li>
+            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
+            <li><a href="categories.html?catid=4">Beverages</a></li>
+            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>
           </ul>
         </div>
         <div class="col-md-3">
@@ -211,102 +209,190 @@ const catid = params.get("catid");
 const sub = params.get("sub");
 const search = params.get("search");
 
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let itemsPerPage = 10;    // Number of items to show per batch
+let currentIndex = 0;      // Current index for pagination
+let filteredItems = [];    // Stores filtered items for pagination
 
-fetch("assets/JSON/subcategories.json")
-.then(res => res.json())
-.then(data => {
+function initLoad(catid = "", sub = "") {
+  fetch("assets/JSON/subcategories.json")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("subcategories");
+      container.innerHTML = "";
+
+      // Filter active items and category if provided
+      filteredItems = catid
+        ? data.filter(item => item.CategoriesCode == catid && item.active == 1)
+        : data.filter(item => item.active == 1);
+
+      currentIndex = 0; // reset pagination
+
+      renderItems(); // Render first batch
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+function renderItems() {
   const container = document.getElementById("subcategories");
-  container.innerHTML = "";
 
-  //const filtered = data.filter(item => item.CategoriesCode == catid);
+  // Slice next batch of items
+  const nextItems = filteredItems.slice(currentIndex, currentIndex + itemsPerPage);
 
-  const filtered = catid 
-      ? data.filter(item => item.CategoriesCode == catid && item.active == 1)
-      : data.filter(item =>  item.active == 1);
+  nextItems.forEach(item => {
+    const highlight = cart.some(c =>
+      Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
+      Number(c.CategoriesCode) === Number(item.CategoriesCode)
+    );
 
-      //alert(filtered.length)
-  filtered.forEach(item => {
-
-    //const itemCount = item.items.split(",").length;
-
-  //  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-// const isInCart = cart.some(
-//   c => Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-//        Number(c.CategoriesCode) === Number(item.CategoriesCode)
-// );
-
-// const isMatch =
-//   Number(item.SubCategoriesCode) === Number(sub) &&
-//   Number(item.CategoriesCode) === Number(catid);
-
-// const highlight = isMatch || isInCart;
-
-
-const highlight = cart.some(c =>
-  Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-  Number(c.CategoriesCode) === Number(item.CategoriesCode)
-) || (
-  Number(item.SubCategoriesCode) === Number(sub) &&
-  Number(item.CategoriesCode) === Number(catid)
-);
-
-
-    // const itemsArray = item.items ? item.items.split(",") : [];
     const itemsArray = item.items?.split(",").map(i => i.trim()) || [];
-const itemCount = itemsArray.length;
+    const itemCount = itemsArray.length;
+    const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
 
-// const isMatch =
-//   Number(item.SubCategoriesCode) === Number(sub) &&
-//   Number(item.CategoriesCode) === Number(catid);
-
-const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
-
-//<i class="bi bi-flower1 fs-1 text-success mb-2"></i>
-// <p class="text-muted small">${item.items.substring(0,40)}...</p>
     const html = `
       <div class="col-6 col-md-4 col-lg-3">
-        <div title="${highlight  ? "Item added to cart!" : ""}" class="card h-100 text-center p-3 border-0 shadow-sm ${highlight  ? "highlight-card" : ""}">
-          
-          
- <img src="${image}" alt="${item.SubCategories}" loading="lazy" class="fm-cat-img mb-2">
+        <div class="card h-100 text-center p-3 border-0 shadow-sm ${highlight ? "highlight-card" : ""}">
+          <img src="${image}" alt="${item.SubCategories}" loading="lazy" class="fm-cat-img mb-2">
           <h6 class="fw-bold">${item.SubCategories}</h6>
-
-         
-
-          <p class="text-muted small">
-  ${itemsArray.slice(0,3).join(", ")}${itemsArray.length > 3 ? "..." : ""}
-</p>
-
+          <p class="text-muted small">${itemsArray.slice(0,3).join(", ")}${itemsArray.length > 3 ? "..." : ""}</p>
           <span class="badge bg-success">${itemCount}+ items</span>
-
           <button class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#askItemModel"
-           data-category="${item.CategoriesCode}" 
-    data-subcategory="${item.SubCategoriesCode}"
-    data-items="${item.items}"
-          >
+            data-category="${item.CategoriesCode}" 
+            data-subcategory="${item.SubCategoriesCode}"
+            data-items="${item.items}">
             Add to Cart
           </button>
-
         </div>
       </div>
     `;
-    //  onclick="addToCart(${item.CategoriesCode},${item.SubCategoriesCode},this)"
 
     container.insertAdjacentHTML("beforeend", html);
-
   });
 
-  setTimeout(() => {
-  const el = document.querySelector(".highlight-card");
-  if(el){
-    el.scrollIntoView({behavior:"smooth", block:"center"});
-  }
-},200);
+  currentIndex += itemsPerPage;
 
-})
-.catch(error => console.error("Error:", error));
+  // Show or remove "Show More" button
+  let existingButton = document.getElementById("showMoreBtn");
+  const remainingItems = filteredItems.length - currentIndex;
+
+  if (remainingItems > 0) {
+    const btnText = `Show More (${remainingItems} items left)`;
+
+    if (!existingButton) {
+      const btnHtml = `<div class="text-center mt-4">
+        <button class="btn btn-outline-primary" id="showMoreBtn">${btnText}</button>
+      </div>`;
+      container.insertAdjacentHTML("afterend", btnHtml);
+      document.getElementById("showMoreBtn").addEventListener("click", renderItems);
+    } else {
+      existingButton.textContent = btnText;
+    }
+  } else if (existingButton) {
+    existingButton.remove();
+  }
+}
+
+// let cart = JSON.parse(localStorage.getItem("cart")) || [];
+// function initLoad(catid="", sub=""){
+// fetch("assets/JSON/subcategories.json")
+// .then(res => res.json())
+// .then(data => {
+//   const container = document.getElementById("subcategories");
+//   container.innerHTML = "";
+
+//   //const filtered = data.filter(item => item.CategoriesCode == catid);
+
+//   const filtered = catid 
+//       ? data.filter(item => item.CategoriesCode == catid && item.active == 1)
+//       : data.filter(item =>  item.active == 1);
+
+//       //alert(filtered.length)
+//   filtered.forEach(item => {
+
+//     //const itemCount = item.items.split(",").length;
+
+//   //  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+// console.log(cart)
+// // const isInCart = cart.some(
+// //   c => Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
+// //        Number(c.CategoriesCode) === Number(item.CategoriesCode)
+// // );
+
+// // const isMatch =
+// //   Number(item.SubCategoriesCode) === Number(sub) &&
+// //   Number(item.CategoriesCode) === Number(catid);
+
+// // const highlight = isMatch || isInCart;
+
+
+// const highlight = cart.some(c =>
+//   Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
+//   Number(c.CategoriesCode) === Number(item.CategoriesCode)
+// ) || (
+//   Number(item.SubCategoriesCode) === Number(sub) &&
+//   Number(item.CategoriesCode) === Number(catid)
+// );
+
+
+//     // const itemsArray = item.items ? item.items.split(",") : [];
+//     const itemsArray = item.items?.split(",").map(i => i.trim()) || [];
+// const itemCount = itemsArray.length;
+
+// // const isMatch =
+// //   Number(item.SubCategoriesCode) === Number(sub) &&
+// //   Number(item.CategoriesCode) === Number(catid);
+
+// const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
+
+// //<i class="bi bi-flower1 fs-1 text-success mb-2"></i>
+// // <p class="text-muted small">${item.items.substring(0,40)}...</p>
+
+
+// //console.log(item.CategoriesCode,item.SubCategories,`${highlight  ? "Item added to cart!" : ""}`);
+//     const html = `
+//       <div class="col-6 col-md-4 col-lg-3">
+//         <div title="${highlight  ? "Item added to cart!" : ""}" class="card h-100 text-center p-3 border-0 shadow-sm ${highlight  ? "highlight-card" : ""}">
+          
+          
+//  <img src="${image}" alt="${item.SubCategories}" loading="lazy" class="fm-cat-img mb-2">
+//           <h6 class="fw-bold">${item.SubCategories}</h6>
+
+         
+
+//           <p class="text-muted small">
+//   ${itemsArray.slice(0,3).join(", ")}${itemsArray.length > 3 ? "..." : ""}
+// </p>
+
+//           <span class="badge bg-success">${itemCount}+ items</span>
+
+//           <button class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#askItemModel"
+//            data-category="${item.CategoriesCode}" 
+//     data-subcategory="${item.SubCategoriesCode}"
+//     data-items="${item.items}"
+//           >
+//             Add to Cart
+//           </button>
+
+//         </div>
+//       </div>
+//     `;
+//     //  onclick="addToCart(${item.CategoriesCode},${item.SubCategoriesCode},this)"
+
+//     container.insertAdjacentHTML("beforeend", html);
+
+//   });
+
+//   setTimeout(() => {
+//   const el = document.querySelector(".highlight-card");
+//   if(el){
+//     el.scrollIntoView({behavior:"smooth", block:"center"});
+//   }
+// },200);
+
+// })
+// .catch(error => console.error("Error:", error));
+// }
 
 // Get the modal element
 const askItemModal = document.getElementById('askItemModel');
@@ -558,7 +644,8 @@ document.addEventListener("click", function(e){
 
     e.target.classList.add("active");
 
-    loadSubcategories(catid);
+    //loadSubcategories(catid);
+    initLoad(catid);
 
   }
 
@@ -668,10 +755,12 @@ if(search){
   loadSubcategoriesBySearch(search);
 }
 else if(catid){
-  loadSubcategories(catid, sub);
+  //loadSubcategories(catid, sub);
+  initLoad(catid, sub);
 }
 else{
-  loadSubcategories();
+  //loadSubcategories();
+  initLoad();
 }
 
 const categorySearch = document.getElementById("categorySearch");

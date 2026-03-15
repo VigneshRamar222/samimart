@@ -1,5 +1,4 @@
 <!DOCTYPE html><html lang="en">
-<!-- Mirrored from vivid-chocolate-vq0-draft.caffeine.xyz/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Mar 2026 01:12:04 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -125,20 +124,27 @@
       </div>
       <div class="modal-body">
         <form id="enquiryForm">
-  <div class="mb-3">
-    <label for="userName" class="form-label">Name <span class="text-danger">*</span></label>
-    <input type="text" class="form-control" autocomplete="off" id="userName" required>
-  </div>
-  <div class="mb-3">
-    <label for="contactNo" class="form-label">Contact Number <span class="text-danger">*</span></label>
-    <input type="text" class="form-control" autocomplete="off" id="contactNo" required>
-  </div>
-  <div class="mb-3">
-    <label for="remarks" class="form-label">Remarks</label>
-    <textarea class="form-control" id="remarks" rows="3"></textarea>
-  </div>
-  <button type="submit" class="btn fm-btn-accent w-100">Send Enquiry</button>
-</form>
+          <div class="mb-3">
+            <label for="userName" class="form-label">Name <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Your full name" autocomplete="off" id="userName" required>
+            <div class="invalid-feedback">Please enter your full name.</div>
+          </div>
+          <div class="mb-3">
+            <label for="contactNo" class="form-label">Contact Number <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Your Contact Number" autocomplete="off" id="contactNo" required>
+            <div class="invalid-feedback">Please enter a valid Contact No.</div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" id="email" autocomplete="off" placeholder="your@email.com" required />
+             <div class="invalid-feedback">Please enter a valid email address.</div>
+          </div>
+          <div class="mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea class="form-control" id="remarks" rows="3"></textarea>
+          </div>
+        <button type="submit" id="enquiryFormSubmit" class="btn fm-btn-accent w-100">Send Enquiry</button>
+      </form>
       </div>
     </div>
   </div>
@@ -165,7 +171,6 @@
           <ul class="list-unstyled fm-footer-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="categories.html">Categories</a></li>
-            <!-- <li><a href="offers.html">Offers</a></li> -->
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
@@ -173,11 +178,11 @@
         <div class="col-6 col-md-3">
           <h6 class="text-white fw-bold mb-3">Categories</h6>
           <ul class="list-unstyled fm-footer-links">
-            <li><a href="categories.html">Fresh Produce</a></li>
-            <li><a href="categories.html">Dairy &amp; Eggs</a></li>
-            <li><a href="categories.html">Bakery</a></li>
-            <li><a href="categories.html">Beverages</a></li>
-            <li><a href="categories.html">Stationery</a></li>
+             <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
+            <li><a href="categories.html?catid=2">Staples</a></li>
+            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
+            <li><a href="categories.html?catid=4">Beverages</a></li>
+            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>
           </ul>
         </div>
         <div class="col-md-3">
@@ -287,116 +292,149 @@ function removeFromCart(index) {
 
 
 
-let enquiryForm = document.getElementById("enquiryForm")
-if(enquiryForm)
-enquiryForm.addEventListener("submit", function(e) {
-  e.preventDefault();
+// let enquiryForm = document.getElementById("enquiryForm")
+// if(enquiryForm)
+// enquiryForm.addEventListener("submit", function(e) {
+//   e.preventDefault();
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
+//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
+//   if (cart.length === 0) {
+//     alert("Your cart is empty!");
+//     return;
+//   }
 
-  const userName = document.getElementById("userName").value.trim();
-  const contactNo = document.getElementById("contactNo").value.trim();
-  const remarks = document.getElementById("remarks").value.trim();
+//   const userName = document.getElementById("userName").value.trim();
+//   const contactNo = document.getElementById("contactNo").value.trim();
+//   const remarks = document.getElementById("remarks").value.trim();
+// const email = document.getElementById("email").value.trim();
 
-  if (!userName || !contactNo) {
-    alert("Please enter Name and Contact Number.");
-    return;
-  }
+//   if (!userName || !contactNo) {
+//     alert("Please enter Name and Contact Number.");
+//     return;
+//   }
 
-  // Prepare product list
-  const itemList = cart.map(item => `- ${item.name}`).join("%0D%0A");
+//   // Prepare product list for table format using subcategories.json file
+  
+// //local storage cart format is [{"CategoriesCode":"2","SubCategoriesCode":"8","items":[{"name":"packed wheat flour","remark":"10"}]}]
+//   // sent data to email using mail bot
+  
+//   localStorage.setItem("cart", JSON.stringify([]));
 
-  const receiver = "samimart.tn@gmail.com";
-  const subject = encodeURIComponent("Product Enquiry from Website");
-  const bodyContent = `
-Name: ${userName}
-Contact No: ${contactNo}
+//   // Optional: close modal
+//   const modalEl = document.getElementById('enquiryModal');
+//   const modalInstance = bootstrap.Modal.getInstance(modalEl);
+//   modalInstance.hide();
 
-Products:
-${itemList}
-
-Remarks:
-${remarks}
-`;
-
-  const body = encodeURIComponent(bodyContent);
-
-  // Open default email client
-  //window.location.href = `mailto:${receiver}?subject=${subject}&body=${body}`;
-
-  openMailto(receiver, subject, body);
-  // Clear the cart
-  localStorage.setItem("cart", JSON.stringify([]));
-
-  // Optional: close modal
-  const modalEl = document.getElementById('enquiryModal');
-  const modalInstance = bootstrap.Modal.getInstance(modalEl);
-  modalInstance.hide();
-
-  // Reload the page after short delay to reflect empty cart
-  setTimeout(() => {
-    location.reload();
-  }, 300); // 0.3 sec delay for modal close animation
-});
+//   setTimeout(() => {
+//     location.reload();
+//   }, 300);
+// });
 
 
+let enquiryForm = document.getElementById("enquiryForm");
 
-function openMailto(receiver, subject, body) {
-  const mailtoLink = `mailto:${receiver}?subject=${subject}&body=${body}`;
-
-  // Create invisible iframe
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  document.body.appendChild(iframe);
-
-  let opened = false;
-
-  try {
-    iframe.contentWindow.location.href = mailtoLink;
-    opened = true;
-  } catch (e) {
-    opened = false;
-  }
-
-  setTimeout(() => {
-    document.body.removeChild(iframe);
-    if (!opened) {
-      alert("No email client detected. Please configure your default email software to send enquiry.");
-    }
-  }, 500);
-}
-
- document.getElementById('contactForm').addEventListener('submit', function (e) {
+if (enquiryForm) {
+  enquiryForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    if (!this.checkValidity()) {
-      this.classList.add('was-validated');
+
+
+    
+  const sendBtn = document.getElementById('enquiryFormSubmit');
+  const originalText = sendBtn.innerHTML;
+
+  // Show loader
+  sendBtn.classList.add("btn-loading");
+  sendBtn.innerHTML = `
+    <span class="spinner-border spinner-border-sm"></span>
+    Sending...
+  `;
+
+
+
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
       return;
     }
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
+    const userName = document.getElementById("userName").value.trim();
+    const contactNo = document.getElementById("contactNo").value.trim();
+    const remarks = document.getElementById("remarks").value.trim();
+    const email = document.getElementById("email").value.trim();
 
-    const receiver = "samimart.tn@gmail.com";
+    if (!userName || !contactNo || !email) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
-    
-    const body = 
-      `Name: ${name}%0D%0A` +
-      `Email: ${email}%0D%0A%0D%0A` +
-      `Message:%0D%0A${message}`;
+    // Fetch subcategories
+    const response = await fetch("/assets/JSON/subcategories.json");
+    const subcategories = await response.json();
 
-    window.location.href = 
-      `mailto:${receiver}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    // Map cart items
+    const items = [];
+    cart.forEach(cartItem => {
+      const matchedCategory = subcategories.find(sub =>
+        Number(sub.CategoriesCode) === Number(cartItem.CategoriesCode) &&
+        Number(sub.SubCategoriesCode) === Number(cartItem.SubCategoriesCode)
+      );
+
+      const category = matchedCategory ? matchedCategory.Categories : "-";
+      const subcategory = matchedCategory ? matchedCategory.SubCategories : "-";
+
+      cartItem.items.forEach(i => {
+        items.push({
+          category: category,
+          subcategory: subcategory,
+          item: i.name,
+          remark: i.remark || "-"
+        });
+      });
+    });
+
+    const data_m = {
+      userName,
+      contactNo,
+      email,
+      remarks,
+      items
+    };
+   
+
+    try {
+      const res = await fetch("http://localhost:3000/send-cart-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data_m)
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("Enquiry sent successfully!");
+
+        // Clear cart
+        localStorage.setItem("cart", JSON.stringify([]));
+
+        // Close modal
+        const modalEl = document.getElementById('enquiryModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        modalInstance.hide();
+
+        setTimeout(() => location.reload(), 300);
+      } else {
+        alert(result.error || "Failed to send enquiry.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error.");
+    }finally{
+       sendBtn.innerHTML = originalText;
+    sendBtn.classList.remove("btn-loading");
+    }
   });
-
-
-
+}
 </script>
 </body>
 </html>

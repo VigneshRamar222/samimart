@@ -1,5 +1,4 @@
 <!DOCTYPE html><html lang="en">
-<!-- Mirrored from vivid-chocolate-vq0-draft.caffeine.xyz/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Mar 2026 01:12:04 GMT -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,7 +125,7 @@
           </div>
 
           <!-- <form id="contactForm" novalidate> -->
-            <form id="contactForm" action="mailto:support@SamiMart.in" method="post" enctype="text/plain" novalidate>
+            <form id="contactForm" novalidate>
             <div class="row g-3">
               <div class="col-md-6">
                 <label for="name" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
@@ -279,7 +278,6 @@
           <ul class="list-unstyled fm-footer-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="categories.html">Categories</a></li>
-            <!-- <li><a href="offers.html">Offers</a></li> -->
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
@@ -287,11 +285,11 @@
         <div class="col-6 col-md-3">
           <h6 class="text-white fw-bold mb-3">Categories</h6>
           <ul class="list-unstyled fm-footer-links">
-            <li><a href="categories.html">Fresh Produce</a></li>
-            <li><a href="categories.html">Dairy &amp; Eggs</a></li>
-            <li><a href="categories.html">Bakery</a></li>
-            <li><a href="categories.html">Beverages</a></li>
-            <li><a href="categories.html">Stationery</a></li>
+             <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
+            <li><a href="categories.html?catid=2">Staples</a></li>
+            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
+            <li><a href="categories.html?catid=4">Beverages</a></li>
+            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>
           </ul>
         </div>
         <div class="col-md-3">
@@ -316,17 +314,14 @@
   </footer>
  <script type="text/javascript" src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
  
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> -->
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 <script  src="js/main.js"></script>
+
+
 <script>
-
-      (function(){
-    emailjs.init("8a_LB8cB0RjtW5ifV"); // replace with EmailJS Public Key
-})();
-
-document.getElementById('contactForm').addEventListener('submit', function (e) {
+document.getElementById('contactForm').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   if (!this.checkValidity()) {
@@ -344,107 +339,46 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
     Sending...
   `;
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const subject = document.getElementById('subject').value;
-  const message = document.getElementById('message').value;
+  // Collect form data
+  const data = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    subject: document.getElementById('subject').value,
+    message: document.getElementById('message').value,
+  };
 
+  try {
+    const response = await fetch('http://localhost:3000/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    //console.log(response)
+    const result = await response.json();
 
+    if (response.ok) {
+      // Show success message
+      const successMsg = document.getElementById('successMsg');
+      successMsg.classList.remove('d-none');
+      setTimeout(() => successMsg.classList.add('d-none'), 5000);
 
+      // Clear form
+      document.getElementById('contactForm').reset();
+    } else {
+      alert(result.error || 'Failed to send email. Please try again later.');
+    }
 
-emailjs.send("service_qllxdvi","template_jfj75od",{
-  user_name: name,
-  user_email: email,
-  enquiry_subject: subject,
-  mail_title: "Thank you for contacting SamiMart",
-  mail_message: "We received your enquiry. Our team will contact you soon."
-}).then(res =>{
-
- sendBtn.innerHTML = originalText;
-    sendBtn.classList.remove("btn-loading");
-  
-emailjs.send("service_qllxdvi","template_jfj75od",{
-  user_name: name,
-  user_email: email,
-  enquiry_subject: subject,
-  mail_title: "New Enquiry Received",
-  mail_message: message
-}).then(resAdmin=>{
-   document.getElementById('name').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('subject').value = '';
-    document.getElementById('message').value = '';
-}).catch(errorAdmin => {
-  console.log("Admin mail error:", errorAdmin);
-  ErrorMail();
-});
-
-
-}).catch(error =>{
-  console.log("Customer mail error:", error);
-  ErrorMail();
-});
-
-
-
-    
-
-function ErrorMail(){
-  
+  } catch (err) {
+    console.error(err);
+    alert('Something went wrong. Please try again later.');
+  } finally {
     sendBtn.innerHTML = originalText;
     sendBtn.classList.remove("btn-loading");
-
-    const receiver = "samimart.tn@gmail.com";
-    const body =
-      `Name: ${name}%0D%0A` +
-      `Email: ${email}%0D%0A%0D%0A` +
-       `Subject: ${subject}%0D%0A` +
-      `Message:%0D%0A${message}`;
-
-    window.location.href =
-      `mailto:${receiver}?subject=${encodeURIComponent(subject)}&body=${body}`;
-}
-
-
+  }
 });
-
-  // document.getElementById('contactForm').addEventListener('submit', function (e) {
-  //   e.preventDefault();
-  //   if (!this.checkValidity()) {
-  //     this.classList.add('was-validated');
-  //     return;
-  //   }
-  //   const name = document.getElementById('name').value;
-  //   const email = document.getElementById('email').value;
-  //   const subject = document.getElementById('subject').value;
-  //   const message = document.getElementById('message').value;
-  //   const params = {
-  //       user_name: name,
-  //       user_email: email,
-  //       user_phone: '',
-  //       enquiry_subject: subject,
-  //       enquiry_message: message,
-  //   };
-  //   emailjs.send("service_qllxdvi","template_jfj75od", params)
-  //   .then(res => alert("Enquiry sent successfully!"))
-  //   .catch(err =>{
-  //    console.log("Error sending enquiry: " + err.text)
-
-  //     const receiver = "samimart.tn@gmail.com";
-  //     const body = 
-  //     `Name: ${name}%0D%0A` +
-  //     `Email: ${email}%0D%0A%0D%0A` +
-  //     `Message:%0D%0A${message}`;
-
-  //     window.location.href = 
-  //     `mailto:${receiver}?subject=${encodeURIComponent(subject)}&body=${body}`;
-
-  //   });
-  // });
-
-
-
-  
 </script>
+
 </body>
 </html>
