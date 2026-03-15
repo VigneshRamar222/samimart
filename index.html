@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="en">
+<!-- Mirrored from vivid-chocolate-vq0-draft.caffeine.xyz/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 03 Mar 2026 01:12:04 GMT -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta property="og:title" content="SamiMart - Fresh Groceries Daily">
+<meta property="og:description" content="Fresh produce, bakery, dairy and weekly deals.">
+<meta property="og:image" content="assets/og-image.webp">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://samimart.in/">
+
+  <title>SamiMart - Your Neighborhood Supermarket</title>
+   <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
+
+   <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/indexStyle.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      
+
+
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+    <img src="assets/logo/samimart.png" alt="SamiMart Logo" width="40" height="40" class="rounded-circle">
+    <span class="fw-bold fs-5">SamiMart</span>
+  </a>
+
+
+
+<div class="fm-search-wrapper mx-auto">
+    <div class="fm-search-bar">
+      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off">
+      <i class="bi bi-search"></i>
+      <div id="searchSuggestions" class="fm-search-suggestions"></div>
+    </div>
+  </div>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+      <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="categories.html"><i class="bi bi-grid me-1"></i>Categories</a></li>
+          <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
+          <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" title="ENQUIRY CART" href="cart.html">
+              <i class="bi bi-cart-plus fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                0
+              </span>
+            </a>
+          </li>
+        </ul>
+       
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO CAROUSEL -->
+  <div id="heroCarousel" class="carousel slide fm-hero-carousel pt-1" data-bs-ride="carousel" data-bs-interval="4500">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <!-- Slide 1 -->
+      <div class="carousel-item active fm-slide" style="background-image: url('assets/generated_dim_1400x600/carousel-slide-1.webp');">
+        <div class="fm-slide-overlay"></div>
+        <div class="carousel-caption fm-caption">
+          <span class="fm-badge-pill mb-3">🛒 Fresh Every Day</span>
+          <h1 class="display-4 fw-bold">Welcome to <span class="fm-text-accent">SamiMart</span></h1>
+          <p class="lead mb-4">Locally sourced fruits &amp; vegetables delivered fresh to our shelves every morning.</p>
+          <!-- <a href="categories.html" class="btn fm-btn-accent btn-lg px-4 me-2">Shop Now <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="offers.html" class="btn btn-outline-light btn-lg px-4">View Deals</a> -->
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-item fm-slide" style="background-image: url('assets/generated_dim_1400x600/carousel-slide-2.webp');">
+        <div class="fm-slide-overlay"></div>
+        <div class="carousel-caption fm-caption">
+          <span class="fm-badge-pill mb-3">🌿 Farm to Table</span>
+          <h1 class="display-4 fw-bold">Fresh <span class="fm-text-accent">Produce</span> Daily</h1>
+          <p class="lead mb-4">Your neighborhood supermarket for fresh produce, groceries &amp; more.</p>
+          <!-- <a href="categories.html" class="btn fm-btn-accent btn-lg px-4 me-2">Explore Produce <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="about.html" class="btn btn-outline-light btn-lg px-4">Our Story</a> -->
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="carousel-item fm-slide" style="background-image: url('assets/generated_dim_1400x600/carousel-slide-3.webp');">
+        <div class="fm-slide-overlay"></div>
+        <div class="carousel-caption fm-caption">
+          <span class="fm-badge-pill mb-3">🏷️ Best Prices</span>
+          <h1 class="display-4 fw-bold">Unbeatable <span class="fm-text-accent">Deals</span> Weekly</h1>
+          <p class="lead mb-4">Save big on your favourite brands.</p>
+          <!-- <a href="offers.html" class="btn fm-btn-accent btn-lg px-4 me-2">See Offers <i class="bi bi-arrow-right ms-1"></i></a>
+          <a href="contact.html" class="btn btn-outline-light btn-lg px-4">Contact Us</a> -->
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- FEATURES STRIP -->
+  <section class="fm-features-strip py-3">
+    <div class="container">
+      <div class="row g-2 text-center">
+        <!-- <div class="col-6 col-md-3">
+          <div class="fm-feature-item">
+            <i class="bi bi-truck fs-4 fm-icon-accent"></i>
+            <span class="ms-2 fw-semibold small">Free Delivery Over $50</span>
+          </div>
+        </div> -->
+        <div class="col-6 col-md-4">
+          <div class="fm-feature-item">
+            <i class="bi bi-shield-check fs-4 fm-icon-accent"></i>
+            <span class="ms-2 fw-semibold small">Quality Guaranteed</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="fm-feature-item">
+            <i class="bi bi-clock fs-4 fm-icon-accent"></i>
+            <span class="ms-2 fw-semibold small">Open 7 Days a Week</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="fm-feature-item">
+            <i class="bi bi-arrow-counterclockwise fs-4 fm-icon-accent"></i>
+            <span class="ms-2 fw-semibold small">Easy Access</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED CATEGORIES -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold fm-section-title">Shop by Category</h2>
+        <p class="text-muted">Explore our wide range of fresh products</p>
+      </div>
+      <div id="Tcategories" class="row g-3">
+        <!-- Fresh Produce -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/FreshProduct.webp" alt="Fresh Produce" loading="lazy" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Fresh Produce</h6>
+              <small class="text-muted">Fruits &amp; Vegetables</small>
+            </div>
+          </a>
+        </div>
+        <!-- Dairy -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/Dairy.webp" alt="Dairy" loading="lazy" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Dairy &amp; Eggs</h6>
+              <small class="text-muted">Milk, Cheese &amp; More</small>
+            </div>
+          </a>
+        </div>
+        <!-- Bakery -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img loading="lazy" src="assets/Featured/French Croissants And Pastry Products In The Basket Top View, French Croissants And Pastry Products In The Basket, Top View, French Croissants And Pastry PNG Transparent Image and Clipart for Free Download.webp" alt="Bakery" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Bakery</h6>
+              <small class="text-muted">Breads &amp; Pastries</small>
+            </div>
+          </a>
+        </div>
+        <!-- Beverages -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/Juice.webp" loading="lazy" alt="Beverages" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Beverages</h6>
+              <small class="text-muted">Drinks &amp; Juices</small>
+            </div>
+          </a>
+        </div>
+        <!-- Meat -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/mackup.webp" loading="lazy" alt="Meat" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Creams &amp; Lotions</h6>
+              <small class="text-muted">Moisturizer &amp; Soothing</small>
+            </div>
+          </a>
+        </div>
+        <!-- Snacks -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/snacks.webp" alt="Snacks" loading="lazy" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Snacks</h6>
+              <small class="text-muted">Chips, Nuts &amp; More</small>
+            </div>
+          </a>
+        </div>
+        <!-- Household -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/houseHold.webp" alt="Household" loading="lazy" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Household</h6>
+              <small class="text-muted">Cleaning &amp; Essentials</small>
+            </div>
+          </a>
+        </div>
+        <!-- Stationery -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="categories.html" class="text-decoration-none">
+            <div class="fm-cat-card text-center p-3">
+              <img src="assets/Featured/Stationary.webp" alt="Stationery" loading="lazy" class="fm-cat-img mb-2">
+              <h6 class="fw-bold fm-cat-name">Stationery</h6>
+              <small class="text-muted">Notebooks, Pens &amp; More</small>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="categories.html" class="btn fm-btn-primary px-4">View All Categories <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERS BANNER -->
+  <!-- <section class="fm-offers-banner py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <span class="fm-badge-pill mb-2">🔥 Limited Time</span>
+          <h2 class="fw-bold text-white mb-3">This Week's Special Offers</h2>
+          <p class="text-white-50 mb-4">Get up to 40% off on selected items. Fresh deals added every Monday!</p>
+          <a href="offers.html" class="btn fm-btn-accent btn-lg px-4">Browse All Offers <i class="bi bi-arrow-right ms-1"></i></a>
+        </div>
+        <div class="col-md-5 text-center mt-4 mt-md-0">
+          <img src="assets/generated/offers-banner.dim_1200x400.html" loading="lazy" alt="Offers" class="img-fluid rounded-3 shadow" style="max-height:220px;object-fit:cover;">
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+
+  <!-- BRANDS CAROUSEL -->
+<section class="fm-offers-banner py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold fm-section-title">Brands We Carry</h2>
+      <p class="text-muted">Trusted names you know and love</p>
+    </div>
+
+    <div id="brandCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+      <div class="carousel-inner">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div class="row justify-content-center align-items-center text-center">
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/Ariel.webp" class="img-fluid" alt="Ariel" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/dettol.webp" class="img-fluid" alt="dettol" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/fanta.webp" class="img-fluid" alt="fanta" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/lays.webp" class="img-fluid" alt="lays" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/maggi.webp" class="img-fluid" alt="maggi" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="row justify-content-center align-items-center text-center">
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/pampers.webp" class="img-fluid" alt="pampers" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/vicks.webp" class="img-fluid" alt="vicks" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/brands/oreo.webp" class="img-fluid" alt="Oreo" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/brands/lays.webp" class="img-fluid" alt="Lays" loading="lazy">
+            </div>
+            <div class="col-4 col-md-2">
+              <img src="assets/Brands/surfexcel.webp" class="img-fluid" alt="surfexcel" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── BRANDS CAROUSEL ── */
+#brandCarousel img {
+  max-height: 60px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+#brandCarousel img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
+}
+</style>
+
+
+
+  <section class="py-5 bg-light">
+  <div class="container text-center">
+    <!-- <h2 class="fw-bold mb-4">Our Promise to You</h2> -->
+    
+    <div class="text-center mb-4">
+        <h2 class="fw-bold fm-section-title">Our Promise to You</h2>
+        <p class="text-muted">We're committed to quality, freshness, and your satisfaction</p>
+      </div>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <i class="bi bi-bag-check-fill fs-1 text-success mb-3"></i>
+          <h5>Quality Guaranteed</h5>
+          <p class="text-muted">Every product is hand-checked and sourced from trusted suppliers.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <i class="bi bi-clock-history fs-1 text-primary mb-3"></i>
+          <h5>Fresh Daily</h5>
+          <p class="text-muted">We restock produce, bakery, and dairy daily to ensure freshness.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <i class="bi bi-people-fill fs-1 text-danger mb-3"></i>
+          <h5>Community Driven</h5>
+          <p class="text-muted">We support local farmers, hire locally, and give back to our community.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- WHY CHOOSE US -->
+  <!-- <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="fw-bold fm-section-title">Why Choose SamiMart?</h2>
+        <p class="text-muted">We're committed to quality, freshness, and your satisfaction</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="fm-why-card text-center p-4">
+            <div class="fm-why-icon mb-3">
+               <img src="assets/whychoose/Freshvegetables.webp" class="img-fluid" alt="Oreo" loading="lazy">
+            
+            </div>
+            <h5 class="fw-bold">100% Fresh</h5>
+            <p class="text-muted small">All produce is sourced fresh daily from local farms and trusted suppliers.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="fm-why-card text-center p-4">
+            <div class="fm-why-icon mb-3">
+            
+               <img src="assets/whychoose/Best Price.webp" class="img-fluid" alt="Oreo" loading="lazy">
+            </div>
+            <h5 class="fw-bold">Best Prices</h5>
+            <p class="text-muted small">Competitive pricing with weekly deals and loyalty rewards for our customers.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="fm-why-card text-center p-4">
+            <div class="fm-why-icon mb-3">
+             
+               <img src="assets/whychoose/Success.webp" class="img-fluid" alt="Oreo" loading="lazy">
+            </div>
+            <h5 class="fw-bold">Community First</h5>
+            <p class="text-muted small">Proudly serving our neighborhood for over 20 years with a smile.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- FOOTER -->
+  <footer class="fm-footer pt-5 pb-3">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <img src="assets/logo/samimart.png" loading="lazy" alt="SamiMart" width="36" height="36" class="rounded-circle">
+            <span class="fw-bold fs-5 text-white">SamiMart</span>
+          </div>
+          <p class="text-white-50 small">Your trusted neighborhood supermarket for fresh produce, groceries, and everyday essentials.</p>
+          <div class="d-flex gap-2 mt-3">
+            <a href="#" class="fm-social-btn"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="fm-social-btn"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="fm-social-btn"><i class="bi bi-twitter-x"></i></a>
+          </div>
+        </div>
+        <div class="col-6 col-md-2">
+          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+          <ul class="list-unstyled fm-footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <!-- <li><a href="offers.html">Offers</a></li> -->
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md-3">
+          <h6 class="text-white fw-bold mb-3">Categories</h6>
+          <ul class="list-unstyled fm-footer-links">
+            <li><a href="categories.html">Fresh Produce</a></li>
+            <li><a href="categories.html">Dairy &amp; Eggs</a></li>
+            <li><a href="categories.html">Bakery</a></li>
+            <li><a href="categories.html">Beverages</a></li>
+            <li><a href="categories.html">Stationery</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6 class="text-white fw-bold mb-3">Contact Us</h6>
+          <ul class="list-unstyled fm-footer-links">
+            <li><i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami Complex,<br />Abirami Nagar, Neelamangalam X Road, <br />Neelamangalam, Kallakurichi,<br />  TamilNadu, India - 606 213</li>
+            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i>+91 96555 12111</li>
+            <li><i class="bi bi-envelope me-2 fm-icon-accent"></i>samimart.tn@gmail.com</li>
+            <li><i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am – 6pm</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="border-secondary">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <p class="text-white-50 small mb-0">© <span id="year"></span> SamiMart. All rights reserved.</p>
+        <p class="text-white-50 small mb-0">
+          Built with <span style="color:#ff6b6b;">❤</span> using
+          <a href="https://vigneshramar.com" class="text-white-50" target="_blank" rel="noopener">vigneshramar</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+ <script type="text/javascript" src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
+ 
+<script  src="js/main.js"></script>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<script>
+  Promise.all([
+  fetch("assets/JSON/subcategories.json").then(res => res.json()),
+  fetch("assets/JSON/categories.json").then(res => res.json())
+])
+.then(([subData, catData]) => {
+
+  const container = document.getElementById("Tcategories");
+  container.innerHTML = "";
+
+  const grouped = {};
+
+  // Group Subcategories
+  subData.forEach(item => {
+
+    if (!grouped[item.CategoriesCode]) {
+      grouped[item.CategoriesCode] = {
+        CategoriesCode: item.CategoriesCode,
+        category: item.Categories,
+        subcategories: []
+      };
+    }
+
+    grouped[item.CategoriesCode].subcategories.push(item.SubCategories);
+
+  });
+
+  // Render Categories
+  Object.keys(grouped).forEach(code => {
+
+    const category = grouped[code].category;
+    const subs = grouped[code].subcategories;
+
+    // Get Image from categories.json
+    const catInfo = catData.find(c => c.categoriescode == code);
+   
+  
+
+    const image = catInfo ? catInfo.ImageURL : "/assets/images/subcategories/noitemfound.jpg";
+
+
+    let subText = subs.join(", ");
+
+    if (subText.length > 40) {
+      subText = subText.substring(0, 40) + "...";
+    }
+
+    const categoryHTML = `
+      <div class="col-6 col-md-4 col-lg-3">
+        <a href="categories.html?catid=${code}" class="text-decoration-none">
+          <div class="fm-cat-card text-center p-3">
+            <img src="${image}" alt="${category}" loading="lazy" class="fm-cat-img mb-2">
+            <h6 class="fw-bold fm-cat-name">${category}</h6>
+            <small class="text-muted">${subText}</small>
+          </div>
+        </a>
+      </div>
+    `;
+
+    container.insertAdjacentHTML("beforeend", categoryHTML);
+
+  });
+
+})
+.catch(error => console.error("Error loading categories:", error));
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+
+[
+  {
+    "Categories": "Fruits & Vegetables",
+    "categoriescode": 1
+    ,"ImageURL": "/assets/images/categories/FreshProduct.webp"
+  },
+  {
+    "Categories": "Staples",
+    "categoriescode": 2
+    ,"ImageURL": "/assets/images/categories/Seasoning Remedy.jpg"
+  },
+  {
+    "Categories": "Snacks & Namkeens",
+    "categoriescode": 3
+    ,"ImageURL": "/assets/images/categories/snacks.jpg"
+  },
+  {
+    "Categories": "Beverages",
+    "categoriescode": 4
+    ,"ImageURL": "/assets/images/categories/Beverages.jpg"
+  },
+  {
+    "Categories": "Chilled & Dairy Foods",
+    "categoriescode": 5
+    ,"ImageURL": "/assets/images/categories/Dairy.webp"
+  },
+  {
+    "Categories": "Ready To Cook",
+    "categoriescode": 6
+    ,"ImageURL": "/assets/images/categories/readytocook.jpg"
+  },
+  {
+    "Categories": "Ready To Eat",
+    "categoriescode": 7
+    ,"ImageURL": "/assets/images/categories/readytoeat.jpg"
+  },
+  {
+    "Categories": "Baby Care",
+    "categoriescode": 8
+    ,"ImageURL": "/assets/images/categories/HALOVIE Set para Cuidado de Bebe 10 piezas Kit de Cuidado Diario Neceser de Aseo Termómetro Infantil Tijeras Cortaúñas Lima de Uñas Cepillo de Pelo Peine Aspirador Nasal Cepillo de Dientes de Dedo.jpg"
+  },
+  {
+    "Categories": "Household Essentials",
+    "categoriescode": 9
+    ,"ImageURL": "/assets/images/categories/houseHold.webp"
+  },
+  {
+    "Categories": "Cleaning Needs",
+    "categoriescode": 10
+    ,"ImageURL": "/assets/images/categories/Detergents.jpg"
+  },
+  {
+    "Categories": "Feminine Care",
+    "categoriescode": 11
+    ,"ImageURL": "/assets/images/categories/5b098542316e7b9c3d9f0d25f644382e.jpg"
+  },
+  {
+    "Categories": "Health Care",
+    "categoriescode": 12
+    ,"ImageURL": "/assets/images/categories/healthcare.jpg"
+  },
+  {
+    "Categories": "Personal Care",
+    "categoriescode": 13
+    ,"ImageURL": "/assets/images/categories/hairoil.jpg"
+  },
+  {
+    "Categories": "Stationaries",
+    "categoriescode": 14
+    ,"ImageURL": "/assets/images/categories/Stationary.webp"
+  },
+  {
+    "Categories": "Skin Care",
+    "categoriescode": 15
+    ,"ImageURL": "/assets/images/categories/skincare.jpg"
+  },
+  {
+    "Categories": "Oral Care",
+    "categoriescode": 16
+    ,"ImageURL": "/assets/images/categories/Oralcare.jpg"
+  },
+  {
+    "Categories": "Men's Grooming",
+    "categoriescode": 17
+    ,"ImageURL": "/assets/images/categories/mensgrooming.jpg"
+  },
+  {
+    "Categories": "Creams & Lotions",
+    "categoriescode": 18
+    ,"ImageURL": "/assets/images/categories/1f259233eff417d555ac977948564171.jpg"
+  },
+  {
+    "Categories": "Crockeries",
+    "categoriescode": 19
+    ,"ImageURL": "/assets/images/categories/vessels.jpg"
+  }
+]
