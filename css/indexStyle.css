@@ -1,7 +1,8 @@
-/* ============================================================
-   FreshMart — Custom Stylesheet
-   Theme: Teal/Emerald primary + Coral/Orange accent
-   ============================================================ */
+*,
+*::before,
+*::after{
+box-sizing:border-box;
+}
 
 /* ── CSS Variables ── */
 :root {
@@ -323,13 +324,6 @@ body {
   background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
 }
 
-.fm-cat-img {
-  width: 100%;
-  max-height: 90px;
-  -o-object-fit: contain;
-     object-fit: contain;
-  border-radius: 8px;
-}
 
 .fm-cat-name {
   color: var(--fm-text-dark);
@@ -545,6 +539,17 @@ body {
 
 .fm-cat-img {
   transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+
+.fm-cat-img {
+  width: 100%;
+  max-height: 90px;
+  object-fit:contain;
+  -o-object-fit: contain;
+     object-fit: contain;
+  border-radius: 8px;
 }
 
 .fm-cat-card:hover {
@@ -583,6 +588,19 @@ body {
   color:#666;
 }
 
+@media (max-width:768px){
+
+.fm-search-wrapper{
+  max-width:100%;
+  margin-top:8px;
+}
+
+.fm-search-bar input{
+  font-size:14px;
+}
+
+}
+
 /* AUTOCOMPLETE BOX */
 .fm-search-suggestions{
   position:absolute;
@@ -595,7 +613,7 @@ body {
   max-height:250px;
   overflow-y:auto;
   display:none;
-  z-index:999;
+  z-index:1055;
 }
 
 /* SUGGESTION ITEM */
@@ -655,6 +673,8 @@ body {
 #categoryFilter{
   max-height: 400px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 
 #categoryFilter li{
@@ -672,10 +692,6 @@ body {
   color:white;
 }
 
-#categoryFilter{
-  max-height: 400px;
-  overflow-y: auto;
-}
 
 #categoryFilter::-webkit-scrollbar{
   width:6px;
@@ -684,4 +700,18 @@ body {
 #categoryFilter::-webkit-scrollbar-thumb{
   background:#ccc;
   border-radius:10px;
+}
+
+#brandCarousel img {
+  max-height: 60px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+#brandCarousel img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1);
 }

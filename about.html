@@ -1,334 +1,544 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "GroceryStore",
+        "name": "SamiMart",
+        "image": "https://samimart.in/assets/logo/samimart.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Sami Complex, Abirami Nagar",
+          "addressLocality": "Kallakurichi",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "606213",
+          "addressCountry": "IN"
+        },
+        "telephone": "+919655512111",
+        "openingHours": "Mo-Su 08:00-18:00",
+        "url": "https://samimart.in/"
+      }
+    </script>
 
-  <meta property="og:title" content="SamiMart - Fresh Groceries Daily">
-<meta property="og:description" content="Fresh produce, bakery, dairy and weekly deals.">
-<meta property="og:image" content="assets/og-image.webp">
-<meta property="og:type" content="website">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>SamiMart - Your Neighborhood Supermarket</title>
-   <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
+    <meta property="og:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      property="og:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta property="og:image" content="assets/og-image.webp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://samimart.in/" />
+    <meta
+      name="description"
+      content="SamiMart supermarket in Kallakurichi. Fresh fruits, vegetables, dairy, snacks, beverages and household items at best prices."
+    />
+    <meta
+      name="keywords"
+      content="SamiMart, supermarket Kallakurichi, grocery store Tamil Nadu, fresh vegetables, dairy, snacks"
+    />
+    <meta name="author" content="SamiMart" />
 
-   <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      name="twitter:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta name="twitter:image" content="/assets/og-image.webp" />
 
-  <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-  <link rel="stylesheet" href="css/indexStyle.css">
-</head>
-<body>
+    <title>SamiMart - Your Neighborhood Supermarket</title>
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
-    <div class="container d-flex align-items-center justify-content-between">
-      
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
 
+    <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      id="mainNavbar"
+      class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top"
+    >
+      <div class="container d-flex align-items-center justify-content-between">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="index.html"
+        >
+          <img
+            src="assets/logo/samimart.png"
+            alt="SamiMart Logo"
+            width="40"
+            height="40"
+            class="rounded-circle"
+          />
+          <span class="fw-bold fs-5">SamiMart</span>
+        </a>
 
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-    <img src="assets/logo/samimart.png" alt="SamiMart Logo" width="40" height="40" class="rounded-circle">
-    <span class="fw-bold fs-5">SamiMart</span>
-  </a>
-
-
-
-<div class="fm-search-wrapper mx-auto">
-    <div class="fm-search-bar">
-      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off">
-      <i class="bi bi-search"></i>
-      <div id="searchSuggestions" class="fm-search-suggestions"></div>
-    </div>
-  </div>
-
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-      <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link " href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="categories.html"><i class="bi bi-grid me-1"></i>Categories</a></li>
-          <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
-          <li class="nav-item"><a class="nav-link active" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
-          <li class="nav-item">
-            <a class="nav-link position-relative" title="ENQUIRY CART" href="cart.html">
-              <i class="bi bi-cart-plus fs-5"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-                0
-              </span>
-            </a>
-          </li>
-        </ul>
-       
-      </div>
-    </div>
-  </nav>
-
-  
-  <section class="py-5 mt-1 bg-light text-center"style="background: linear-gradient(135deg, #0d9488, #f97316);" >
-    <div class="container">
-      <h1 class="fw-bold text-white">About SamiMart</h1>
-      <p class="lead text-muted">Your trusted neighbourhood supermarket since 2025.</p>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container">
-      <div class="row align-items-center g-4">
-        <div class="col-md-6">
-          <h2 class="fw-bold">Our Story</h2>
-          <p class="text-muted">SamiMart was founded in 2025 with a simple mission — bring fresh, quality groceries to every household at affordable prices. What started as a small corner shop has grown into a beloved community supermarket serving thousands of families every week.</p>
-          <p class="text-muted">We source directly from local farmers and trusted suppliers to ensure that every product on our shelves meets the highest standards of freshness and quality.</p>
-        </div>
-        <div class="col-md-6 text-center">
-          <i class="bi bi-shop fs-1 text-success" style="font-size:6rem!important;"></i>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5 bg-light">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-4">Our Mission & Values</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card border-0 shadow-sm p-4 h-100">
-            <i class="bi bi-heart-fill fs-1 text-danger mb-3"></i>
-            <h5>Customer First</h5>
-            <p class="text-muted">Every decision we make is guided by what is best for our customers and community.</p>
+        <div class="fm-search-wrapper mx-auto">
+          <div class="fm-search-bar">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search products..."
+              autocomplete="off"
+              aria-label="Search products"
+            />
+            <i class="bi bi-search"></i>
+            <div id="searchSuggestions" class="fm-search-suggestions"></div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card border-0 shadow-sm p-4 h-100">
-            <i class="bi bi-leaf-fill fs-1 text-success mb-3"></i>
-            <h5>Fresh & Natural</h5>
-            <p class="text-muted">We are committed to offering the freshest produce, free from unnecessary additives.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card border-0 shadow-sm p-4 h-100">
-            <i class="bi bi-people-fill fs-1 text-primary mb-3"></i>
-            <h5>Community</h5>
-            <p class="text-muted">We support local farmers, hire locally, and give back to the community we serve.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="py-5 bg-light">
-  <div class="container">
-    <div class="row align-items-center g-4">
+        <button
+          class="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="col-md-4 text-center">
-        <i class="bi bi-person-circle text-success" style="font-size:6rem;"></i>
-      </div>
-
-      <div class="col-md-8">
-        <h2 class="fw-bold">Message From Our Founder</h2>
-        <p class="text-muted">
-          At SamiMart, our goal has always been simple — provide fresh groceries,
-          fair prices, and friendly service to every customer who walks through our doors.
-        </p>
-        <p class="text-muted">
-          We started SamiMart in 2025 with a vision to create a neighbourhood supermarket
-          that people can truly rely on for quality products and everyday essentials.
-        </p>
-
-        <h6 class="fw-bold mt-3">— SamiMart Management</h6>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section class="py-5">
-  <div class="container text-center">
-
-    <h2 class="fw-bold mb-4">Why Choose SamiMart</h2>
-
-    <div class="row g-4">
-
-      <div class="col-md-3">
-        <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
-          <i class="bi bi-basket-fill text-success fs-1"></i>
-          <h6 class="mt-3">Fresh Products</h6>
-          <p class="text-muted small flex-grow-1">Daily fresh vegetables, fruits, ...</p>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
-          <i class="bi bi-cash-stack text-success fs-1"></i>
-          <h6 class="mt-3">Affordable Prices</h6>
-          <p class="text-muted small flex-grow-1">Best value for your everyday essentials.</p>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
-          <i class="bi bi-truck text-success fs-1"></i>
-          <h6 class="mt-3">Fast Service</h6>
-          <p class="text-muted small flex-grow-1">Quick checkout and helpful staff.</p>
-        </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
-          <i class="bi bi-shield-check text-success fs-1"></i>
-          <h6 class="mt-3">Quality Guaranteed</h6>
-          <p class="text-muted small flex-grow-1">Trusted brands and fresh produce only.</p>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<section class="py-5 bg-light">
-  <div class="container text-center">
-
-    <h2 class="fw-bold mb-4">Our Store</h2>
-
-    <div class="row g-3">
-
-      <div class="col-6 col-md-3">
-        <div class="card shadow-sm border-0">
-          <img src="assets/images/store/store1.jpg" class="card-img-top" alt="Store Image 1">
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card shadow-sm border-0">
-          <img src="assets/images/store/store2.jpg" class="card-img-top" alt="Store Image 2">
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card shadow-sm border-0">
-          <img src="assets/images/store/store3.jpg" class="card-img-top" alt="Store Image 3">
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="card shadow-sm border-0">
-          <img src="assets/images/store/store4.jpg" class="card-img-top" alt="Store Image 4">
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<style>
-  .card-img-top {
-  height: 200px;        /* uniform height */
-  object-fit: cover;    /* crops without stretching */
-}
-</style>
-
-
-
-  <section class="py-5">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-4">By The Numbers</h2>
-      <div class="row g-4">
-        <div class="col-6 col-md-3">
-          <div class="card border-0 shadow-sm p-4">
-            <h3 class="fw-bold text-success">Since 2025</h3>
-            <p class="text-muted mb-0">Serving Our Community</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="card border-0 shadow-sm p-4">
-            <h3 class="fw-bold text-success">5000+</h3>
-            <p class="text-muted mb-0">Products</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="card border-0 shadow-sm p-4">
-            <h3 class="fw-bold text-success">50+</h3>
-            <p class="text-muted mb-0">Staff Members</p>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="card border-0 shadow-sm p-4">
-            <h3 class="fw-bold text-success">10K+</h3>
-            <p class="text-muted mb-0">Happy Customers</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <!-- FOOTER -->
-  <footer class="fm-footer pt-5 pb-3">
-    <div class="container">
-      <div class="row g-4 mb-4">
-        <div class="col-md-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <img src="assets/logo/samimart.png" loading="lazy" alt="SamiMart" width="36" height="36" class="rounded-circle">
-            <span class="fw-bold fs-5 text-white">SamiMart</span>
-          </div>
-          <p class="text-white-50 small">Your trusted neighborhood supermarket for fresh produce, groceries, and everyday essentials.</p>
-          <div class="d-flex gap-2 mt-3">
-            <a href="#" class="fm-social-btn"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-twitter-x"></i></a>
-          </div>
-        </div>
-        <div class="col-6 col-md-2">
-          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
-          <ul class="list-unstyled fm-footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="categories.html">Categories</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3">
-          <h6 class="text-white fw-bold mb-3">Categories</h6>
-          <ul class="list-unstyled fm-footer-links">
-           <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
-            <li><a href="categories.html?catid=2">Staples</a></li>
-            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
-            <li><a href="categories.html?catid=4">Beverages</a></li>
-            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>  
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white fw-bold mb-3">Contact Us</h6>
-          <ul class="list-unstyled fm-footer-links">
-             <li><i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami Complex,<br />Abirami Nagar, Neelamangalam X Road, <br />Neelamangalam, Kallakurichi,<br />  TamilNadu, India - 606 213</li>
-            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i>+91 96555 12111</li>
-            <li><i class="bi bi-envelope me-2 fm-icon-accent"></i>samimart.tn@gmail.com</li>
-            <li><i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am – 6pm</li>
+        <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html"
+                ><i class="bi bi-house-door me-1"></i>Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html"
+                ><i class="bi bi-grid me-1"></i>Categories</a
+              >
+            </li>
+            <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
+            <li class="nav-item">
+              <a class="nav-link active" href="about.html"
+                ><i class="bi bi-info-circle me-1"></i>About</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html"
+                ><i class="bi bi-envelope me-1"></i>Contact</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link position-relative"
+                aria-label="Open enquiry cart"
+                title="ENQUIRY CART"
+                href="cart.html"
+              >
+                <i class="bi bi-cart-plus fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="cartCount"
+                >
+                  0
+                </span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
-      <hr class="border-secondary">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-        <p class="text-white-50 small mb-0">© <span id="year"></span> SamiMart. All rights reserved.</p>
-        <p class="text-white-50 small mb-0">
-          Built with <span style="color:#ff6b6b;">❤</span> using
-          <a href="https://vigneshramar.com" class="text-white-50" target="_blank" rel="noopener">vigneshramar</a>
+    </nav>
+
+    <section
+      class="py-5 mt-1 bg-light text-center"
+      style="background: linear-gradient(135deg, #0d9488, #f97316)"
+    >
+      <div class="container">
+        <h1 class="fw-bold text-white">About SamiMart</h1>
+        <p class="lead text-muted">
+          Your trusted neighbourhood supermarket since 2025.
         </p>
       </div>
-    </div>
-  </footer>
- <script type="text/javascript" src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script  src="js/main.js"></script>
+    </section>
 
-<script>
+    <section class="py-5">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-md-6">
+            <!-- <h2 class="fw-bold">Our Story</h2>
+            <p class="text-muted">
+              SamiMart was founded in 2025 with a simple mission — bring fresh,
+              quality groceries to every household at affordable prices. What
+              started as a small corner shop has grown into a beloved community
+              supermarket serving thousands of families every week.
+            </p>
+            <p class="text-muted">
+              We source directly from local farmers and trusted suppliers to
+              ensure that every product on our shelves meets the highest
+              standards of freshness and quality.
+            </p> -->
 
+            <h2 class="fw-bold">Our Story</h2>
+            <p class="text-muted">
+              SamiMart was founded in 2025 with a simple mission — to bring
+              fresh, high-quality groceries to every household at affordable
+              prices. What began as a small neighborhood store has grown into a
+              trusted supermarket serving thousands of families every week.
+            </p>
+            <p class="text-muted">
+              We proudly source our products from local farmers and reliable
+              suppliers to ensure freshness, quality, and value in every
+              purchase.
+            </p>
+            <p class="text-muted">
+              In addition to our retail operations, SamiMart has expanded into
+              <strong>Export and Import services</strong>. We supply quality
+              food products and essentials to international markets while also
+              importing trusted goods to serve our customers better. This allows
+              us to maintain a diverse product range and meet global quality
+              standards.
+            </p>
+          </div>
+          <div class="col-md-6 text-center">
+            <i
+              class="bi bi-shop fs-1 text-success"
+              style="font-size: 6rem !important"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</script>
+    <section class="py-5 bg-light">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">Our Mission & Values</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+              <i class="bi bi-heart-fill fs-1 text-danger mb-3"></i>
+              <h5>Customer First</h5>
+              <p class="text-muted">
+                Every decision we make is guided by what is best for our
+                customers and community.
+              </p>
+            </div>
+          </div>
+          <!-- <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+              <i class="bi bi-leaf-fill fs-1 text-success mb-3"></i>
+              <h5>Fresh & Natural</h5>
+              <p class="text-muted">
+                We are committed to offering the freshest produce, free from
+                unnecessary additives.
+              </p>
+            </div>
+          </div> -->
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+              <i class="bi bi-globe fs-1 text-info mb-3"></i>
+              <h5>Global Reach</h5>
+              <p class="text-muted">
+                Through our export and import services, we connect local quality
+                products to global markets and bring the best international
+                goods to our customers.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
+              <i class="bi bi-people-fill fs-1 text-primary mb-3"></i>
+              <h5>Community</h5>
+              <p class="text-muted">
+                We support local farmers, hire locally, and give back to the
+                community we serve.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</body>
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-md-4 text-center">
+            <i
+              class="bi bi-person-circle text-success"
+              style="font-size: 6rem"
+            ></i>
+          </div>
+
+          <div class="col-md-8">
+            <h2 class="fw-bold">Message From Our Founder</h2>
+            <p class="text-muted">
+              At SamiMart, our goal has always been simple — provide fresh
+              groceries, fair prices, and friendly service to every customer who
+              walks through our doors.
+            </p>
+            <p class="text-muted">
+              We started SamiMart in 2025 with a vision to create a
+              neighbourhood supermarket that people can truly rely on for
+              quality products and everyday essentials.
+            </p>
+            <p class="text-muted">
+              We have also expanded SamiMart beyond retail by entering the
+              export and import sector, helping local products reach global
+              markets while bringing international quality goods to our shelves.
+            </p>
+            <h6 class="fw-bold mt-3">— SamiMart Management</h6>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">Why Choose SamiMart</h2>
+
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
+              <i class="bi bi-basket-fill text-success fs-1"></i>
+              <h6 class="mt-3">Fresh Products</h6>
+              <p class="text-muted small flex-grow-1">
+                Daily fresh vegetables, fruits, ...
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
+              <i class="bi bi-cash-stack text-success fs-1"></i>
+              <h6 class="mt-3">Affordable Prices</h6>
+              <p class="text-muted small flex-grow-1">
+                Best value for your everyday essentials.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
+              <i class="bi bi-truck text-success fs-1"></i>
+              <h6 class="mt-3">Fast Service</h6>
+              <p class="text-muted small flex-grow-1">
+                Quick checkout and helpful staff.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="p-4 shadow-sm rounded h-100 d-flex flex-column">
+              <i class="bi bi-shield-check text-success fs-1"></i>
+              <h6 class="mt-3">Quality Guaranteed</h6>
+              <p class="text-muted small flex-grow-1">
+                Trusted brands and fresh produce only.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 bg-light">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">Our Store</h2>
+
+        <div class="row g-3">
+          <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0">
+              <img
+                src="assets/images/store/store1.jpg"
+                class="card-img-top"
+                alt="Store Image 1"
+              />
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0">
+              <img
+                src="assets/images/store/store2.jpg"
+                class="card-img-top"
+                alt="Store Image 2"
+              />
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0">
+              <img
+                src="assets/images/store/store3.jpg"
+                class="card-img-top"
+                alt="Store Image 3"
+              />
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0">
+              <img
+                src="assets/images/store/store4.jpg"
+                class="card-img-top"
+                alt="Store Image 4"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <style>
+      .card-img-top {
+        height: 200px; /* uniform height */
+        object-fit: cover; /* crops without stretching */
+      }
+    </style>
+
+    <section class="py-5">
+      <div class="container text-center">
+        <h2 class="fw-bold mb-4">By The Numbers</h2>
+        <div class="row g-4">
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4">
+              <h3 class="fw-bold text-success">Since 2025</h3>
+              <p class="text-muted mb-0">Serving Our Community</p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4">
+              <h3 class="fw-bold text-success" data-count="5000">5000+</h3>
+              <p class="text-muted mb-0">Products</p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4">
+              <h3 class="fw-bold text-success" data-count="50">50+</h3>
+              <p class="text-muted mb-0">Staff Members</p>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm p-4">
+              <h3 class="fw-bold text-success">10K+</h3>
+              <p class="text-muted mb-0">Happy Customers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="fm-footer pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <img
+                src="assets/logo/samimart.png"
+                loading="lazy"
+                alt="SamiMart"
+                width="36"
+                height="36"
+                class="rounded-circle"
+              />
+              <span class="fw-bold fs-5 text-white">SamiMart</span>
+            </div>
+            <p class="text-white-50 small">
+              Your trusted neighborhood supermarket for fresh produce,
+              groceries, and everyday essentials.
+            </p>
+            <div class="d-flex gap-2 mt-3">
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-6 col-md-2">
+            <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3">
+            <h6 class="text-white fw-bold mb-3">Categories</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <a href="categories.html?catid=1">Fruits &amp; Vegetables</a>
+              </li>
+              <li><a href="categories.html?catid=2">Staples</a></li>
+              <li>
+                <a href="categories.html?catid=3">Snacks &amp; Namkeens</a>
+              </li>
+              <li><a href="categories.html?catid=4">Beverages</a></li>
+              <li>
+                <a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-white fw-bold mb-3">Contact Us</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami
+                Complex,<br />Abirami Nagar, Neelamangalam X Road,
+                <br />Neelamangalam, Kallakurichi,<br />
+                TamilNadu, India - 606 213
+              </li>
+              <li>
+                <i class="bi bi-telephone me-2 fm-icon-accent"></i
+                ><a href="tel:+919655512111">+91 96555 12111</a> <br />
+                <a href="tel:+917200844002">+91 72008 44002</a>
+              </li>
+              <li>
+                <i class="bi bi-envelope me-2 fm-icon-accent"></i
+                >samimart.tn@gmail.com
+              </li>
+              <li>
+                <i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am –
+                6pm
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
+        >
+          <p class="text-white-50 small mb-0">
+            © <span id="year"></span> SamiMart. All rights reserved.
+          </p>
+          <p class="text-white-50 small mb-0">
+            Built with <span style="color: #ff6b6b">❤</span> using
+            <a
+              href="https://vigneshramar.com"
+              class="text-white-50"
+              target="_blank"
+              rel="noopener"
+              >vigneshramar</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script
+      type="text/javascript"
+      src="/assets/bootstrap/bootstrap.bundle.min.js"
+    ></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script src="js/main.js" defer></script>
+
+    <script></script>
+  </body>
 </html>

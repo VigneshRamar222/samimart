@@ -1,12 +1,44 @@
 <!DOCTYPE html><html lang="en">
+
+
+
 <head>
+
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "GroceryStore",
+ "name": "SamiMart",
+ "image": "https://samimart.in/assets/logo/samimart.png",
+ "address": {
+   "@type": "PostalAddress",
+   "streetAddress": "Sami Complex, Abirami Nagar",
+   "addressLocality": "Kallakurichi",
+   "addressRegion": "Tamil Nadu",
+   "postalCode": "606213",
+   "addressCountry": "IN"
+ },
+ "telephone": "+919655512111",
+ "openingHours": "Mo-Su 08:00-18:00",
+ "url": "https://samimart.in/"
+}
+</script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta property="og:title" content="SamiMart - Fresh Groceries Daily">
 <meta property="og:description" content="Fresh produce, bakery, dairy and weekly deals.">
 <meta property="og:image" content="assets/og-image.webp">
-<meta property="og:type" content="website">
+<meta property="og:type" content="website"><meta name="description" content="SamiMart supermarket in Kallakurichi. Fresh fruits, vegetables, dairy, snacks, beverages and household items at best prices.">
+<meta name="keywords" content="SamiMart, supermarket Kallakurichi, grocery store Tamil Nadu, fresh vegetables, dairy, snacks">
+<meta name="author" content="SamiMart">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SamiMart - Fresh Groceries Daily">
+<meta name="twitter:description" content="Fresh produce, bakery, dairy and weekly deals.">
+<meta name="twitter:image" content="/assets/og-image.webp">
+
 
   <title>SamiMart - Your Neighborhood Supermarket</title>
    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
@@ -20,7 +52,7 @@
 <body>
 
   <!-- NAVBAR -->
-   <nav class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
+   <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
       
 
@@ -34,13 +66,13 @@
 
 <div class="fm-search-wrapper mx-auto">
     <div class="fm-search-bar">
-      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off">
+      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off" aria-label="Search products">
       <i class="bi bi-search"></i>
       <div id="searchSuggestions" class="fm-search-suggestions"></div>
     </div>
   </div>
 
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+<button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-bs-toggle="collapse" data-bs-target="#navbarMain">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -52,7 +84,7 @@
           <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
           <li class="nav-item"><a class="nav-link active" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
           <li class="nav-item">
-            <a class="nav-link position-relative" title="ENQUIRY CART" href="cart.html">
+            <a class="nav-link position-relative" aria-label="Open enquiry cart" title="ENQUIRY CART" href="cart.html">
               <i class="bi bi-cart-plus fs-5"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
                 0
@@ -93,7 +125,7 @@
             <div>
               <h6 class="fw-bold mb-1">Phone</h6>
               <p class="text-muted mb-0">+91 96555 12111</p>
-              <!-- <p class="text-muted mb-0">+91 91234 56789</p> -->
+              <p class="text-muted mb-0">+91 72008 44002</p>
             </div>
           </div>
 
@@ -296,7 +328,7 @@
           <h6 class="text-white fw-bold mb-3">Contact Us</h6>
           <ul class="list-unstyled fm-footer-links">
             <li><i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami Complex,<br />Abirami Nagar, Neelamangalam X Road, <br />Neelamangalam, Kallakurichi,<br />  TamilNadu, India - 606 213</li>
-            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i>+91 96555 12111</li>
+            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i><a href="tel:+919655512111">+91 96555 12111</a> <br/> <a href="tel:+917200844002">+91 72008 44002</a></li>
             <li><i class="bi bi-envelope me-2 fm-icon-accent"></i>samimart.tn@gmail.com</li>
             <li><i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am – 6pm</li>
           </ul>
@@ -317,7 +349,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script> -->
 
   <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script  src="js/main.js"></script>
+<script  src="js/main.js" defer></script>
 
 
 <script>

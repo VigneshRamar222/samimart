@@ -1,261 +1,492 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en">
+  <head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "GroceryStore",
+        "name": "SamiMart",
+        "image": "https://samimart.in/assets/logo/samimart.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Sami Complex, Abirami Nagar",
+          "addressLocality": "Kallakurichi",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "606213",
+          "addressCountry": "IN"
+        },
+        "telephone": "+919655512111",
+        "openingHours": "Mo-Su 08:00-18:00",
+        "url": "https://samimart.in/"
+      }
+    </script>
 
-  <meta property="og:title" content="SamiMart - Fresh Groceries Daily">
-<meta property="og:description" content="Fresh produce, bakery, dairy and weekly deals.">
-<meta property="og:image" content="assets/og-image.webp">
-<meta property="og:type" content="website">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>SamiMart - Your Neighborhood Supermarket</title>
-   <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
+    <meta property="og:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      property="og:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta property="og:image" content="assets/og-image.webp" />
+    <meta property="og:type" content="website" />
+    <meta
+      name="description"
+      content="SamiMart supermarket in Kallakurichi. Fresh fruits, vegetables, dairy, snacks, beverages and household items at best prices."
+    />
+    <meta
+      name="keywords"
+      content="SamiMart, supermarket Kallakurichi, grocery store Tamil Nadu, fresh vegetables, dairy, snacks"
+    />
+    <meta name="author" content="SamiMart" />
 
-   <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      name="twitter:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta name="twitter:image" content="/assets/og-image.webp" />
 
-  <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-  <link rel="stylesheet" href="css/indexStyle.css">
-</head>
-<body>
+    <title>SamiMart - Your Neighborhood Supermarket</title>
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
 
-  <!-- NAVBAR -->
-   <nav class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
-    <div class="container d-flex align-items-center justify-content-between">
-      
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
 
+    <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      id="mainNavbar"
+      class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top"
+    >
+      <div class="container d-flex align-items-center justify-content-between">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="index.html"
+        >
+          <img
+            src="assets/logo/samimart.png"
+            alt="SamiMart Logo"
+            width="40"
+            height="40"
+            class="rounded-circle"
+          />
+          <span class="fw-bold fs-5">SamiMart</span>
+        </a>
 
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-    <img src="assets/logo/samimart.png" alt="SamiMart Logo" width="40" height="40" class="rounded-circle">
-    <span class="fw-bold fs-5">SamiMart</span>
-  </a>
+        <div class="fm-search-wrapper mx-auto">
+          <div class="fm-search-bar">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search products..."
+              autocomplete="off"
+              aria-label="Search products"
+            />
+            <i class="bi bi-search"></i>
+            <div id="searchSuggestions" class="fm-search-suggestions"></div>
+          </div>
+        </div>
 
+        <button
+          class="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-
-<div class="fm-search-wrapper mx-auto">
-    <div class="fm-search-bar">
-      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off">
-      <i class="bi bi-search"></i>
-      <div id="searchSuggestions" class="fm-search-suggestions"></div>
-    </div>
-  </div>
-
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-      <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="categories.html"><i class="bi bi-grid me-1"></i>Categories</a></li>
-          <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
-          <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
-          <li class="nav-item">
-            <a class="nav-link position-relative" title="ENQUIRY CART" href="cart.html">
-              <i class="bi bi-cart-plus fs-5"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-                0
-              </span>
-            </a>
-          </li>
-        </ul>
-       
-      </div>
-    </div>
-  </nav>
-  
-  <section class="py-5 mt-1 bg-light text-center" style="background: linear-gradient(135deg, #0d9488, #f97316);">
-    <div class="container">
-      <h1 class="fw-bold text-white">Product Categories</h1>
-      <p class="lead text-muted">Browse all our product categories.</p>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container">
-      <div class="row">
-
-
-            <div class="col-lg-3 mb-4">
-        <div class="card shadow-sm p-3">
-          <h6 class="fw-bold mb-3">Categories</h6>
-          <input type="text" id="categorySearch" class="form-control form-control-sm mb-3" placeholder="Search category..." >
-          <ul id="categoryFilter" class="list-group list-group-flush">
-            <!-- categories loaded here -->
+        <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html"
+                ><i class="bi bi-house-door me-1"></i>Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="categories.html"
+                ><i class="bi bi-grid me-1"></i>Categories</a
+              >
+            </li>
+            <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="about.html"
+                ><i class="bi bi-info-circle me-1"></i>About</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html"
+                ><i class="bi bi-envelope me-1"></i>Contact</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link position-relative"
+                aria-label="Open enquiry cart"
+                title="ENQUIRY CART"
+                href="cart.html"
+              >
+                <i class="bi bi-cart-plus fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="cartCount"
+                >
+                  0
+                </span>
+              </a>
+            </li>
           </ul>
-
         </div>
       </div>
+    </nav>
 
-        <div class="col-lg-9">
-      <div id="subcategories" class="row g-4">
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100 text-center p-3 border-0 shadow-sm">
-            <i class="bi bi-flower1 fs-1 text-success mb-2"></i>
-            <h6 class="fw-bold">Vegitables</h6>
-            <p class="text-muted small">Fruits, vegetables, herbs and more</p>
-            <span class="badge bg-success">200+ items</span>
-            <button class="btn btn-success btn-sm mt-2">Add to Cart</button>
+    <section
+      class="py-5 mt-1 bg-light text-center"
+      style="background: linear-gradient(135deg, #0d9488, #f97316)"
+    >
+      <div class="container">
+        <h1 class="fw-bold text-white">Product Categories</h1>
+        <p class="lead text-muted">Browse all our product categories.</p>
+      </div>
+    </section>
+
+    <section class="py-5">
+      <div class="container">
+        <div class="d-lg-none mb-3 text-end">
+          <button
+            class="btn btn-outline-primary"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#categoryOffcanvas"
+          >
+            <i class="bi bi-filter"></i> Categories
+          </button>
+        </div>
+
+        <div
+          class="offcanvas offcanvas-start"
+          tabindex="-1"
+          id="categoryOffcanvas"
+        >
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Categories</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+            ></button>
+          </div>
+
+          <div class="offcanvas-body">
+            <input
+              type="text"
+              id="categorySearch"
+              class="form-control form-control-sm mb-3"
+              placeholder="Search category..."
+            />
+
+            <ul id="categoryFilter" class="list-group list-group-flush">
+              <!-- categories loaded here -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 mb-4 d-none d-lg-block">
+            <div class="card shadow-sm p-3">
+              <h6 class="fw-bold mb-3">Categories</h6>
+              <input
+                type="text"
+                id="categorySearchDesktop"
+                class="form-control form-control-sm mb-3"
+                placeholder="Search category..."
+              />
+              <ul
+                id="categoryFilterDesktop"
+                class="list-group list-group-flush"
+              ></ul>
+            </div>
+          </div>
+
+          <div class="col-lg-9">
+            <div id="subcategories" class="row g-4">
+              <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100 text-center p-3 border-0 shadow-sm">
+                  <i class="bi bi-flower1 fs-1 text-success mb-2"></i>
+                  <h6 class="fw-bold">vegetables</h6>
+                  <p class="text-muted small">
+                    Fruits, vegetables, herbs and more
+                  </p>
+                  <span class="badge bg-success">200+ items</span>
+                  <button class="btn btn-success btn-sm mt-2">
+                    Add to Cart
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      
-      </div>
-      </div>
-      </div>
-    
-  </section>
-
-
-  <!-- ASK ITEM NAME -->
-  <!-- <div class="modal fade" id="askItemModel" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-teal text-white">
-        <h5 class="modal-title">Item Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-    
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-<div class="modal fade" id="askItemModel" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Select Items</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="itemForm">
-          <!-- Checkboxes will be injected here -->
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="confirmItems">Add to Cart</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- FOOTER -->
-  <footer class="fm-footer pt-5 pb-3">
-    <div class="container">
-      <div class="row g-4 mb-4">
-        <div class="col-md-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <img src="assets/logo/samimart.png" loading="lazy" alt="SamiMart" width="36" height="36" class="rounded-circle">
-            <span class="fw-bold fs-5 text-white">SamiMart</span>
+    <div class="modal fade" id="askItemModel" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Select Items</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
           </div>
-          <p class="text-white-50 small">Your trusted neighborhood supermarket for fresh produce, groceries, and everyday essentials.</p>
-          <div class="d-flex gap-2 mt-3">
-            <a href="#" class="fm-social-btn"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-twitter-x"></i></a>
+          <div class="modal-body">
+            <form id="itemForm">
+              <!-- Checkboxes will be injected here -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirmItems">
+              Add to Cart
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
-        <div class="col-6 col-md-2">
-          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
-          <ul class="list-unstyled fm-footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="categories.html">Categories</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3">
-          <h6 class="text-white fw-bold mb-3">Categories</h6>
-          <ul class="list-unstyled fm-footer-links">
-             <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
-            <li><a href="categories.html?catid=2">Staples</a></li>
-            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
-            <li><a href="categories.html?catid=4">Beverages</a></li>
-            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white fw-bold mb-3">Contact Us</h6>
-          <ul class="list-unstyled fm-footer-links">
-            <li><i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami Complex,<br />Abirami Nagar, Neelamangalam X Road, <br />Neelamangalam, Kallakurichi,<br />  TamilNadu, India - 606 213</li>
-            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i>+91 96555 12111</li>
-            <li><i class="bi bi-envelope me-2 fm-icon-accent"></i>samimart.tn@gmail.com</li>
-            <li><i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am – 6pm</li>
-          </ul>
-        </div>
-      </div>
-      <hr class="border-secondary">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-        <p class="text-white-50 small mb-0">© <span id="year"></span> SamiMart. All rights reserved.</p>
-        <p class="text-white-50 small mb-0">
-          Built with <span style="color:#ff6b6b;">❤</span> using
-          <a href="https://vigneshramar.com" class="text-white-50" target="_blank" rel="noopener">vigneshramar</a>
-        </p>
       </div>
     </div>
-  </footer>
- <script type="text/javascript" src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script  src="js/main.js"></script>
-<script>
-  const params = new URLSearchParams(window.location.search);
-const catid = params.get("catid");
-const sub = params.get("sub");
-const search = params.get("search");
 
+    <!-- FOOTER -->
+    <footer class="fm-footer pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <img
+                src="assets/logo/samimart.png"
+                loading="lazy"
+                alt="SamiMart"
+                width="36"
+                height="36"
+                class="rounded-circle"
+              />
+              <span class="fw-bold fs-5 text-white">SamiMart</span>
+            </div>
+            <p class="text-white-50 small">
+              Your trusted neighborhood supermarket for fresh produce,
+              groceries, and everyday essentials.
+            </p>
+            <div class="d-flex gap-2 mt-3">
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-6 col-md-2">
+            <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3">
+            <h6 class="text-white fw-bold mb-3">Categories</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <a href="categories.html?catid=1">Fruits &amp; Vegetables</a>
+              </li>
+              <li><a href="categories.html?catid=2">Staples</a></li>
+              <li>
+                <a href="categories.html?catid=3">Snacks &amp; Namkeens</a>
+              </li>
+              <li><a href="categories.html?catid=4">Beverages</a></li>
+              <li>
+                <a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-white fw-bold mb-3">Contact Us</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami
+                Complex,<br />Abirami Nagar, Neelamangalam X Road,
+                <br />Neelamangalam, Kallakurichi,<br />
+                TamilNadu, India - 606 213
+              </li>
+              <li>
+                <i class="bi bi-telephone me-2 fm-icon-accent"></i
+                ><a href="tel:+919655512111">+91 96555 12111</a> <br />
+                <a href="tel:+917200844002">+91 72008 44002</a>
+              </li>
+              <li>
+                <i class="bi bi-envelope me-2 fm-icon-accent"></i
+                >samimart.tn@gmail.com
+              </li>
+              <li>
+                <i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am –
+                6pm
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
+        >
+          <p class="text-white-50 small mb-0">
+            © <span id="year"></span> SamiMart. All rights reserved.
+          </p>
+          <p class="text-white-50 small mb-0">
+            Built with <span style="color: #ff6b6b">❤</span> using
+            <a
+              href="https://vigneshramar.com"
+              class="text-white-50"
+              target="_blank"
+              rel="noopener"
+              >vigneshramar</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script
+      type="text/javascript"
+      src="/assets/bootstrap/bootstrap.bundle.min.js"
+    ></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script src="js/main.js" defer></script>
+    <script>
+      const categorySearchInputs = document.querySelectorAll(
+        "#categorySearch, #categorySearchDesktop",
+      );
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let itemsPerPage = 10;    // Number of items to show per batch
-let currentIndex = 0;      // Current index for pagination
-let filteredItems = [];    // Stores filtered items for pagination
+      categorySearchInputs.forEach((input) => {
+        input.addEventListener("keyup", function () {
+          const keyword = this.value.toLowerCase();
 
-function initLoad(catid = "", sub = "") {
-  fetch("assets/JSON/subcategories.json")
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById("subcategories");
-      container.innerHTML = "";
+          document
+            .querySelectorAll("#categoryFilter li, #categoryFilterDesktop li")
+            .forEach((li) => {
+              const text = li.textContent.toLowerCase();
+              //li.style.display = text.includes(keyword) ? "block" : "none";
+              li.style.display = text.includes(keyword) ? "" : "none";
+            });
+        });
+      });
 
-      // Filter active items and category if provided
-      filteredItems = catid
-        ? data.filter(item => item.CategoriesCode == catid && item.active == 1)
-        : data.filter(item => item.active == 1);
+      // document.addEventListener("click", function (e) {
+      //   if (e.target.matches("#categoryFilter li")) {
+      //     const catid = e.target.dataset.id;
 
-      currentIndex = 0; // reset pagination
+      //     document
+      //       .querySelectorAll("#categoryFilter li")
+      //       .forEach((li) => li.classList.remove("active"));
 
-      renderItems(); // Render first batch
-    })
-    .catch(error => console.error("Error:", error));
-}
+      //     e.target.classList.add("active");
 
-function renderItems() {
-  const container = document.getElementById("subcategories");
+      //     initLoad(catid);
 
-  // Slice next batch of items
-  const nextItems = filteredItems.slice(currentIndex, currentIndex + itemsPerPage);
+      //     // CLOSE OFFCANVAS
+      //     const offcanvas = bootstrap.Offcanvas.getInstance(
+      //       document.getElementById("categoryOffcanvas"),
+      //     );
+      //     if (offcanvas) offcanvas.hide();
+      //   }
+      // });
+      const params = new URLSearchParams(window.location.search);
+      const catid = params.get("catid");
+      const sub = params.get("sub");
+      const search = params.get("search");
 
-  nextItems.forEach(item => {
-    const highlight = cart.some(c =>
-      Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-      Number(c.CategoriesCode) === Number(item.CategoriesCode)
-    );
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      let itemsPerPage = 10;
+      let currentIndex = 0;
+      let filteredItems = [];
+      let subcategoryData = [];
 
-    const itemsArray = item.items?.split(",").map(i => i.trim()) || [];
-    const itemCount = itemsArray.length;
-    const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
+      function loadDataOnce() {
+        return fetch("assets/JSON/subcategories.json")
+          .then((res) => res.json())
+          .then((data) => {
+            subcategoryData = data;
+          });
+      }
 
-    const html = `
+      function initLoad(catid = "", sub = "") {
+        //alert("");
+        //console.log(subcategoryData);
+        // fetch("assets/JSON/subcategories.json")
+        //   .then(res => res.json())
+        //   .then(data => {
+        const container = document.getElementById("subcategories");
+        container.innerHTML = "";
+
+        // Filter active items and category if provided
+        filteredItems = catid
+          ? subcategoryData.filter(
+              (item) => item.CategoriesCode == catid && item.active == 1,
+            )
+          : subcategoryData.filter((item) => item.active == 1);
+
+        currentIndex = 0; // reset pagination
+
+        renderItems(); // Render first batch
+        // })
+        // .catch(error => console.error("Error:", error));
+      }
+
+      function renderItems() {
+        const container = document.getElementById("subcategories");
+
+        // Slice next batch of items
+        const nextItems = filteredItems.slice(
+          currentIndex,
+          currentIndex + itemsPerPage,
+        );
+
+        nextItems.forEach((item) => {
+          const highlight = cart.some(
+            (c) =>
+              Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
+              Number(c.CategoriesCode) === Number(item.CategoriesCode),
+          );
+
+          const itemsArray = item.items?.split(",").map((i) => i.trim()) || [];
+          const itemCount = itemsArray.length;
+          const image =
+            item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
+
+          const html = `
       <div class="col-6 col-md-4 col-lg-3">
         <div class="card h-100 text-center p-3 border-0 shadow-sm ${highlight ? "highlight-card" : ""}">
           <img src="${image}" alt="${item.SubCategories}" loading="lazy" class="fm-cat-img mb-2">
           <h6 class="fw-bold">${item.SubCategories}</h6>
-          <p class="text-muted small">${itemsArray.slice(0,3).join(", ")}${itemsArray.length > 3 ? "..." : ""}</p>
+          <p class="text-muted small">${itemsArray.slice(0, 3).join(", ")}${itemsArray.length > 3 ? "..." : ""}</p>
           <span class="badge bg-success">${itemCount}+ items</span>
           <button class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#askItemModel"
             data-category="${item.CategoriesCode}" 
@@ -267,521 +498,487 @@ function renderItems() {
       </div>
     `;
 
-    container.insertAdjacentHTML("beforeend", html);
-  });
+          container.insertAdjacentHTML("beforeend", html);
+        });
 
-  currentIndex += itemsPerPage;
+        currentIndex += itemsPerPage;
 
-  // Show or remove "Show More" button
-  let existingButton = document.getElementById("showMoreBtn");
-  const remainingItems = filteredItems.length - currentIndex;
+        // Show or remove "Show More" button
+        let existingButton = document.getElementById("showMoreBtn");
+        const remainingItems = filteredItems.length - currentIndex;
 
-  if (remainingItems > 0) {
-    const btnText = `Show More (${remainingItems} items left)`;
+        if (remainingItems > 0) {
+          const btnText = `Show More (${remainingItems} items left)`;
 
-    if (!existingButton) {
-      const btnHtml = `<div class="text-center mt-4">
+          if (!existingButton) {
+            const btnHtml = `<div class="text-center mt-4">
         <button class="btn btn-outline-primary" id="showMoreBtn">${btnText}</button>
       </div>`;
-      container.insertAdjacentHTML("afterend", btnHtml);
-      document.getElementById("showMoreBtn").addEventListener("click", renderItems);
-    } else {
-      existingButton.textContent = btnText;
-    }
-  } else if (existingButton) {
-    existingButton.remove();
-  }
-}
-
-// let cart = JSON.parse(localStorage.getItem("cart")) || [];
-// function initLoad(catid="", sub=""){
-// fetch("assets/JSON/subcategories.json")
-// .then(res => res.json())
-// .then(data => {
-//   const container = document.getElementById("subcategories");
-//   container.innerHTML = "";
-
-//   //const filtered = data.filter(item => item.CategoriesCode == catid);
-
-//   const filtered = catid 
-//       ? data.filter(item => item.CategoriesCode == catid && item.active == 1)
-//       : data.filter(item =>  item.active == 1);
-
-//       //alert(filtered.length)
-//   filtered.forEach(item => {
-
-//     //const itemCount = item.items.split(",").length;
-
-//   //  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-// console.log(cart)
-// // const isInCart = cart.some(
-// //   c => Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-// //        Number(c.CategoriesCode) === Number(item.CategoriesCode)
-// // );
-
-// // const isMatch =
-// //   Number(item.SubCategoriesCode) === Number(sub) &&
-// //   Number(item.CategoriesCode) === Number(catid);
-
-// // const highlight = isMatch || isInCart;
-
-
-// const highlight = cart.some(c =>
-//   Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-//   Number(c.CategoriesCode) === Number(item.CategoriesCode)
-// ) || (
-//   Number(item.SubCategoriesCode) === Number(sub) &&
-//   Number(item.CategoriesCode) === Number(catid)
-// );
-
-
-//     // const itemsArray = item.items ? item.items.split(",") : [];
-//     const itemsArray = item.items?.split(",").map(i => i.trim()) || [];
-// const itemCount = itemsArray.length;
-
-// // const isMatch =
-// //   Number(item.SubCategoriesCode) === Number(sub) &&
-// //   Number(item.CategoriesCode) === Number(catid);
-
-// const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
-
-// //<i class="bi bi-flower1 fs-1 text-success mb-2"></i>
-// // <p class="text-muted small">${item.items.substring(0,40)}...</p>
-
-
-// //console.log(item.CategoriesCode,item.SubCategories,`${highlight  ? "Item added to cart!" : ""}`);
-//     const html = `
-//       <div class="col-6 col-md-4 col-lg-3">
-//         <div title="${highlight  ? "Item added to cart!" : ""}" class="card h-100 text-center p-3 border-0 shadow-sm ${highlight  ? "highlight-card" : ""}">
-          
-          
-//  <img src="${image}" alt="${item.SubCategories}" loading="lazy" class="fm-cat-img mb-2">
-//           <h6 class="fw-bold">${item.SubCategories}</h6>
-
-         
-
-//           <p class="text-muted small">
-//   ${itemsArray.slice(0,3).join(", ")}${itemsArray.length > 3 ? "..." : ""}
-// </p>
-
-//           <span class="badge bg-success">${itemCount}+ items</span>
-
-//           <button class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#askItemModel"
-//            data-category="${item.CategoriesCode}" 
-//     data-subcategory="${item.SubCategoriesCode}"
-//     data-items="${item.items}"
-//           >
-//             Add to Cart
-//           </button>
-
-//         </div>
-//       </div>
-//     `;
-//     //  onclick="addToCart(${item.CategoriesCode},${item.SubCategoriesCode},this)"
-
-//     container.insertAdjacentHTML("beforeend", html);
-
-//   });
-
-//   setTimeout(() => {
-//   const el = document.querySelector(".highlight-card");
-//   if(el){
-//     el.scrollIntoView({behavior:"smooth", block:"center"});
-//   }
-// },200);
-
-// })
-// .catch(error => console.error("Error:", error));
-// }
-
-// Get the modal element
-const askItemModal = document.getElementById('askItemModel');
-let currentTriggerButton = null;
-// Event triggered before modal is shown
-askItemModal.addEventListener('show.bs.modal', function (event) {
-
-   const button = event.relatedTarget; // the button clicked
-  currentTriggerButton = button;       // save for later
-
-  
-  const category = button.dataset.category;
-  const subcategory = button.dataset.subcategory;
-  //const items = button.dataset.items.split(','); // Convert CSV to array
-  const items = button.dataset.items.split(',').map(i => i.trim());
-
-  const form = askItemModal.querySelector('#itemForm');
-  form.innerHTML = ''; // Clear previous content
-
-
-
-   //const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  // const existingCartEntry = cart.find(item =>
-  //   item.CategoriesCode === category && item.SubCategoriesCode === subcategory
-  // );
-
-  const existingCartEntry = cart.find(item =>
-  Number(item.CategoriesCode) === Number(category) &&
-  Number(item.SubCategoriesCode) === Number(subcategory)
-);
-
-  //const selectedInCart = existingCartEntry ? existingCartEntry.items : [];
-  const selectedInCart = existingCartEntry ? existingCartEntry.items.map(i => i.name) : [];
-items.forEach((item, index) => {
-
-  const cleanItem = item.trim();
-  const id = `itemCheckbox${index}`;
-
-  const isChecked = selectedInCart.includes(cleanItem);
-
-  const div = document.createElement("div");
-  div.classList.add("form-check");
-
-div.innerHTML = `
-<div class="d-flex align-items-center gap-2 mb-2">
-
-  <input class="form-check-input mt-0 item-check"
-         type="checkbox"
-         value="${cleanItem}"
-         id="${id}"
-         ${isChecked ? "checked" : ""}>
-
-  <label class="form-check-label flex-grow-1" for="${id}">
-    ${cleanItem}
-  </label>
-
-  <div class="item-remark-wrapper ${isChecked ? 'active' : ''}">
-    <input type="text"
-           class="form-control form-control-sm item-remark"
-           placeholder="Remarks"
-           data-item="${cleanItem}"
-           value="${existingCartEntry?.items?.find(i => i.name === cleanItem)?.remark || ""}">
-  </div>
-
-</div>
-`;
-  form.appendChild(div);
-
-  // Link checkbox to remark textbox
- const checkbox = div.querySelector(".item-check");
-const remarkWrapper = div.querySelector(".item-remark-wrapper");
-const remarkBox = remarkWrapper.querySelector(".item-remark");
-
-checkbox.addEventListener("change", () => {
-  if (checkbox.checked) {
-    remarkWrapper.classList.add("active");
-    remarkBox.disabled = false;
-    remarkBox.focus();
-  } else {
-    remarkWrapper.classList.remove("active");
-    remarkBox.value = "";
-    remarkBox.disabled = true;
-  }
-});
-
-});
-
-
-  // Save category & subcategory to modal dataset for use on confirm
-  askItemModal.dataset.category = category;
-  askItemModal.dataset.subcategory = subcategory;
-});
-
-document.getElementById('confirmItems').addEventListener('click', () => {
-  const form = document.getElementById('itemForm');
-  //const selectedItems = Array.from(form.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value);
-
-
-  const selectedItems = [];
-
-form.querySelectorAll(".item-check:checked").forEach(cb => {
-
-  const itemName = cb.value;
-
-  const remarkInput = form.querySelector(
-    `.item-remark[data-item="${itemName}"]`
-  );
-
-  selectedItems.push({
-    name: itemName,
-    remark: remarkInput ? remarkInput.value : ""
-  });
-
-});
-
-  if (selectedItems.length === 0) {
-    alert('Please select at least one item.');
-    return;
-  }
-
-  const category = askItemModal.dataset.category;
-  const subcategory = askItemModal.dataset.subcategory;
-
-  // Call your existing addToCart function
-  addToCart(category, subcategory,currentTriggerButton, selectedItems);
-
-  // Close modal
-  // const modal = bootstrap.Modal.getInstance(askItemModal);
-  // modal.hide();
-
-   const modalInstance = bootstrap.Modal.getOrCreateInstance(askItemModal);
-  modalInstance.hide();
-  
-
-});
-
-
-// document.querySelectorAll('button[data-category]').forEach(btn => {
-//     btn.addEventListener('click', function() {
-//         const category = this.dataset.category;
-//         const subcategory = this.dataset.subcategory;
-//         addToCart(category, subcategory, this);
-//     });
-// });
-
-
-function addToCart(CategoriesCode, SubCategoriesCode, btn, itemslist) {
-  //let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const selectedItems = Array.isArray(itemslist) ? itemslist : [itemslist];
-
-  // Find existing entry for this category + subcategory
-  const existingEntry = cart.find(item =>
-    item.CategoriesCode === CategoriesCode &&
-    item.SubCategoriesCode === SubCategoriesCode
-  );
-
-  if (existingEntry) {
-    // Sync: replace existing items with selected items
-    existingEntry.items = Array.from(new Set(selectedItems)); // ensure uniqueness
-    alert("Cart updated!");
-  } else {
-    // No existing entry, create new
-    cart.push({
-      CategoriesCode,
-      SubCategoriesCode,
-      items: Array.from(new Set(selectedItems))
-    });
-    alert("Item(s) added to cart!");
-  }
-
-  // Remove entry if no items selected
-  if (selectedItems.length === 0 && existingEntry) {
-    cart = cart.filter(item =>
-      !(item.CategoriesCode === CategoriesCode && item.SubCategoriesCode === SubCategoriesCode)
-    );
-    alert("No items selected. Entry removed from cart.");
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-
-  // Highlight card
-  const card = btn.closest(".card");
-  if (card) {
-    card.classList.add("highlight-card");
-    card.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
- // btn.innerHTML = selectedItems.length > 0 ? "✓ Added" : "Add to Cart";
-  //btn.classList.toggle("btn-success", selectedItems.length === 0);
-  //btn.classList.toggle("btn-secondary", selectedItems.length > 0);
-}
-
-fetch("assets/JSON/categories.json")
-.then(res => res.json())
-.then(data => {
-
-  const list = document.getElementById("categoryFilter");
-  list.innerHTML = "";
-
-  let categoryFound = false;
-
-  // All categories option
-  list.insertAdjacentHTML("beforeend", `
-    <li class="list-group-item ${!catid ? "active" : ""}" data-id="">
-      All Categories
-    </li>
-  `);
-
-  data.forEach(cat => {
-
-    const isActive = String(cat.categoriescode) === String(catid);
-
-    if(isActive) categoryFound = true;
-
-    list.insertAdjacentHTML("beforeend", `
-      <li class="list-group-item ${isActive ? "active" : ""}" data-id="${cat.categoriescode}">
-        ${cat.Categories}
-      </li>
-    `);
-
-  });
-
-  // If URL catid doesn't exist → highlight All
-  if(catid && !categoryFound){
-    const allItem = list.querySelector('[data-id=""]');
-    if(allItem){
-      allItem.classList.add("active");
-    }
-  }
-
-  const active = document.querySelector("#categoryFilter .active");
-
-  if(active){
-    active.scrollIntoView({
-      block:"center"
-    });
-  }
-
-});
-document.addEventListener("click", function(e){
-
-  if(e.target.matches("#categoryFilter li")){
-
-    const catid = e.target.dataset.id;
-
-    document.querySelectorAll("#categoryFilter li")
-      .forEach(li => li.classList.remove("active"));
-
-    e.target.classList.add("active");
-
-    //loadSubcategories(catid);
-    initLoad(catid);
-
-  }
-
-});
-
-
-
-function loadSubcategories(catid="", sub=""){
-
-fetch("assets/JSON/subcategories.json")
-.then(res => res.json())
-.then(data => {
-
-  const container = document.getElementById("subcategories");
-  container.innerHTML = "";
-
-  let filtered = data.filter(item => item.active == 1);
-
-  if(catid){
-    filtered = filtered.filter(item => item.CategoriesCode == catid);
-  }
-
-  filtered.forEach(item => {
-
-    const highlight =
-      Number(item.SubCategoriesCode) === Number(sub) &&
-      Number(item.CategoriesCode) === Number(catid);
-
-    const image = item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
-
-    const html = `
-      <div class="col-6 col-md-4 col-lg-3">
-        <div class="card h-100 text-center p-3 border-0 shadow-sm ${highlight ? "highlight-card" : ""}">
-
-          <img src="${image}" class="fm-cat-img mb-2">
-
-          <h6 class="fw-bold">${item.SubCategories}</h6>
-
-          <span class="badge bg-success">${item.items.split(",").length}+ items</span>
-
-          <button class="btn btn-success btn-sm mt-2"
-          data-bs-toggle="modal"
-          data-bs-target="#askItemModel"
-          data-category="${item.CategoriesCode}"
-          data-subcategory="${item.SubCategoriesCode}"
-          data-items="${item.items}">
-          Add to Cart
-          </button>
-
-        </div>
-      </div>
-    `;
-
-    container.insertAdjacentHTML("beforeend", html);
-
-  });
-
-  setTimeout(() => {
-    const el = document.querySelector(".highlight-card");
-    if(el){
-      el.scrollIntoView({behavior:"smooth", block:"center"});
-    }
-  },200);
-
-});
-}
-
-
-function loadSubcategoriesBySearch(query){
-
-fetch("assets/JSON/subcategories.json")
-.then(res => res.json())
-.then(data => {
-
-  const container = document.getElementById("subcategories");
-  container.innerHTML = "";
-
-  const filtered = data.filter(item => {
-
-    const sub = item.SubCategories.toLowerCase();
-    const items = item.items ? item.items.toLowerCase() : "";
-
-    return sub.includes(query.toLowerCase()) ||
-           items.includes(query.toLowerCase());
-
-  });
-
-  filtered.forEach(item => {
-
-    const html = `<div class="col-md-3">
+            container.insertAdjacentHTML("afterend", btnHtml);
+            document
+              .getElementById("showMoreBtn")
+              .addEventListener("click", renderItems);
+          } else {
+            existingButton.textContent = btnText;
+          }
+        } else if (existingButton) {
+          existingButton.remove();
+        }
+      }
+
+      // Get the modal element
+      const askItemModal = document.getElementById("askItemModel");
+      let currentTriggerButton = null;
+      // Event triggered before modal is shown
+      askItemModal.addEventListener("show.bs.modal", function (event) {
+        const button = event.relatedTarget; // the button clicked
+        currentTriggerButton = button; // save for later
+
+        const category = button.dataset.category;
+        const subcategory = button.dataset.subcategory;
+        //const items = button.dataset.items.split(','); // Convert CSV to array
+        const items = button.dataset.items.split(",").map((i) => i.trim());
+
+        const form = askItemModal.querySelector("#itemForm");
+        form.innerHTML = ""; // Clear previous content
+
+        //const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        // const existingCartEntry = cart.find(item =>
+        //   item.CategoriesCode === category && item.SubCategoriesCode === subcategory
+        // );
+
+        const existingCartEntry = cart.find(
+          (item) =>
+            Number(item.CategoriesCode) === Number(category) &&
+            Number(item.SubCategoriesCode) === Number(subcategory),
+        );
+
+        //const selectedInCart = existingCartEntry ? existingCartEntry.items : [];
+        const selectedInCart = existingCartEntry
+          ? existingCartEntry.items.map((i) => i.name)
+          : [];
+        items.forEach((item, index) => {
+          const cleanItem = item.trim();
+          const id = `itemCheckbox${index}`;
+
+          const isChecked = selectedInCart.includes(cleanItem);
+
+          const div = document.createElement("div");
+          div.classList.add("form-check");
+
+          div.innerHTML = `
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <input class="form-check-input mt-0 item-check"
+                    type="checkbox"
+                    value="${cleanItem}"
+                    id="${id}"
+                    ${isChecked ? "checked" : ""}>
+              <label class="form-check-label flex-grow-1" for="${id}">
+                ${cleanItem}
+              </label>
+              <div class="item-remark-wrapper ${isChecked ? "active" : ""}">
+                <input type="text"
+                      class="form-control form-control-sm item-remark"
+                      placeholder="Remarks"
+                      data-item="${cleanItem}"
+                      value="${existingCartEntry?.items?.find((i) => i.name === cleanItem)?.remark || ""}">
+              </div>
+            </div>
+            `;
+          form.appendChild(div);
+
+          // Link checkbox to remark textbox
+          const checkbox = div.querySelector(".item-check");
+          const remarkWrapper = div.querySelector(".item-remark-wrapper");
+          const remarkBox = remarkWrapper.querySelector(".item-remark");
+
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+              remarkWrapper.classList.add("active");
+              remarkBox.disabled = false;
+              remarkBox.focus();
+            } else {
+              remarkWrapper.classList.remove("active");
+              remarkBox.value = "";
+              remarkBox.disabled = true;
+            }
+          });
+        });
+
+        // Save category & subcategory to modal dataset for use on confirm
+        askItemModal.dataset.category = category;
+        askItemModal.dataset.subcategory = subcategory;
+      });
+
+      document.getElementById("confirmItems").addEventListener("click", () => {
+        const form = document.getElementById("itemForm");
+        //const selectedItems = Array.from(form.querySelectorAll('input[type=checkbox]:checked')).map(cb => cb.value);
+
+        const selectedItems = [];
+
+        form.querySelectorAll(".item-check:checked").forEach((cb) => {
+          const itemName = cb.value;
+
+          const remarkInput = form.querySelector(
+            `.item-remark[data-item="${itemName}"]`,
+          );
+
+          selectedItems.push({
+            name: itemName,
+            remark: remarkInput ? remarkInput.value : "",
+          });
+        });
+
+        if (selectedItems.length === 0) {
+          showToast("Please select at least one item.");
+          return;
+        }
+
+        const category = askItemModal.dataset.category;
+        const subcategory = askItemModal.dataset.subcategory;
+
+        // Call your existing addToCart function
+        addToCart(category, subcategory, currentTriggerButton, selectedItems);
+
+        // Close modal
+        // const modal = bootstrap.Modal.getInstance(askItemModal);
+        // modal.hide();
+
+        const modalInstance = bootstrap.Modal.getOrCreateInstance(askItemModal);
+        modalInstance.hide();
+      });
+
+      // document.querySelectorAll('button[data-category]').forEach(btn => {
+      //     btn.addEventListener('click', function() {
+      //         const category = this.dataset.category;
+      //         const subcategory = this.dataset.subcategory;
+      //         addToCart(category, subcategory, this);
+      //     });
+      // });
+
+      function addToCart(CategoriesCode, SubCategoriesCode, btn, itemslist) {
+        //let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const selectedItems = Array.isArray(itemslist)
+          ? itemslist
+          : [itemslist];
+
+        // Find existing entry for this category + subcategory
+        //const existingEntry = cart.find(item =>
+        //   item.CategoriesCode === CategoriesCode &&
+        //   item.SubCategoriesCode === SubCategoriesCode
+        // );
+
+        const existingEntry = cart.find(
+          (item) =>
+            Number(item.CategoriesCode) === Number(CategoriesCode) &&
+            Number(item.SubCategoriesCode) === Number(SubCategoriesCode),
+        );
+
+        if (existingEntry) {
+          // Sync: replace existing items with selected items
+          // existingEntry.items = Array.from(new Set(selectedItems)); // ensure uniqueness
+
+          //existingEntry.items = selectedItems;
+
+          existingEntry.items = selectedItems.filter(
+            (item, index, self) =>
+              index === self.findIndex((i) => i.name === item.name),
+          );
+
+          showToast("Cart updated!");
+        } else {
+          // No existing entry, create new
+          cart.push({
+            CategoriesCode,
+            SubCategoriesCode,
+            items: selectedItems,
+            //Array.from(new Set(selectedItems)),
+          });
+          showToast("Item(s) added to cart!");
+        }
+
+        // Remove entry if no items selected
+        if (selectedItems.length === 0 && existingEntry) {
+          cart = cart.filter(
+            (item) =>
+              !(
+                item.CategoriesCode === CategoriesCode &&
+                item.SubCategoriesCode === SubCategoriesCode
+              ),
+          );
+          showToast("No items selected. Entry removed from cart.");
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+
+        // Highlight card
+        const card = btn.closest(".card");
+        if (card) {
+          card.classList.add("highlight-card");
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        // btn.innerHTML = selectedItems.length > 0 ? "✓ Added" : "Add to Cart";
+        //btn.classList.toggle("btn-success", selectedItems.length === 0);
+        //btn.classList.toggle("btn-secondary", selectedItems.length > 0);
+      }
+
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.className =
+          "toast align-items-center text-bg-success border-0 show position-fixed bottom-0 end-0 m-3";
+        toast.innerHTML = `<div class="d-flex">
+            <div class="toast-body">${message}</div>
+          </div>`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.remove(), 2000);
+      }
+
+      fetch("assets/JSON/categories.json")
+        .then((res) => res.json())
+        .then((data) => {
+          //const list = document.getElementById("categoryFilter");
+
+          const listMobile = document.getElementById("categoryFilter");
+          const listDesktop = document.getElementById("categoryFilterDesktop");
+
+          listMobile.innerHTML = "";
+          listDesktop.innerHTML = "";
+
+          //list.innerHTML = "";
+
+          [listMobile, listDesktop].forEach((list) => {
+            // All categories option
+            list.insertAdjacentHTML(
+              "beforeend",
+              `
+              <li class="list-group-item ${!catid ? "active" : ""}" data-id="">
+                All Categories
+              </li>
+            `,
+            );
+          });
+
+          let categoryFound = false;
+
+          data.forEach((cat) => {
+            const isActive = String(cat.categoriescode) === String(catid);
+
+            if (isActive) categoryFound = true;
+            [listMobile, listDesktop].forEach((list) => {
+              list.insertAdjacentHTML(
+                "beforeend",
+                `
+                    <li class="list-group-item ${isActive ? "active" : ""}" data-id="${cat.categoriescode}">
+                      ${cat.Categories}
+                    </li>
+                  `,
+              );
+            });
+          });
+
+          // If URL catid doesn't exist → highlight All
+          if (catid && !categoryFound) {
+            // const allItem = list.querySelector('[data-id=""]');
+            // if (allItem) {
+            //   allItem.classList.add("active");
+            // }
+            // document
+            //   .querySelectorAll('[data-id=""]')
+            //   .forEach((el) => el.classList.add("active"));
+
+            document
+              .querySelectorAll(
+                '#categoryFilter li[data-id=""], #categoryFilterDesktop li[data-id=""]',
+              )
+              .forEach((el) => el.classList.add("active"));
+          }
+
+          // const active = document.querySelector("#categoryFilter .active");
+
+          // if (active) {
+          //   active.scrollIntoView({
+          //     block: "center",
+          //   });
+          // }
+
+          // document
+          //   .querySelectorAll(
+          //     "#categoryFilter .active, #categoryFilterDesktop .active",
+          //   )
+          //   .forEach((active) => {
+          //     active.scrollIntoView({ block: "center" });
+          //   });
+
+          const active = document.querySelector(
+            "#categoryFilter .active, #categoryFilterDesktop .active",
+          );
+
+          if (active) {
+            active.scrollIntoView({ block: "center" });
+          }
+        });
+      // document.addEventListener("click", function (e) {
+      //   if (e.target.matches("#categoryFilter li")) {
+      //     const catid = e.target.dataset.id;
+
+      //     document
+      //       .querySelectorAll("#categoryFilter li")
+      //       .forEach((li) => li.classList.remove("active"));
+
+      //     e.target.classList.add("active");
+
+      //     initLoad(catid);
+      //   }
+      // });
+
+      document.addEventListener("click", function (e) {
+        const li = e.target.closest(
+          "#categoryFilter li, #categoryFilterDesktop li",
+        );
+
+        if (li) {
+          const catid = li.dataset.id;
+          //if (e.target.matches("#categoryFilter li, #categoryFilterDesktop li")) {
+          //const catid = e.target.dataset.id;
+
+          document
+            .querySelectorAll("#categoryFilter li, #categoryFilterDesktop li")
+            .forEach((li) => li.classList.remove("active"));
+
+          //e.target.classList.add("active");
+          document
+            .querySelectorAll(
+              `#categoryFilter li[data-id="${catid}"], #categoryFilterDesktop li[data-id="${catid}"]`,
+            )
+            .forEach((li) => li.classList.add("active"));
+
+          initLoad(catid);
+
+          if (!catid) {
+            history.replaceState(null, "", window.location.pathname);
+          }
+
+          // Close mobile offcanvas
+          const offcanvas = bootstrap.Offcanvas.getInstance(
+            document.getElementById("categoryOffcanvas"),
+          );
+          if (window.innerWidth < 992 && offcanvas) {
+            offcanvas.hide();
+            document.body.classList.remove("overflow-hidden");
+          }
+        }
+      });
+
+      function loadSubcategoriesBySearch(query) {
+        // fetch("assets/JSON/subcategories.json")
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        const container = document.getElementById("subcategories");
+        container.innerHTML = "";
+
+        const filtered = subcategoryData.filter((item) => {
+          const sub = item.SubCategories.toLowerCase();
+          const items = item.items ? item.items.toLowerCase() : "";
+
+          return (
+            sub.includes(query.toLowerCase()) ||
+            items.includes(query.toLowerCase())
+          );
+        });
+
+        filtered.forEach((item) => {
+          const html = `<div class="col-md-3">
       <div class="card p-3 text-center">
         <h6>${item.SubCategories}</h6>
       </div>
     </div>`;
 
-    container.insertAdjacentHTML("beforeend", html);
+          container.insertAdjacentHTML("beforeend", html);
+        });
+        // });
+      }
 
-  });
+      function enableKeyboardNavigation(inputId, listSelector) {
+        const input = document.querySelector(inputId);
+        let currentIndex = -1;
 
-});
-}
+        input.addEventListener("keydown", function (e) {
+          const items = Array.from(
+            document.querySelectorAll(`${listSelector} li`),
+          ).filter((li) => li.style.display !== "none"); // only visible items
 
-//loadSubcategories();
+          if (!items.length) return;
 
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            currentIndex = (currentIndex + 1) % items.length;
+            updateActive(items);
+          }
 
-if(search){
-  loadSubcategoriesBySearch(search);
-}
-else if(catid){
-  //loadSubcategories(catid, sub);
-  initLoad(catid, sub);
-}
-else{
-  //loadSubcategories();
-  initLoad();
-}
+          if (e.key === "ArrowUp") {
+            e.preventDefault();
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            updateActive(items);
+          }
 
-const categorySearch = document.getElementById("categorySearch");
+          if (e.key === "Enter" && currentIndex >= 0) {
+            items[currentIndex].click(); // trigger category click
+          }
+        });
 
-categorySearch.addEventListener("keyup", function(){
+        function updateActive(items) {
+          // remove active from all
+          document
+            .querySelectorAll("#categoryFilter li, #categoryFilterDesktop li")
+            .forEach((li) => li.classList.remove("active"));
 
-  const keyword = this.value.toLowerCase();
+          const activeItem = items[currentIndex];
+          activeItem.classList.add("active");
 
-  document.querySelectorAll("#categoryFilter li").forEach(li => {
+          // auto scroll into view
+          activeItem.scrollIntoView({
+            block: "nearest",
+            behavior: "smooth",
+          });
+        }
+      }
 
-    const text = li.textContent.toLowerCase();
+      if (search) {
+        loadDataOnce().then(() => {
+          loadSubcategoriesBySearch(search);
+        });
+      } else if (catid) {
+        loadDataOnce().then(() => {
+          initLoad(catid, sub);
+        });
+      } else {
+        loadDataOnce().then(() => {
+          initLoad();
+        });
+      }
+      enableKeyboardNavigation("#categorySearch", "#categoryFilter");
+      enableKeyboardNavigation(
+        "#categorySearchDesktop",
+        "#categoryFilterDesktop",
+      );
+      // const categorySearch = document.getElementById("categorySearch");
 
-    if(text.includes(keyword)){
-      li.style.display = "block";
-    }else{
-      li.style.display = "none";
-    }
+      // categorySearch.addEventListener("keyup", function () {
+      //   const keyword = this.value.toLowerCase();
 
-  });
+      //   document.querySelectorAll("#categoryFilter li").forEach((li) => {
+      //     const text = li.textContent.toLowerCase();
 
-});
-</script>
-</body>
+      //     if (text.includes(keyword)) {
+      //       li.style.display = "block";
+      //     } else {
+      //       li.style.display = "none";
+      //     }
+      //   });
+      // });
+    </script>
+  </body>
 </html>
