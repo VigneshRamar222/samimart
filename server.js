@@ -1,8 +1,9 @@
 // server.js
-require('dotenv').config(); // load .env variables
-const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
+require("dotenv").config(); // load .env variables
+const express = require("express");
+const nodemailer = require("nodemailer");
+const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Email transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // or your email provider
+  service: "gmail", // or your email provider
   auth: {
     user: process.env.EMAIL_USER, // your email
     pass: process.env.EMAIL_PASS, // app password
@@ -24,22 +25,22 @@ const transporter = nodemailer.createTransport({
 // Test transporter
 transporter.verify((error, success) => {
   if (error) {
-    console.log('Error configuring email transporter:', error);
+    console.log("Error configuring email transporter:", error);
   } else {
-    console.log('Email transporter is ready');
+    console.log("Email transporter is ready");
   }
 });
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('SamiMart Email Bot is running!');
+app.get("/", (req, res) => {
+  res.send("SamiMart Email Bot is running!");
 });
 
-app.post('/send-email', async (req, res) => {
+app.post("/send-email", async (req, res) => {
   const { name, email, subject, message } = req.body;
 
   if (!name || !email || !subject || !message) {
-    return res.status(400).json({ error: 'All fields are required' });
+    return res.status(400).json({ error: "All fields are required" });
   }
 
   try {
@@ -65,42 +66,35 @@ app.post('/send-email', async (req, res) => {
              <p><strong>Message:</strong><br>${message}</p>`,
     });
 
-    res.status(200).json({ success: 'mm Emails sent successfully!' });
+    res.status(200).json({ success: "mm Emails sent successfully!" });
   } catch (error) {
-    console.error('Email error:', error);
-    res.status(500).json({ error: 'Failed to send emails' });
+    console.error("Email error:", error);
+    res.status(500).json({ error: "Failed to send emails" });
   }
 });
 
-
-
 app.post("/send-cart-enquiry", async (req, res) => {
-
   const { userName, contactNo, email, remarks, items } = req.body;
 
-   console.log("Cart enquiry received:", req.body);
+  console.log("Cart enquiry received:", req.body);
 
   try {
-
-if (!items || !items.length) {
+    if (!items || !items.length) {
       return res.status(400).json({ error: "Cart items missing" });
     }
-    
+
     let cartRows = "";
 
-    items.forEach(i => {
-
+    items.forEach((i) => {
       cartRows += `
       <tr>
         <td>${i.category}</td>
         <td>${i.subcategory}</td>
         <td>${i.item}</td>
-        <td>${i.remark}</td>
+        <td>${i.remark || "-"}</td>
       </tr>
       `;
-
     });
-
 
     const cartTable = `
       <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;">
@@ -131,11 +125,10 @@ if (!items || !items.length) {
 
         <h3>Cart Items</h3>
         ${cartTable}
-      `
+      `,
     };
 
     await transporter.sendMail(adminMail);
-
 
     // ===============================
     // CUSTOMER AUTO REPLY
@@ -176,24 +169,46 @@ if (!items || !items.length) {
       <b>SamiMart Team</b></p>
 
       </div>
-      `
+      `,
     };
 
     await transporter.sendMail(customerMail);
 
     //res.json({ success: true });
 
-    res.status(200).json({ success: 'Emails sent successfully!' });
+    res.status(200).json({ success: "Emails sent successfully!" });
   } catch (error) {
-
     console.error(error);
     res.status(500).json({ error: "Failed to send enquiry" });
-
   }
-
 });
 
-// Start server
+// Static folder (for images / uploads)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ------------------ API ROUTES ------------------
+app.use("/api/categories", require("./routes/categories"));
+app.use("/api/subcategories", require("./routes/subcategories"));
+
+// ------------------ 404 HANDLER (must be last) ------------------
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+// ------------------ ERROR HANDLER ------------------
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(500).json({
+    success: false,
+    message: "Internal Server Error",
+  });
+});
+
+// ------------------ SERVER START ------------------
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

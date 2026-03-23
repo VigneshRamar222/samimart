@@ -1,67 +1,283 @@
 [
-{ "CategoriesCode": 1, "Categories": "Fruits & Vegetables", "SubCategoriesCode": 1, "SubCategories": "Fresh Fruits","items":"apples, bananas, mangoes, oranges, grapes, strawberries, pineapples, watermelons, papaya, guava","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 1, "Categories": "Fruits & Vegetables", "SubCategoriesCode": 2, "SubCategories": "Fresh Vegetables","items":"brinjal, drumstick, onion, tomato, ladies finger, bitter gourd, carrot, beans, cabbage, cauliflower, greens","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 1, "SubCategories": "Cereals & Dals","items":"toor dal, urad dal, moong dal, chana dal, masoor dal, basmati rice, ponni rice, wheat","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 2, "SubCategories": "Masalas & Spices","items":"turmeric powder, chilli powder, coriander powder, garam masala, cumin seeds, mustard seeds, pepper","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 3, "SubCategories": "Edible Oil & Ghee","items":"sunflower oil, groundnut oil, coconut oil, gingelly oil, mustard oil, desi ghee","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 4, "SubCategories": "Dry Fruits & Nuts","items":"almonds, cashews, pistachios, walnuts, raisins, dates","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 5, "SubCategories": "Flours","items":"wheat flour, rice flour, maida, ragi flour, besan flour","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 6, "SubCategories": "Organic Staples","items":"organic rice, organic wheat flour, organic dal, organic jaggery","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 7, "SubCategories": "Salt & Sugar","items":"iodized salt, rock salt, sugar, brown sugar, jaggery","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 8, "SubCategories": "Packed Staples","items":"instant rice, ready dal mix, packed wheat flour, packed rice","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 9, "SubCategories": "Millets","items":"ragi, bajra, jowar, foxtail millet, little millet, kodo millet","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 2, "Categories": "Staples", "SubCategoriesCode": 10, "SubCategories": "Loose Staples","items":"loose rice, loose wheat, loose dal, loose sugar","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 3, "Categories": "Snacks & Namkeens", "SubCategoriesCode": 1, "SubCategories": "Chocolates & Candies","items":"dairy milk chocolate, kitkat, munch, eclairs, toffee","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 3, "Categories": "Snacks & Namkeens", "SubCategoriesCode": 2, "SubCategories": "Biscuits & Cookies","items":"good day biscuits, marie biscuits, cream biscuits, chocolate cookies","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 3, "Categories": "Snacks & Namkeens", "SubCategoriesCode": 3, "SubCategories": "Branded Snacks","items":"potato chips, nachos, kurkure, mixture, murukku","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 3, "Categories": "Snacks & Namkeens", "SubCategoriesCode": 4, "SubCategories": "Bakery","items":"bread, buns, rusk, cakes, pastries","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 3, "Categories": "Snacks & Namkeens", "SubCategoriesCode": 5, "SubCategories": "Mints & Chewing Gum","items":"mint candies, chewing gum, bubble gum","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 1, "SubCategories": "Drinks & Juices","items":"mango juice, orange juice, mixed fruit juice, apple juice","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 2, "SubCategories": "Tea & Coffee","items":"dust tea, green tea, instant coffee, filter coffee","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 3, "SubCategories": "Health Drinks","items":"horlicks, boost, bournvita, pediasure","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 4, "SubCategories": "Energy & Soft Drinks","items":"coca cola, pepsi, sprite, red bull","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 5, "SubCategories": "Milk Powder","items":"amul milk powder, everyday milk powder","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 6, "SubCategories": "Drink Mixes","items":"rasna, tang, lemonade mix","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 7, "SubCategories": "Mineral Water","items":"bisleri water, aquafina water, kinley water","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 4, "Categories": "Beverages", "SubCategoriesCode": 8, "SubCategories": "Non Alcoholic","items":"mocktail mixers, soda, tonic water","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 1, "SubCategories": "Butter & Cheese","items":"amul butter, cheese slices, cheese cubes","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 2, "SubCategories": "Paneer","items":"fresh paneer, malai paneer","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 3, "SubCategories": "Milk & Curd","items":"fresh milk, toned milk, curd, yogurt","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 4, "SubCategories": "Ice Creams","items":"vanilla ice cream, chocolate ice cream, strawberry ice cream","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 5, "SubCategories": "Frozen Foods","items":"frozen peas, frozen corn, frozen paratha","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-{ "CategoriesCode": 5, "Categories": "Chilled & Dairy Foods", "SubCategoriesCode": 6, "SubCategories": "Other Chilled & Dairy","items":"cream, condensed milk, flavored yogurt","SubImageURL":"/assets/images/subcategories/noitemfound.jpg","active":1},
-
-
+  {
+    "CategoriesCode": 1,
+    "Categories": "Fruits & Vegetables",
+    "SubCategoriesCode": 1,
+    "SubCategories": "Fresh Fruits",
+    "items": "apples, bananas, mangoes, oranges, grapes, strawberries, pineapples, watermelons, papaya, guava",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 1,
+    "Categories": "Fruits & Vegetables",
+    "SubCategoriesCode": 2,
+    "SubCategories": "Fresh Vegetables",
+    "items": "brinjal, drumstick, onion, tomato, ladies finger, bitter gourd, carrot, beans, cabbage, cauliflower, greens",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 1,
+    "SubCategories": "Cereals & Dals",
+    "items": "toor dal, urad dal, moong dal, chana dal, masoor dal, basmati rice, ponni rice, wheat",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 2,
+    "SubCategories": "Masalas & Spices",
+    "items": "turmeric powder, chilli powder, coriander powder, garam masala, cumin seeds, mustard seeds, pepper",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 3,
+    "SubCategories": "Edible Oil & Ghee",
+    "items": "sunflower oil, groundnut oil, coconut oil, gingelly oil, mustard oil, desi ghee",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 4,
+    "SubCategories": "Dry Fruits & Nuts",
+    "items": "almonds, cashews, pistachios, walnuts, raisins, dates",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 5,
+    "SubCategories": "Flours",
+    "items": "wheat flour, rice flour, maida, ragi flour, besan flour",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 6,
+    "SubCategories": "Organic Staples",
+    "items": "organic rice, organic wheat flour, organic dal, organic jaggery",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 7,
+    "SubCategories": "Salt & Sugar",
+    "items": "iodized salt, rock salt, sugar, brown sugar, jaggery",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 8,
+    "SubCategories": "Packed Staples",
+    "items": "instant rice, ready dal mix, packed wheat flour, packed rice",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 9,
+    "SubCategories": "Millets",
+    "items": "ragi, bajra, jowar, foxtail millet, little millet, kodo millet",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 2,
+    "Categories": "Staples",
+    "SubCategoriesCode": 10,
+    "SubCategories": "Loose Staples",
+    "items": "loose rice, loose wheat, loose dal, loose sugar",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 3,
+    "Categories": "Snacks & Namkeens",
+    "SubCategoriesCode": 1,
+    "SubCategories": "Chocolates & Candies",
+    "items": "dairy milk chocolate, kitkat, munch, eclairs, toffee",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 3,
+    "Categories": "Snacks & Namkeens",
+    "SubCategoriesCode": 2,
+    "SubCategories": "Biscuits & Cookies",
+    "items": "good day biscuits, marie biscuits, cream biscuits, chocolate cookies",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 3,
+    "Categories": "Snacks & Namkeens",
+    "SubCategoriesCode": 3,
+    "SubCategories": "Branded Snacks",
+    "items": "potato chips, nachos, kurkure, mixture, murukku",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 3,
+    "Categories": "Snacks & Namkeens",
+    "SubCategoriesCode": 4,
+    "SubCategories": "Bakery",
+    "items": "bread, buns, rusk, cakes, pastries",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 3,
+    "Categories": "Snacks & Namkeens",
+    "SubCategoriesCode": 5,
+    "SubCategories": "Mints & Chewing Gum",
+    "items": "mint candies, chewing gum, bubble gum",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 1,
+    "SubCategories": "Drinks & Juices",
+    "items": "mango juice, orange juice, mixed fruit juice, apple juice",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 2,
+    "SubCategories": "Tea & Coffee",
+    "items": "dust tea, green tea, instant coffee, filter coffee",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 3,
+    "SubCategories": "Health Drinks",
+    "items": "horlicks, boost, bournvita, pediasure",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 4,
+    "SubCategories": "Energy & Soft Drinks",
+    "items": "coca cola, pepsi, sprite, red bull",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 5,
+    "SubCategories": "Milk Powder",
+    "items": "amul milk powder, everyday milk powder",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 6,
+    "SubCategories": "Drink Mixes",
+    "items": "rasna, tang, lemonade mix",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 7,
+    "SubCategories": "Mineral Water",
+    "items": "bisleri water, aquafina water, kinley water",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 4,
+    "Categories": "Beverages",
+    "SubCategoriesCode": 8,
+    "SubCategories": "Non Alcoholic",
+    "items": "mocktail mixers, soda, tonic water",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 1,
+    "SubCategories": "Butter & Cheese",
+    "items": "amul butter, cheese slices, cheese cubes",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 2,
+    "SubCategories": "Paneer",
+    "items": "fresh paneer, malai paneer",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 3,
+    "SubCategories": "Milk & Curd",
+    "items": "fresh milk, toned milk, curd, yogurt",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 4,
+    "SubCategories": "Ice Creams",
+    "items": "vanilla ice cream, chocolate ice cream, strawberry ice cream",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 5,
+    "SubCategories": "Frozen Foods",
+    "items": "frozen peas, frozen corn, frozen paratha",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
+  {
+    "CategoriesCode": 5,
+    "Categories": "Chilled & Dairy Foods",
+    "SubCategoriesCode": 6,
+    "SubCategories": "Other Chilled & Dairy",
+    "items": "cream, condensed milk, flavored yogurt",
+    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
+    "active": 1
+  },
   {
     "CategoriesCode": 6,
     "Categories": "Ready To Cook",
@@ -179,7 +395,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 8,
     "Categories": "Baby Care",
@@ -234,7 +449,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 9,
     "Categories": "Household Essentials",
@@ -298,7 +512,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 10,
     "Categories": "Cleaning Needs",
@@ -344,7 +557,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 11,
     "Categories": "Feminine Care",
@@ -381,7 +593,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 12,
     "Categories": "Health Care",
@@ -490,7 +701,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 14,
     "Categories": "Stationaries",
@@ -545,7 +755,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 15,
     "Categories": "Skin Care",
@@ -618,7 +827,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 16,
     "Categories": "Oral Care",
@@ -664,7 +872,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 17,
     "Categories": "Men's Grooming",
@@ -701,7 +908,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 18,
     "Categories": "Creams & Lotions",
@@ -756,7 +962,6 @@
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },
-
   {
     "CategoriesCode": 19,
     "Categories": "Crockeries",

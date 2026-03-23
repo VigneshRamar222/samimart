@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Page</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="appToast" class="toast align-items-center text-bg-dark border-0">
+        <div class="d-flex">
+          <div class="toast-body"></div>
+          <button
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="row g-4">
+        <!-- 1️⃣ Categories Section -->
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h5>Categories</h5>
+            <!-- Save Form -->
+
+            <input
+              type="text"
+              id="catName"
+              class="form-control mb-2"
+              placeholder="Category Name"
+            />
+            <input
+              type="file"
+              id="catImage"
+              class="form-control mb-2"
+              accept=".webp"
+            />
+            <div id="catImagePreview"></div>
+            <input
+              type="button"
+              value="Save Category"
+              class="btn btn-primary w-100 mb-3"
+              id="saveCategoryBtn"
+            />
+            <!-- Delete Table -->
+            <h6>Existing Categories</h6>
+            <input
+              type="text"
+              id="categoriesSearch"
+              class="form-control mb-1"
+              placeholder="Search Categories"
+            />
+            <div id="categoriesTableContainer">
+              <table class="table table-sm table-bordered" id="categoriesTable">
+                <thead>
+                  <tr>
+                    <th>Categories Code</th>
+                    <th>Categories Name</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows added dynamically -->
+                </tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="categoriesPagination"></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2️⃣ Subcategories Section -->
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h5>Subcategories</h5>
+            <!-- Save Form -->
+            <!-- <select id="subCatParent" class="form-select mb-2">
+              <option value="">Select Category</option>
+            </select> -->
+
+            <div class="mb-2">
+              <input
+                type="text"
+                id="subCatParentInput"
+                class="form-control"
+                placeholder="Select Category"
+                autocomplete="off"
+              />
+              <div
+                id="subCatParentDropdown"
+                class="dropdown-menu w-100"
+                style="max-height: 200px; overflow-y: auto"
+              ></div>
+            </div>
+            <input
+              type="text"
+              id="subName"
+              class="form-control mb-2"
+              placeholder="Subcategory Name"
+            />
+            <input
+              type="file"
+              id="subImage"
+              class="form-control mb-2"
+              accept=".webp"
+            />
+            <div id="subImagePreview"></div>
+            <input
+              type="button"
+              class="btn btn-success w-100 mb-3"
+              id="saveSubCategoryBtn"
+              value="Save Subcategory"
+            />
+
+            <!-- Delete Table -->
+            <h6>Existing Subcategories</h6>
+            <input
+              type="text"
+              id="subcategoriesSearch"
+              class="form-control mb-1"
+              placeholder="Search Subcategories"
+            />
+            <div id="subcategoriesTableContainer">
+              <table
+                class="table table-sm table-bordered"
+                id="subcategoriesTable"
+              >
+                <thead>
+                  <tr>
+                    <th>Sub.Code</th>
+                    <th>Sub.cat</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows added dynamically -->
+                </tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="subcategoriesPagination"></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3️⃣ Items Section -->
+        <div class="col-md-4">
+          <div class="card p-3">
+            <h5>Items</h5>
+            <!-- Save Form -->
+            <!-- <select id="itemCatParent" class="form-select mb-2">
+              <option value="">Select Category</option>
+            </select>
+            <select id="itemSubParent" class="form-select mb-2">
+              <option value="">Select Subcategory</option>
+            </select> -->
+
+            <div class="mb-2">
+              <input
+                type="text"
+                id="itemCatParentInput"
+                class="form-control"
+                placeholder="Select Category"
+                autocomplete="off"
+              />
+              <div
+                id="itemCatParentDropdown"
+                class="dropdown-menu w-100"
+                style="max-height: 200px; overflow-y: auto"
+              ></div>
+            </div>
+
+            <div class="mb-2">
+              <input
+                type="text"
+                id="itemSubParentInput"
+                class="form-control"
+                placeholder="Select Subcategory"
+                autocomplete="off"
+              />
+              <div
+                id="itemSubParentDropdown"
+                class="dropdown-menu w-100"
+                style="max-height: 200px; overflow-y: auto"
+              ></div>
+            </div>
+
+            <input
+              type="text"
+              id="itemName"
+              class="form-control mb-2"
+              placeholder="Item Name"
+            />
+            <input
+              type="button"
+              value="Save Item"
+              class="btn btn-warning w-100 mb-3"
+              id="saveItemBtn"
+            />
+
+            <!-- Delete Table -->
+            <h6>Existing Items</h6>
+            <input
+              type="text"
+              id="itemsSearch"
+              class="form-control mb-1"
+              placeholder="Search Items"
+            />
+            <div id="itemsTableContainer">
+              <table class="table table-sm table-bordered" id="itemsTable">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows added dynamically -->
+                </tbody>
+              </table>
+              <nav>
+                <ul class="pagination" id="itemsPagination"></ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Placeholder for custom JS -->
+    <script src="js/master.js?v=2"></script>
+  </body>
+</html>

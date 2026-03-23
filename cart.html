@@ -1,470 +1,393 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "GroceryStore",
+        "name": "SamiMart",
+        "image": "https://samimart.in/assets/logo/samimart.png",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Sami Complex, Abirami Nagar",
+          "addressLocality": "Kallakurichi",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "606213",
+          "addressCountry": "IN"
+        },
+        "telephone": "+919655512111",
+        "openingHours": "Mo-Su 08:00-18:00",
+        "url": "https://samimart.in/"
+      }
+    </script>
 
-  <script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "GroceryStore",
- "name": "SamiMart",
- "image": "https://samimart.in/assets/logo/samimart.png",
- "address": {
-   "@type": "PostalAddress",
-   "streetAddress": "Sami Complex, Abirami Nagar",
-   "addressLocality": "Kallakurichi",
-   "addressRegion": "Tamil Nadu",
-   "postalCode": "606213",
-   "addressCountry": "IN"
- },
- "telephone": "+919655512111",
- "openingHours": "Mo-Su 08:00-18:00",
- "url": "https://samimart.in/"
-}
-</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      property="og:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta property="og:image" content="assets/og-image.webp" />
+    <meta property="og:type" content="website" />
+    <meta
+      name="description"
+      content="SamiMart supermarket in Kallakurichi. Fresh fruits, vegetables, dairy, snacks, beverages and household items at best prices."
+    />
+    <meta
+      name="keywords"
+      content="SamiMart, supermarket Kallakurichi, grocery store Tamil Nadu, fresh vegetables, dairy, snacks"
+    />
+    <meta name="author" content="SamiMart" />
 
-  <meta property="og:title" content="SamiMart - Fresh Groceries Daily">
-<meta property="og:description" content="Fresh produce, bakery, dairy and weekly deals.">
-<meta property="og:image" content="assets/og-image.webp">
-<meta property="og:type" content="website">
-<meta name="description" content="SamiMart supermarket in Kallakurichi. Fresh fruits, vegetables, dairy, snacks, beverages and household items at best prices.">
-<meta name="keywords" content="SamiMart, supermarket Kallakurichi, grocery store Tamil Nadu, fresh vegetables, dairy, snacks">
-<meta name="author" content="SamiMart">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SamiMart - Fresh Groceries Daily" />
+    <meta
+      name="twitter:description"
+      content="Fresh produce, bakery, dairy and weekly deals."
+    />
+    <meta name="twitter:image" content="/assets/og-image.webp" />
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SamiMart - Fresh Groceries Daily">
-<meta name="twitter:description" content="Fresh produce, bakery, dairy and weekly deals.">
-<meta name="twitter:image" content="/assets/og-image.webp">
+    <title>SamiMart - Your Neighborhood Supermarket</title>
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
 
-  <title>SamiMart - Your Neighborhood Supermarket</title>
-   <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
 
-   <link rel="icon" type="image/png" href="assets/favicon.png">
+    <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/indexStyle.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      id="mainNavbar"
+      class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top"
+    >
+      <div class="container d-flex align-items-center justify-content-between">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="index.html"
+        >
+          <img
+            src="assets/logo/samimart.png"
+            alt="SamiMart Logo"
+            width="40"
+            height="40"
+            class="rounded-circle"
+          />
+          <span class="fw-bold fs-5">SamiMart</span>
+        </a>
 
-  <!-- <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" /> -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-  <link rel="stylesheet" href="css/indexStyle.css">
-</head>
-<body>
-
-  <!-- NAVBAR -->
- <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fm-navbar fixed-top">
-    <div class="container d-flex align-items-center justify-content-between">
-      
-
-
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-    <img src="assets/logo/samimart.png" alt="SamiMart Logo" width="40" height="40" class="rounded-circle">
-    <span class="fw-bold fs-5">SamiMart</span>
-  </a>
-
-
-
-<div class="fm-search-wrapper mx-auto">
-    <div class="fm-search-bar">
-      <input id="searchInput" type="text" placeholder="Search products..." autocomplete="off" aria-label="Search products">
-      <i class="bi bi-search"></i>
-      <div id="searchSuggestions" class="fm-search-suggestions"></div>
-    </div>
-  </div>
-
-<button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-      <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="categories.html"><i class="bi bi-grid me-1"></i>Categories</a></li>
-          <!-- <li class="nav-item"><a class="nav-link" href="offers.html"><i class="bi bi-tag me-1"></i>Offers</a></li> -->
-          <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="bi bi-envelope me-1"></i>Contact</a></li>
-          <li class="nav-item">
-            <a class="nav-link active position-relative" aria-label="Open enquiry cart" title="ENQUIRY CART" href="cart.html">
-              <i class="bi bi-cart-plus fs-5"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-                0
-              </span>
-            </a>
-          </li>
-        </ul>
-       
-      </div>
-    </div>
-  </nav>
-
-  <section class="py-5 mt-1 bg-light text-center" style="background: linear-gradient(135deg, #0d9488, #f97316);">
-    <div class="container">
-      <h1 class="fw-bold text-white">Cart</h1>
-      <p class="lead text-muted">Happiness is not in Money, but in shopping</p>
-    </div>
-  </section>
-
-  <section class="py-5">
-    
-
-<div class="container">
-
-  <!-- CART ITEMS WRAPPER -->
-  <div id="cartItemsSection" class="d-none">
-    <h4 class="fw-bold mb-4">Shopping Cart</h4>
-    <div id="cartItems" class="row g-3"></div>
-
-    <div class="text-end mt-4">
-      
-      
-      <button class="btn fm-btn-accent mt-2" id="sendEnquiryBtn" data-bs-toggle="modal" data-bs-target="#enquiryModal">
-  SEND ENQUIRY NOW
-</button>
-    </div>
-  </div>
-
-  <!-- EMPTY CART SECTION -->
-  <div id="emptyCartSection" class="text-center py-5">
-    <div class="mb-4">
-      <i class="bi bi-cart-x" style="font-size: 4rem; color: #0d9488;"></i>
-    </div>
-
-    <h3 class="fw-bold mb-3">Your cart is currently empty</h3>
-
-    <p class="text-muted mb-4 mx-auto" style="max-width: 600px;">
-      Before proceeding to checkout you must add some products to your shopping cart.
-      You will find a lot of interesting products on our <strong>"Categories"</strong> page.
-    </p>
-
-    <a href="categories.html" class="btn fm-btn-primary px-4 py-2">
-      <i class="bi bi-bag me-2"></i>Start Shopping
-    </a>
-  </div>
-
-</div>
-  </section>
-
-
-
-  <!-- Enquiry Modal -->
-<div class="modal fade" id="enquiryModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-teal text-white">
-        <h5 class="modal-title">Send Product Enquiry</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="enquiryForm">
-          <div class="mb-3">
-            <label for="userName" class="form-label">Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="Your full name" autocomplete="off" id="userName" required>
-            <div class="invalid-feedback">Please enter your full name.</div>
-          </div>
-          <div class="mb-3">
-            <label for="contactNo" class="form-label">Contact Number <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="Your Contact Number" autocomplete="off" id="contactNo" required>
-            <div class="invalid-feedback">Please enter a valid Contact No.</div>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-            <input type="email" class="form-control" id="email" autocomplete="off" placeholder="your@email.com" required />
-             <div class="invalid-feedback">Please enter a valid email address.</div>
-          </div>
-          <div class="mb-3">
-            <label for="remarks" class="form-label">Remarks</label>
-            <textarea class="form-control" id="remarks" rows="3"></textarea>
-          </div>
-        <button type="submit" id="enquiryFormSubmit" class="btn fm-btn-accent w-100">Send Enquiry</button>
-      </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- FOOTER -->
-  <footer class="fm-footer pt-5 pb-3">
-    <div class="container">
-      <div class="row g-4 mb-4">
-        <div class="col-md-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <img src="assets/logo/samimart.png" loading="lazy" alt="SamiMart" width="36" height="36" class="rounded-circle">
-            <span class="fw-bold fs-5 text-white">SamiMart</span>
-          </div>
-          <p class="text-white-50 small">Your trusted neighborhood supermarket for fresh produce, groceries, and everyday essentials.</p>
-          <div class="d-flex gap-2 mt-3">
-            <a href="#" class="fm-social-btn"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="fm-social-btn"><i class="bi bi-twitter-x"></i></a>
+        <div class="fm-search-wrapper mx-auto">
+          <div class="fm-search-bar">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search products..."
+              autocomplete="off"
+              aria-label="Search products"
+            />
+            <i class="bi bi-search"></i>
+            <div id="searchSuggestions" class="fm-search-suggestions"></div>
           </div>
         </div>
-        <div class="col-6 col-md-2">
-          <h6 class="text-white fw-bold mb-3">Quick Links</h6>
-          <ul class="list-unstyled fm-footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="categories.html">Categories</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-6 col-md-3">
-          <h6 class="text-white fw-bold mb-3">Categories</h6>
-          <ul class="list-unstyled fm-footer-links">
-             <li><a href="categories.html?catid=1">Fruits &amp; Vegetables</a></li>
-            <li><a href="categories.html?catid=2">Staples</a></li>
-            <li><a href="categories.html?catid=3">Snacks &amp; Namkeens</a></li>
-            <li><a href="categories.html?catid=4">Beverages</a></li>
-            <li><a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h6 class="text-white fw-bold mb-3">Contact Us</h6>
-          <ul class="list-unstyled fm-footer-links">
-             <li><i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami Complex,<br />Abirami Nagar, Neelamangalam X Road, <br />Neelamangalam, Kallakurichi,<br />  TamilNadu, India - 606 213</li>
-            <li><i class="bi bi-telephone me-2 fm-icon-accent"></i><a href="tel:+919655512111">+91 96555 12111</a> <br/> <a href="tel:+917200844002">+91 72008 44002</a></li>
-            <li><i class="bi bi-envelope me-2 fm-icon-accent"></i>samimart.tn@gmail.com</li>
-            <li><i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am – 6pm</li>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse fm-nav-collapse" id="navbarMain">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html"
+                ><i class="bi bi-house-door me-1"></i>Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="categories.html"
+                ><i class="bi bi-grid me-1"></i>Categories</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html"
+                ><i class="bi bi-info-circle me-1"></i>About</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact.html"
+                ><i class="bi bi-envelope me-1"></i>Contact</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active position-relative"
+                aria-label="Open enquiry cart"
+                title="ENQUIRY CART"
+                href="cart.html"
+              >
+                <i class="bi bi-cart-plus fs-5"></i>
+                <span
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  id="cartCount"
+                >
+                  0
+                </span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
-      <hr class="border-secondary">
-      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-        <p class="text-white-50 small mb-0">© <span id="year"></span> SamiMart. All rights reserved.</p>
-        <p class="text-white-50 small mb-0">
-          Built with <span style="color:#ff6b6b;">❤</span> using
-          <a href="https://vigneshramar.com" class="text-white-50" target="_blank" rel="noopener">vigneshramar</a>
+    </nav>
+
+    <section
+      class="py-5 mt-1 bg-light text-center"
+      style="background: linear-gradient(135deg, #0d9488, #f97316)"
+    >
+      <div class="container">
+        <h1 class="fw-bold text-white">Cart</h1>
+        <p class="lead text-muted">
+          Happiness is not in Money, but in shopping
         </p>
       </div>
+    </section>
+
+    <section class="py-5">
+      <div class="container">
+        <!-- CART ITEMS WRAPPER -->
+        <div id="cartItemsSection" class="d-none">
+          <h4 class="fw-bold mb-4">Shopping Cart</h4>
+          <div id="cartItems" class="row g-3"></div>
+
+          <div class="text-end mt-4">
+            <button
+              class="btn fm-btn-accent mt-2"
+              id="sendEnquiryBtn"
+              data-bs-toggle="modal"
+              data-bs-target="#enquiryModal"
+            >
+              SEND ENQUIRY NOW
+            </button>
+          </div>
+        </div>
+
+        <!-- EMPTY CART SECTION -->
+        <div id="emptyCartSection" class="text-center py-5">
+          <div class="mb-4">
+            <i class="bi bi-cart-x" style="font-size: 4rem; color: #0d9488"></i>
+          </div>
+
+          <h3 class="fw-bold mb-3">Your cart is currently empty</h3>
+
+          <p class="text-muted mb-4 mx-auto" style="max-width: 600px">
+            Before proceeding to checkout you must add some products to your
+            shopping cart. You will find a lot of interesting products on our
+            <strong>"Categories"</strong> page.
+          </p>
+
+          <a href="categories.html" class="btn fm-btn-primary px-4 py-2">
+            <i class="bi bi-bag me-2"></i>Start Shopping
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enquiry Modal -->
+    <div class="modal fade" id="enquiryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-teal text-white">
+            <h5 class="modal-title">Send Product Enquiry</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="enquiryForm">
+              <div class="mb-3">
+                <label for="userName" class="form-label"
+                  >Name <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Your full name"
+                  autocomplete="off"
+                  id="userName"
+                  required
+                />
+                <div class="invalid-feedback">Please enter your full name.</div>
+              </div>
+              <div class="mb-3">
+                <label for="contactNo" class="form-label"
+                  >Contact Number <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Your Contact Number"
+                  autocomplete="off"
+                  id="contactNo"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid Contact No.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label"
+                  >Email Address <span class="text-danger">*</span></label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  autocomplete="off"
+                  placeholder="your@email.com"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Please enter a valid email address.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="remarks" class="form-label">Remarks</label>
+                <textarea class="form-control" id="remarks" rows="3"></textarea>
+              </div>
+              <button
+                type="submit"
+                id="enquiryFormSubmit"
+                class="btn fm-btn-accent w-100"
+              >
+                Send Enquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-  </footer>
- <script type="text/javascript" src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script  src="js/main.js" defer></script>
-<script>
 
-  
-document.addEventListener("DOMContentLoaded", async function () {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const emptySection = document.getElementById("emptyCartSection");
-  const itemsSection = document.getElementById("cartItemsSection");
-  const cartItemsContainer = document.getElementById("cartItems");
-
-  if (cart.length === 0) {
-    emptySection?.classList.remove("d-none");
-    itemsSection?.classList.add("d-none");
-    return;
-  }
-
-  emptySection?.classList.add("d-none");
-  itemsSection?.classList.remove("d-none");
-  cartItemsContainer.innerHTML = "";
-
-  // Fetch JSON
-  const response = await fetch("/assets/JSON/subcategories.json");
-  const subcategories = await response.json();
-
-  cart.forEach((cartItem, index) => {
-    // Find matching subcategory
-    const matchedCategory = subcategories.find(sub =>
-      Number(sub.CategoriesCode) === Number(cartItem.CategoriesCode) &&
-      Number(sub.SubCategoriesCode) === Number(cartItem.SubCategoriesCode)
-    );
-
-    // Prepare item list with remarks
-    const itemNamesWithRemarks = cartItem.items.map(i => {
-      if (i.remark && i.remark.trim() !== "") {
-        return `${i.name} (${i.remark})`;
-      } else {
-        return i.name;
-      }
-    }).join(", ");
-
-    const itemHTML = `
-<div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-  <div class="card h-100 border-0 shadow-sm cart-card">
-
-    <div class="text-center p-3 bg-light">
-      <img src="${matchedCategory ? matchedCategory.SubImageURL : '/assets/images/subcategories/noitemfound.jpg'}" 
-           alt="${itemNamesWithRemarks}"
-           class="img-fluid"
-           style="height:120px; object-fit:contain;">
-    </div>
-
-    <div class="card-body text-center">
-
-      <h6 class="fw-bold mb-2 text-capitalize">
-        ${itemNamesWithRemarks}
-      </h6>
-
-      <p class="mb-2 small text-muted">
-        ${matchedCategory ? matchedCategory.SubCategories : "-"}
-      </p>
-
-      <button class="btn btn-sm btn-danger"
-        onclick="removeFromCart(${index})">
-        <i class="bi bi-trash"></i> Remove
-      </button>
-
-    </div>
-
-  </div>
-</div>
-`;
-
-    cartItemsContainer.innerHTML += itemHTML;
-  });
-});
-
-function removeFromCart(index) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  location.reload(); // simple reload to refresh UI
-}
-
-
-
-// let enquiryForm = document.getElementById("enquiryForm")
-// if(enquiryForm)
-// enquiryForm.addEventListener("submit", function(e) {
-//   e.preventDefault();
-
-//   const cart = JSON.parse(localStorage.getItem("cart")) || [];
-//   if (cart.length === 0) {
-//     alert("Your cart is empty!");
-//     return;
-//   }
-
-//   const userName = document.getElementById("userName").value.trim();
-//   const contactNo = document.getElementById("contactNo").value.trim();
-//   const remarks = document.getElementById("remarks").value.trim();
-// const email = document.getElementById("email").value.trim();
-
-//   if (!userName || !contactNo) {
-//     alert("Please enter Name and Contact Number.");
-//     return;
-//   }
-
-//   // Prepare product list for table format using subcategories.json file
-  
-// //local storage cart format is [{"CategoriesCode":"2","SubCategoriesCode":"8","items":[{"name":"packed wheat flour","remark":"10"}]}]
-//   // sent data to email using mail bot
-  
-//   localStorage.setItem("cart", JSON.stringify([]));
-
-//   // Optional: close modal
-//   const modalEl = document.getElementById('enquiryModal');
-//   const modalInstance = bootstrap.Modal.getInstance(modalEl);
-//   modalInstance.hide();
-
-//   setTimeout(() => {
-//     location.reload();
-//   }, 300);
-// });
-
-
-let enquiryForm = document.getElementById("enquiryForm");
-
-if (enquiryForm) {
-  enquiryForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-
-
-    
-  const sendBtn = document.getElementById('enquiryFormSubmit');
-  const originalText = sendBtn.innerHTML;
-
-  // Show loader
-  sendBtn.classList.add("btn-loading");
-  sendBtn.innerHTML = `
-    <span class="spinner-border spinner-border-sm"></span>
-    Sending...
-  `;
-
-
-
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (cart.length === 0) {
-      alert("Your cart is empty!");
-      return;
-    }
-
-    const userName = document.getElementById("userName").value.trim();
-    const contactNo = document.getElementById("contactNo").value.trim();
-    const remarks = document.getElementById("remarks").value.trim();
-    const email = document.getElementById("email").value.trim();
-
-    if (!userName || !contactNo || !email) {
-      alert("Please fill all required fields.");
-      return;
-    }
-
-    // Fetch subcategories
-    const response = await fetch("/assets/JSON/subcategories.json");
-    const subcategories = await response.json();
-
-    // Map cart items
-    const items = [];
-    cart.forEach(cartItem => {
-      const matchedCategory = subcategories.find(sub =>
-        Number(sub.CategoriesCode) === Number(cartItem.CategoriesCode) &&
-        Number(sub.SubCategoriesCode) === Number(cartItem.SubCategoriesCode)
-      );
-
-      const category = matchedCategory ? matchedCategory.Categories : "-";
-      const subcategory = matchedCategory ? matchedCategory.SubCategories : "-";
-
-      cartItem.items.forEach(i => {
-        items.push({
-          category: category,
-          subcategory: subcategory,
-          item: i.name,
-          remark: i.remark || "-"
-        });
-      });
-    });
-
-    const data_m = {
-      userName,
-      contactNo,
-      email,
-      remarks,
-      items
-    };
-   
-
-    try {
-      const res = await fetch("http://localhost:3000/send-cart-enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data_m)
-      });
-
-      const result = await res.json();
-
-      if (res.ok) {
-        alert("Enquiry sent successfully!");
-
-        // Clear cart
-        localStorage.setItem("cart", JSON.stringify([]));
-
-        // Close modal
-        const modalEl = document.getElementById('enquiryModal');
-        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        modalInstance.hide();
-
-        setTimeout(() => location.reload(), 300);
-      } else {
-        alert(result.error || "Failed to send enquiry.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Server error.");
-    }finally{
-       sendBtn.innerHTML = originalText;
-    sendBtn.classList.remove("btn-loading");
-    }
-  });
-}
-</script>
-</body>
+    <!-- FOOTER -->
+    <footer class="fm-footer pt-5 pb-3">
+      <div class="container">
+        <div class="row g-4 mb-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <img
+                src="assets/logo/samimart.png"
+                loading="lazy"
+                alt="SamiMart"
+                width="36"
+                height="36"
+                class="rounded-circle"
+              />
+              <span class="fw-bold fs-5 text-white">SamiMart</span>
+            </div>
+            <p class="text-white-50 small">
+              Your trusted neighborhood supermarket for fresh produce,
+              groceries, and everyday essentials.
+            </p>
+            <div class="d-flex gap-2 mt-3">
+              <a
+                href="https://www.facebook.com/share/1AtmBLHQCq/"
+                class="fm-social-btn"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" class="fm-social-btn"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+            </div>
+          </div>
+          <div class="col-6 col-md-2">
+            <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="categories.html">Categories</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md-3">
+            <h6 class="text-white fw-bold mb-3">Categories</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <a href="categories.html?catid=1">Fruits &amp; Vegetables</a>
+              </li>
+              <li><a href="categories.html?catid=2">Staples</a></li>
+              <li>
+                <a href="categories.html?catid=3">Snacks &amp; Namkeens</a>
+              </li>
+              <li><a href="categories.html?catid=4">Beverages</a></li>
+              <li>
+                <a href="categories.html?catid=5">Chilled &amp; Dairy Foods</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-white fw-bold mb-3">Contact Us</h6>
+            <ul class="list-unstyled fm-footer-links">
+              <li>
+                <i class="bi bi-geo-alt me-2 fm-icon-accent"></i>Sami
+                Complex,<br />Abirami Nagar, Neelamangalam X Road,
+                <br />Neelamangalam, Kallakurichi,<br />
+                TamilNadu, India - 606 213
+              </li>
+              <li>
+                <i class="bi bi-telephone me-2 fm-icon-accent"></i
+                ><a href="tel:+919655512111">+91 96555 12111</a> <br />
+                <a href="tel:+917200844002">+91 72008 44002</a>
+              </li>
+              <li>
+                <i class="bi bi-envelope me-2 fm-icon-accent"></i
+                >samimart.tn@gmail.com
+              </li>
+              <li>
+                <i class="bi bi-clock me-2 fm-icon-accent"></i>Mon–Sun: 8am –
+                6pm
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2"
+        >
+          <p class="text-white-50 small mb-0">
+            © <span id="year"></span> SamiMart. All rights reserved.
+          </p>
+          <p class="text-white-50 small mb-0">
+            Built with <span style="color: #ff6b6b">❤</span> using
+            <a
+              href="https://vigneshramar.com"
+              class="text-white-50"
+              target="_blank"
+              rel="noopener"
+              >vigneshramar</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script
+      type="text/javascript"
+      src="/assets/bootstrap/bootstrap.bundle.min.js"
+    ></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/cart.js" defer></script>
+  </body>
 </html>
