@@ -93,5 +93,10 @@
     "Categories": "Crockeries",
     "categoriescode": 19,
     "ImageURL": "/assets/images/categories/vessels.jpg"
+  },
+  {
+    "Categories": "test",
+    "categoriescode": 20,
+    "ImageURL": "/assets/images/categories/cat_1774368206920.webp"
   }
 ]

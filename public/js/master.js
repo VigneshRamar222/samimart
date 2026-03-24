@@ -254,10 +254,11 @@ function renderCategoriesTable(page = 1, search = "") {
   const { items, totalPages } = paginate(filtered, page);
 
   // Render rows
-  items.forEach((c) => {
+  items.forEach((c, index) => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
+     <td>${(page - 1) * 5 + index + 1}</td>
       <td>${c.categoriescode}</td>
       <td>${c.Categories}</td>
       <td>
@@ -293,7 +294,7 @@ function renderSubcategoriesTable(page = 1, search = "") {
   const tbody = document.querySelector("#subcategoriesTable tbody");
   tbody.innerHTML = "";
 
-  items.forEach((s) => {
+  items.forEach((s, index) => {
     const catName =
       categories.find((c) => c.categoriescode === s.CategoriesCode)
         ?.Categories || "";
@@ -301,7 +302,7 @@ function renderSubcategoriesTable(page = 1, search = "") {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>${s.SubCategoriesCode}</td>
+      <td>${(page - 1) * 5 + index + 1}</td>
       <td>${s.SubCategories}</td>
       <td>${catName}</td>
        <td>
@@ -358,13 +359,14 @@ function renderItemsTable(page = 1, search = "") {
   const tbody = document.querySelector("#itemsTable tbody");
   tbody.innerHTML = "";
 
-  paged.forEach((i) => {
+  paged.forEach((i, index) => {
     const catName =
       categories.find((c) => c.categoriescode === i.catId)?.Categories || "";
 
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
+      <td>${(page - 1) * 5 + index + 1}</td>
       <td>${i.name}</td>
       <td>${catName}</td>
       <td>${i.subName}</td>
@@ -406,6 +408,18 @@ function isDuplicateCategory(name) {
 $("saveCategoryBtn").onclick = async (e) => {
   const name = $("catName").value.trim();
   const file = $("catImage").files[0];
+
+  if (!file) {
+    showToast("Please select an image");
+    return;
+  }
+
+  // Check file extension
+  if (!file.name.toLowerCase().endsWith(".webp")) {
+    showToast("Only .webp files are allowed");
+    $("catImage").value = ""; // clear selected file
+    return;
+  }
 
   if (!name || !file) return showToast("Fill all fields");
 
@@ -464,6 +478,18 @@ $("saveSubCategoryBtn").onclick = async () => {
 
   if (!isValidCategoryId(categoryId)) {
     showToast("Please select a valid category");
+    return;
+  }
+
+  if (!file) {
+    showToast("Please select an image");
+    return;
+  }
+
+  // Check file extension
+  if (!file.name.toLowerCase().endsWith(".webp")) {
+    showToast("Only .webp files are allowed");
+    $("catImage").value = ""; // clear selected file
     return;
   }
 

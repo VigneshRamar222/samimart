@@ -1042,5 +1042,14 @@
     "items": "measuring cups, ladles, tongs, chopping boards",
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
+  },
+  {
+    "CategoriesCode": 20,
+    "Categories": "test",
+    "SubCategoriesCode": 1774369973670,
+    "SubCategories": "test sub",
+    "items": "",
+    "SubImageURL": "/assets/images/categories/sub_1774369973662.webp",
+    "active": 1
   }
 ]

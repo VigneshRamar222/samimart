@@ -9,6 +9,7 @@ const UPLOAD_PATH = path.join(__dirname, "../assets/images/categories");
 
 //const categoriesPath = path.join(__dirname, "./assets/JSON/categories.json");
 const DB_PATH = path.join(__dirname, "../assets/JSON/subcategories.json");
+const CATEGORIES_PATH = path.join(__dirname, "../assets/JSON/categories.json");
 
 const multer = require("multer");
 
@@ -168,19 +169,41 @@ router.delete("/:id", async (req, res) => {
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const name = req.body.name;
-    const categoryId = req.body.categoryId;
+    const categoryId = Number(req.body.categoryId); // important
     const image = req.file;
+
+    //console.log("Name:", name);
+    //console.log("CategoryId:", categoryId);
+    //console.log("Image:", image);
 
     if (!name || !categoryId || !image) {
       return res.status(400).json({ msg: "Missing fields" });
     }
 
-    const data = await fs.readFile(DB_PATH, "utf8");
-    let subcategories = JSON.parse(data);
+    // Read categories.json
+    const categoriesData = await fs.readFile(CATEGORIES_PATH, "utf8");
+    const categories = JSON.parse(categoriesData);
+
+    //console.log("Categories:", categories);
+
+    // Find category
+    const category = categories.find(
+      (c) => Number(c.categoriescode) === categoryId,
+    );
+
+    //console.log("Found Category:", category);
+
+    if (!category) {
+      return res.status(404).json({ msg: "Category not found" });
+    }
+
+    // Read subcategories.json
+    const subData = await fs.readFile(DB_PATH, "utf8");
+    let subcategories = JSON.parse(subData);
 
     const newSub = {
-      CategoriesCode: Number(categoryId),
-      Categories: "Crockeries",
+      CategoriesCode: category.categoriescode,
+      Categories: category.Categories,
       SubCategoriesCode: Date.now(),
       SubCategories: name,
       items: "",
