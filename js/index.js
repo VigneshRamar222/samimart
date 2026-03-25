@@ -12,6 +12,8 @@ Promise.all([
 
     // Group Subcategories
     subData.forEach((item) => {
+      if (!item.items || item.items.trim() === "") return;
+
       if (!grouped[item.CategoriesCode]) {
         grouped[item.CategoriesCode] = {
           CategoriesCode: item.CategoriesCode,
