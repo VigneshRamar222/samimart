@@ -50,11 +50,6 @@
     "ImageURL": "/assets/images/categories/Detergents.jpg"
   },
   {
-    "Categories": "Feminine Care",
-    "categoriescode": 11,
-    "ImageURL": "/assets/images/categories/5b098542316e7b9c3d9f0d25f644382e.jpg"
-  },
-  {
     "Categories": "Health Care",
     "categoriescode": 12,
     "ImageURL": "/assets/images/categories/healthcare.jpg"
@@ -78,11 +73,6 @@
     "Categories": "Oral Care",
     "categoriescode": 16,
     "ImageURL": "/assets/images/categories/Oralcare.jpg"
-  },
-  {
-    "Categories": "Men's Grooming",
-    "categoriescode": 17,
-    "ImageURL": "/assets/images/categories/mensgrooming.jpg"
   },
   {
     "Categories": "Creams & Lotions",

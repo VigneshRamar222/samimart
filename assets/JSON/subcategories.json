@@ -558,42 +558,6 @@
     "active": 1
   },
   {
-    "CategoriesCode": 11,
-    "Categories": "Feminine Care",
-    "SubCategoriesCode": 1,
-    "SubCategories": "Sanitary Napkins",
-    "items": "regular pads, overnight pads, panty liners, organic pads",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 11,
-    "Categories": "Feminine Care",
-    "SubCategoriesCode": 2,
-    "SubCategories": "Hair Removals",
-    "items": "wax strips, depilatory cream, razor, hair removal gel",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 11,
-    "Categories": "Feminine Care",
-    "SubCategoriesCode": 3,
-    "SubCategories": "Intimate Wash & Care",
-    "items": "intimate wash, feminine hygiene wash, wipes",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 11,
-    "Categories": "Feminine Care",
-    "SubCategoriesCode": 4,
-    "SubCategories": "Tampons & Menstrual Cups",
-    "items": "tampons, menstrual cups",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
     "CategoriesCode": 12,
     "Categories": "Health Care",
     "SubCategoriesCode": 1,
@@ -869,42 +833,6 @@
     "SubCategoriesCode": 5,
     "SubCategories": "Other Oral Care",
     "items": "dental floss, tongue cleaner, teeth whitening strips",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 17,
-    "Categories": "Men's Grooming",
-    "SubCategoriesCode": 1,
-    "SubCategories": "After Shave",
-    "items": "after shave lotion, after shave gel, cooling after shave",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 17,
-    "Categories": "Men's Grooming",
-    "SubCategoriesCode": 2,
-    "SubCategories": "Shaving Razor",
-    "items": "manual razor, cartridge razor, disposable razor",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 17,
-    "Categories": "Men's Grooming",
-    "SubCategoriesCode": 3,
-    "SubCategories": "Shaving Gel / Foam / Cream",
-    "items": "shaving cream, shaving foam, pre-shave gel",
-    "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
-    "active": 1
-  },
-  {
-    "CategoriesCode": 17,
-    "Categories": "Men's Grooming",
-    "SubCategoriesCode": 4,
-    "SubCategories": "Other Mens Toiletries",
-    "items": "beard oil, face wash, deodorant, hair wax",
     "SubImageURL": "/assets/images/subcategories/noitemfound.jpg",
     "active": 1
   },

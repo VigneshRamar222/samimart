@@ -1,6 +1,7 @@
 //window.onbeforeunload = () => console.log("PAGE RELOADING...");
 // ===================== CONFIG =====================
 const API_BASE = "http://localhost:3000/api";
+//const API_BASE = `${process.env.BASE_URL}/api`;
 const ROWS_PER_PAGE = 5;
 
 let categories = [];
