@@ -20,6 +20,14 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+document
+  .getElementById("password")
+  .addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      document.getElementById("loginBtn").click();
+    }
+  });
+
 document.getElementById("loginBtn").addEventListener("click", function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -131,3 +139,14 @@ document
         btn.disabled = false;
       });
   });
+
+const togglePassword = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("password");
+
+togglePassword.addEventListener("click", function () {
+  const type =
+    passwordInput.getAttribute("type") === "password" ? "text" : "password";
+
+  passwordInput.setAttribute("type", type);
+  this.textContent = type === "password" ? "👁" : "🙈";
+});

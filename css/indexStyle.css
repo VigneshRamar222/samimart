@@ -27,8 +27,8 @@ body {
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: var(--fm-text-dark);
   padding-top: var(--fm-navbar-height);
+  /* user-select: none; */
 }
-
 /* ── NAVBAR ── */
 .fm-navbar {
   background-color: var(--fm-primary) !important;

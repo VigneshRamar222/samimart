@@ -361,3 +361,17 @@ if (input && suggestionBox) {
     }
   });
 }
+
+// document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// document.onkeydown = function (e) {
+//   if (
+//     (e.ctrlKey && ["u", "c", "s", "a"].includes(e.key.toLowerCase())) ||
+//     (e.ctrlKey && e.shiftKey && ["i", "j"].includes(e.key.toLowerCase())) ||
+//     e.key === "F12"
+//   ) {
+//     return false;
+//   }
+// };
+
+// document.addEventListener("dragstart", (e) => e.preventDefault());
