@@ -159,6 +159,46 @@ export function updateCartCount() {
 }
 
 updateCartCount();
+async function loadFooterCategories() {
+  const footerLists = document.querySelectorAll("[data-footer-categories]");
+  if (!footerLists.length) return;
+
+  try {
+    const catSnap = await getDocs(collection(db, "categories"));
+    const categories = catSnap.docs
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      .filter((cat) => cat.Categories)
+      .sort((a, b) => String(a.Categories).localeCompare(String(b.Categories)));
+
+    const topCategories = categories.slice(0, 5);
+
+    footerLists.forEach((list) => {
+      list.innerHTML = "";
+
+      if (!topCategories.length) {
+        list.innerHTML = `<li><a href="categories.html">Browse Categories</a></li>`;
+        return;
+      }
+
+      topCategories.forEach((cat) => {
+        list.insertAdjacentHTML(
+          "beforeend",
+          `<li><a href="categories.html?catid=${cat.id}">${cat.Categories}</a></li>`,
+        );
+      });
+    });
+  } catch (err) {
+    console.error("Footer categories load failed:", err);
+    footerLists.forEach((list) => {
+      list.innerHTML = `<li><a href="categories.html">Browse Categories</a></li>`;
+    });
+  }
+}
+
+loadFooterCategories();
 
 const input = document.getElementById("searchInput");
 const suggestionBox = document.getElementById("searchSuggestions");
