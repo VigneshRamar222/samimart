@@ -35,7 +35,7 @@ const sub = params.get("sub");
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let itemsPerPage = 10;
-let currentPage = 0; // FIX: renamed from currentIndex to avoid collision with keyboard nav
+let currentPage = 0;
 let filteredItems = [];
 let subcategoryData = [];
 

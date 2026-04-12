@@ -41,8 +41,14 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
     });
 });
 
-const API_BASE = window.location.origin;
-//const API_BASE = "http://localhost:3000";
+const isLocalHost =
+  ["localhost", "127.0.0.1"].includes(window.location.hostname) ||
+  window.location.hostname.startsWith("192.168.") ||
+  window.location.hostname.startsWith("10.") ||
+  window.location.hostname.startsWith("172.");
+
+const API_BASE = isLocalHost ? "http://localhost:3000" : window.location.origin;
+
 const ROWS_PER_PAGE = 5;
 
 let categories = [];
