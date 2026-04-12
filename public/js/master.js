@@ -1,18 +1,64 @@
-//window.onbeforeunload = () => console.log("PAGE RELOADING...");
-// ===================== CONFIG =====================
-const API_BASE = "http://localhost:3000/api";
-//const API_BASE = `${process.env.BASE_URL}/api`;
+import { app } from "/js/firebase-config.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+
+const db = getFirestore(app);
+const storage = getStorage(app);
+const auth = getAuth(app);
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      console.log("Logged out");
+      window.location.href = "login.html";
+    })
+    .catch((error) => {
+      console.error("Logout error:", error);
+    });
+});
+
+const API_BASE = window.location.origin;
+//const API_BASE = "http://localhost:3000";
 const ROWS_PER_PAGE = 5;
 
 let categories = [];
 let subcategories = [];
 
-// ===================== HELPERS =====================
 const $ = (id) => document.getElementById(id);
 
 const normalize = (str) => str.trim().toLowerCase();
 
-// -------------------- TOAST --------------------
+function showLoader() {
+  $("loaderOverlay").style.display = "flex";
+}
+
+function hideLoader() {
+  $("loaderOverlay").style.display = "none";
+}
 
 function showToast(message) {
   const toastEl = document.getElementById("appToast");
@@ -27,7 +73,6 @@ function showToast(message) {
   toast.show();
 }
 
-// -------------------- PAGINATION --------------------
 function paginate(array, page = 1) {
   const start = (page - 1) * ROWS_PER_PAGE;
   return {
@@ -48,7 +93,6 @@ function renderPagination(containerId, totalPages, onClick, currentPage = 1) {
     start = Math.max(1, end - maxVisible + 1);
   }
 
-  // ---------- PREVIOUS ----------
   const prevLi = document.createElement("li");
   prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
 
@@ -63,24 +107,20 @@ function renderPagination(containerId, totalPages, onClick, currentPage = 1) {
   prevLi.appendChild(prevBtn);
   ul.appendChild(prevLi);
 
-  // ---------- FIRST + DOTS ----------
   if (start > 1) {
     addPage(1);
     if (start > 2) addDots();
   }
 
-  // ---------- MIDDLE PAGES ----------
   for (let i = start; i <= end; i++) {
     addPage(i);
   }
 
-  // ---------- LAST + DOTS ----------
   if (end < totalPages) {
     if (end < totalPages - 1) addDots();
     addPage(totalPages);
   }
 
-  // ---------- NEXT ----------
   const nextLi = document.createElement("li");
   nextLi.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
 
@@ -95,7 +135,6 @@ function renderPagination(containerId, totalPages, onClick, currentPage = 1) {
   nextLi.appendChild(nextBtn);
   ul.appendChild(nextLi);
 
-  // ---------- HELPERS ----------
   function addPage(page) {
     const li = document.createElement("li");
     li.className = `page-item ${page === currentPage ? "active" : ""}`;
@@ -123,54 +162,74 @@ function renderPagination(containerId, totalPages, onClick, currentPage = 1) {
   }
 }
 
-// ===================== LOAD DATA =====================
 async function loadData() {
-  const [catRes, subRes] = await Promise.all([
-    fetch(`${API_BASE}/categories`),
-    fetch(`${API_BASE}/subcategories`),
-  ]);
+  try {
+    showLoader();
 
-  const catData = await catRes.json();
-  const subData = await subRes.json();
+    const catSnap = await getDocs(collection(db, "categories"));
+    categories = catSnap.docs.map((doc) => ({
+      categoriescode: doc.id,
+      ...doc.data(),
+    }));
 
-  // Always convert to array
-  categories = Array.isArray(catData)
-    ? catData
-    : Array.isArray(catData.data)
-      ? catData.data
-      : [];
+    const subSnap = await getDocs(collection(db, "subcategories"));
+    subcategories = subSnap.docs.map((doc) => ({
+      SubCategoriesCode: doc.id,
+      ...doc.data(),
+    }));
 
-  subcategories = Array.isArray(subData)
-    ? subData
-    : Array.isArray(subData.data)
-      ? subData.data
-      : [];
-
-  //console.log("categories:", categories);
-  //console.log("subcategories:", subcategories);
-
-  renderCategoriesTable();
-  renderSubcategoriesTable();
-  renderItemsTable();
-  initSearchableSelects();
+    renderCategoriesTable();
+    renderSubcategoriesTable();
+    renderItemsTable();
+    initSearchableSelects();
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to load data");
+  } finally {
+    hideLoader();
+  }
 }
 
-// ===================== DROPDOWN =====================
 function setupSearchableSelect(inputId, dropdownId, items, onChange) {
   const input = $(inputId);
   const dropdown = $(dropdownId);
 
+  let currentIndex = -1;
+  let filtered = [];
+
   input.oninput = () => renderDropdown(input.value);
   input.onfocus = () => renderDropdown(input.value);
 
+  input.onkeydown = (e) => {
+    const options = dropdown.querySelectorAll(".dropdown-item");
+
+    if (!options.length) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      currentIndex = (currentIndex + 1) % options.length;
+      highlight(options);
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      currentIndex = (currentIndex - 1 + options.length) % options.length;
+      highlight(options);
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (currentIndex >= 0) {
+        options[currentIndex].click();
+      }
+    }
+  };
+
   function renderDropdown(filter = "") {
     dropdown.innerHTML = "";
+    currentIndex = -1;
 
-    // const filtered = items.filter((i) =>
-    //   i.text.toLowerCase().includes(filter.toLowerCase()),
-    // );
-
-    const filtered = items.filter((i) =>
+    filtered = items.filter((i) =>
       (i.text || "").toLowerCase().includes(filter.toLowerCase()),
     );
 
@@ -179,7 +238,7 @@ function setupSearchableSelect(inputId, dropdownId, items, onChange) {
       return;
     }
 
-    filtered.forEach((item) => {
+    filtered.forEach((item, index) => {
       const div = document.createElement("div");
       div.className = "dropdown-item";
       div.textContent = item.text;
@@ -198,6 +257,18 @@ function setupSearchableSelect(inputId, dropdownId, items, onChange) {
     dropdown.classList.add("show");
   }
 
+  function highlight(options) {
+    options.forEach((el) => el.classList.remove("active"));
+
+    if (currentIndex >= 0) {
+      options[currentIndex].classList.add("active");
+
+      options[currentIndex].scrollIntoView({
+        block: "nearest",
+      });
+    }
+  }
+
   document.addEventListener("click", (e) => {
     if (!input.contains(e.target) && !dropdown.contains(e.target)) {
       dropdown.classList.remove("show");
@@ -205,7 +276,6 @@ function setupSearchableSelect(inputId, dropdownId, items, onChange) {
   });
 }
 
-// ===================== INIT DROPDOWNS =====================
 function initSearchableSelects() {
   const catItems = categories.map((c) => ({
     value: c.categoriescode,
@@ -238,29 +308,21 @@ function initSearchableSelects() {
   );
 }
 
-// ===================== TABLES =====================
-
-// -------- Categories --------
-// -------- Categories --------
 function renderCategoriesTable(page = 1, search = "") {
   const tbody = document.querySelector("#categoriesTable tbody");
   tbody.innerHTML = "";
 
-  // Filter
   const filtered = categories.filter((c) =>
     (c.Categories || "").toLowerCase().includes(search),
   );
 
-  // Pagination
   const { items, totalPages } = paginate(filtered, page);
 
-  // Render rows
   items.forEach((c, index) => {
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
      <td>${(page - 1) * 5 + index + 1}</td>
-      <td>${c.categoriescode}</td>
+     
       <td>${c.Categories}</td>
       <td>
         <img src="${c.ImageURL}" width="60" height="60"
@@ -276,7 +338,6 @@ function renderCategoriesTable(page = 1, search = "") {
     tbody.appendChild(tr);
   });
 
-  // Render pagination buttons
   renderPagination(
     "categoriesPagination",
     totalPages,
@@ -285,7 +346,187 @@ function renderCategoriesTable(page = 1, search = "") {
   );
 }
 
-// -------- Subcategories --------
+async function deleteCategory(id) {
+  try {
+    showLoader();
+
+    const q = query(
+      collection(db, "subcategories"),
+      where("CategoriesCode", "==", id),
+    );
+
+    const subSnap = await getDocs(q);
+    const subcategoriesToDelete = subSnap.docs;
+    let itemCount = 0;
+
+    for (const sub of subcategoriesToDelete) {
+      const data = sub.data();
+
+      if (data.SubImageURL) {
+        await deleteImageFromServer(data.SubImageURL);
+      }
+
+      await deleteDoc(doc(db, "subcategories", sub.id));
+    }
+
+    hideLoader();
+
+    const confirmMsg = `
+Delete Category?
+
+This will delete:
+- 1 Category
+- ${subcategoriesToDelete.length} Subcategories
+- ${itemCount} Items
+`;
+
+    if (!confirm(confirmMsg)) return;
+
+    showLoader();
+
+    for (const sub of subcategoriesToDelete) {
+      await deleteDoc(doc(db, "subcategories", sub.id));
+    }
+
+    const category = categories.find((c) => c.categoriescode === id);
+
+    if (category?.ImageURL) {
+      await deleteImageFromServer(category.ImageURL);
+    }
+
+    await deleteDoc(doc(db, "categories", id));
+
+    showToast("Deleted successfully ✅");
+  } catch (err) {
+    console.error(err);
+    showToast("Delete failed ❌");
+  } finally {
+    hideLoader();
+    loadData();
+  }
+}
+
+async function deleteImageFromServer(imageUrl) {
+  try {
+    await fetch(`${API_BASE}/delete-image`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ imageUrl }),
+    });
+  } catch (err) {
+    console.error("Image delete failed:", err);
+  }
+}
+
+async function deleteSubcategory(id) {
+  try {
+    showLoader();
+
+    const subRef = doc(db, "subcategories", id);
+    const subSnap = await getDoc(subRef);
+
+    if (!subSnap.exists()) {
+      showToast("Subcategory not found ❌");
+      return;
+    }
+
+    const data = subSnap.data();
+
+    let itemCount = 0;
+
+    if (data.items) {
+      const arr = data.items
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean);
+
+      itemCount = arr.length;
+    }
+
+    hideLoader();
+
+    const confirmMsg = `
+Delete Subcategory?
+
+This will delete:
+- 1 Subcategory
+- ${itemCount} Items
+`;
+    if (!confirm(confirmMsg)) return;
+    showLoader();
+    if (data.SubImageURL) {
+      await deleteImageFromServer(data.SubImageURL);
+    }
+    await deleteDoc(subRef);
+    showToast("Subcategory deleted ✅");
+  } catch (err) {
+    console.error(err);
+    showToast("Delete failed ❌");
+  } finally {
+    hideLoader();
+    loadData();
+  }
+}
+
+async function deleteItem(subId, catId, itemName) {
+  try {
+    showLoader();
+
+    const subRef = doc(db, "subcategories", subId);
+    const subSnap = await getDoc(subRef);
+
+    if (!subSnap.exists()) {
+      showToast("Subcategory not found ❌");
+      return;
+    }
+
+    const data = subSnap.data();
+
+    let itemsArray = [];
+
+    if (data.items) {
+      itemsArray = data.items
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean);
+    }
+
+    hideLoader();
+
+    const confirmMsg = `
+Delete Item?
+
+Item: ${itemName}
+
+Total items in this subcategory: ${itemsArray.length}
+`;
+
+    if (!confirm(confirmMsg)) return;
+
+    showLoader();
+
+    const updatedItemsArray = itemsArray.filter(
+      (i) => i.toLowerCase() !== itemName.toLowerCase(),
+    );
+
+    const updatedItems = updatedItemsArray.join(",");
+
+    await updateDoc(subRef, {
+      items: updatedItems,
+    });
+
+    showToast("Item deleted ✅");
+  } catch (err) {
+    console.error(err);
+    showToast("Delete failed ❌");
+  } finally {
+    hideLoader();
+    loadData();
+  }
+}
+
 function renderSubcategoriesTable(page = 1, search = "") {
   const filtered = subcategories.filter((s) =>
     (s.SubCategories || "").toLowerCase().includes(search),
@@ -329,15 +570,12 @@ function renderSubcategoriesTable(page = 1, search = "") {
   );
 }
 
-// -------- Items --------
 function renderItemsTable(page = 1, search = "") {
   let items = [];
 
   subcategories.forEach((s) => {
     if (!s.items) return;
 
-    // Convert string to array
-    //const itemArray = s.items.split(",");
     const itemArray = s.items
       .split(",")
       .map((x) => x.trim())
@@ -376,16 +614,11 @@ function renderItemsTable(page = 1, search = "") {
       </td>
     `;
 
-    //tr.querySelector("button").onclick = () => deleteItem(i.subId, i.name);
     tr.querySelector("button").onclick = () =>
       deleteItem(i.subId, i.catId, i.name);
 
     tbody.appendChild(tr);
   });
-
-  // renderPagination("itemsPagination", totalPages, (p) =>
-  //   renderItemsTable(p, search),
-  // );
 
   renderPagination(
     "itemsPagination",
@@ -395,8 +628,6 @@ function renderItemsTable(page = 1, search = "") {
   );
 }
 
-// ===================== SAVE =====================
-
 function isDuplicateCategory(name) {
   const normalized = name.trim().toLowerCase();
 
@@ -404,60 +635,6 @@ function isDuplicateCategory(name) {
     (c) => (c.Categories || "").trim().toLowerCase() === normalized,
   );
 }
-
-// -------- Category --------
-$("saveCategoryBtn").onclick = async (e) => {
-  const name = $("catName").value.trim();
-  const file = $("catImage").files[0];
-
-  if (!file) {
-    showToast("Please select an image");
-    return;
-  }
-
-  // Check file extension
-  if (!file.name.toLowerCase().endsWith(".webp")) {
-    showToast("Only .webp files are allowed");
-    $("catImage").value = ""; // clear selected file
-    return;
-  }
-
-  if (!name || !file) return showToast("Fill all fields");
-
-  if (isDuplicateCategory(name)) {
-    showToast("Category already exists");
-    $("catName").focus(); // nice UX
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("image", file);
-
-  const res = await fetch(`${API_BASE}/categories`, {
-    method: "POST",
-    body: formData,
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    //alert(data.msg);
-    showToast(data.msg || "Error found");
-    $("catName").focus();
-    return;
-  }
-
-  showToast("Category added");
-
-  $("catName").value = "";
-  $("catImage").value = "";
-
-  loadData();
-};
-
-// -------- Subcategory --------
-
 function isDuplicateSubcategory(name, categoryId) {
   const normalized = name.trim().toLowerCase();
 
@@ -472,66 +649,6 @@ function isValidCategoryId(categoryId) {
     (c) => String(c.categoriescode) === String(categoryId),
   );
 }
-$("saveSubCategoryBtn").onclick = async () => {
-  const name = $("subName").value.trim();
-  const categoryId = $("subCatParentInput").dataset.value;
-  const file = $("subImage").files[0];
-
-  if (!isValidCategoryId(categoryId)) {
-    showToast("Please select a valid category");
-    return;
-  }
-
-  if (!file) {
-    showToast("Please select an image");
-    return;
-  }
-
-  // Check file extension
-  if (!file.name.toLowerCase().endsWith(".webp")) {
-    showToast("Only .webp files are allowed");
-    $("catImage").value = ""; // clear selected file
-    return;
-  }
-
-  if (!name || !categoryId || !file) {
-    return showToast("Fill all fields");
-  }
-
-  if (isDuplicateSubcategory(name, categoryId)) {
-    showToast("Subcategory already exists in this category");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("categoryId", categoryId);
-  formData.append("image", file);
-
-  try {
-    const res = await fetch(`${API_BASE}/subcategories`, {
-      method: "POST",
-      body: formData,
-    });
-    console.log("STATUS:", res.status);
-    console.log("TEXT:", await res.text());
-
-    if (!res.ok) throw new Error("Failed to save");
-
-    $("subName").value = "";
-    $("subImage").value = "";
-    $("subCatParentInput").value = "";
-    $("subCatParentInput").dataset.value = "";
-
-    showToast("Subcategory added successfully");
-    loadData();
-  } catch (err) {
-    showToast("Error saving subcategory");
-    console.error(err);
-  }
-};
-
-// -------- Item --------
 
 function isValidSubcategoryId(subId, catId) {
   return subcategories.some(
@@ -556,91 +673,225 @@ function isDuplicateItem(name, subId, catId) {
     .includes(name.trim().toLowerCase());
 }
 
-$("saveItemBtn").onclick = async () => {
-  //alert("hi");
-  const name = $("itemName").value.trim();
-  const catId = $("itemCatParentInput").dataset.value;
-  const subId = $("itemSubParentInput").dataset.value;
-
-  if (!isValidCategoryId(catId)) return showToast("Select a valid category");
-  if (!isValidSubcategoryId(subId, catId))
-    return showToast("Select a valid subcategory for the category");
-
-  //alert("hi");
-  if (!name || !subId) return showToast("Fill all fields");
-
-  if (isDuplicateItem(name, subId, catId))
-    return showToast("Item already exists in this category + subcategory");
-  try {
-    const res = await fetch(`${API_BASE}/subcategories/${subId}/items`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name }),
-    });
-
-    if (!res.ok) return showToast("Failed to add item");
-
-    $("itemName").value = "";
-    $("itemSubParentInput").value = "";
-    $("itemSubParentInput").dataset.value = "";
-    $("itemCatParentInput").value = "";
-    $("itemCatParentInput").dataset.value = "";
-
-    showToast("Item added");
-    loadData();
-  } catch (err) {
-    console.error(err);
-    showToast("Error adding item");
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
   }
-};
-
-// ===================== DELETE =====================
-async function deleteCategory(id) {
-  if (!confirm("Delete category?")) return;
-
-  await fetch(`${API_BASE}/categories/${id}`, { method: "DELETE" });
-
-  showToast("Deleted");
-  loadData();
-}
-
-async function deleteSubcategory(id) {
-  if (!confirm("Delete subcategory?")) return;
-
-  await fetch(`${API_BASE}/subcategories/${id}`, { method: "DELETE" });
-
-  showToast("Deleted");
-  loadData();
-}
-
-async function deleteItem(subId, catId, itemName) {
-  if (!confirm(`Delete item: ${itemName}?`)) return;
-
-  try {
-    await fetch(
-      `${API_BASE}/subcategories/${subId}/${catId}/${encodeURIComponent(itemName)}`,
-      {
-        method: "DELETE",
-      },
-    );
-
-    showToast("Item deleted successfully");
-    loadData();
-  } catch (err) {
-    console.error(err);
-    alert("Delete failed");
+  if (!user.emailVerified) {
+    alert("Please verify your email first 📧");
+    signOut(auth);
+    window.location.href = "login.html";
+    return;
   }
-}
 
-// ===================== SEARCH =====================
-$("categoriesSearch").oninput = (e) =>
-  renderCategoriesTable(1, normalize(e.target.value));
+  if (window._listenersAttached) return;
+  window._listenersAttached = true;
 
-$("subcategoriesSearch").oninput = (e) =>
-  renderSubcategoriesTable(1, normalize(e.target.value));
+  console.log("User authenticated:", user.email);
+  loadData();
 
-$("itemsSearch").oninput = (e) =>
-  renderItemsTable(1, normalize(e.target.value));
+  $("saveCategoryBtn").addEventListener("click", async function (e) {
+    e.preventDefault();
 
-// ===================== INIT =====================
-loadData();
+    const name = $("catName").value.trim();
+    const file = $("catImage").files[0];
+
+    if (!name || !file) {
+      showToast("Fill all fields");
+      return;
+    }
+
+    if (isDuplicateCategory(name)) {
+      showToast("Category already exists ⚠️");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      showLoader();
+      const res = await fetch(`${API_BASE}/upload-category`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        //console.error(await res.text());
+        showToast("Upload failed");
+        return;
+      }
+
+      const data = await res.json();
+      const imageUrl = data.imageUrl;
+
+      await addDoc(collection(db, "categories"), {
+        Categories: name,
+        ImageURL: imageUrl,
+      });
+      hideLoader();
+
+      $("catName").value = "";
+      $("catImage").value = "";
+      loadData();
+      showToast("Category added ✅");
+    } catch (err) {
+      hideLoader();
+      console.error("CATCH ERROR:", err);
+      showToast("Error ❌");
+    } finally {
+      hideLoader();
+    }
+  });
+
+  $("saveSubCategoryBtn").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    const name = $("subName").value.trim();
+    const categoryId = $("subCatParentInput").dataset.value;
+    const file = $("subImage").files[0];
+
+    if (!name || !categoryId || !file) {
+      showToast("Fill all fields");
+      return;
+    }
+
+    if (!isValidCategoryId(categoryId)) {
+      showToast("Please select valid category");
+      return;
+    }
+
+    if (isDuplicateSubcategory(name, categoryId)) {
+      showToast("Subcategory already exists ⚠️");
+      return;
+    }
+
+    if (!file.name.toLowerCase().endsWith(".webp")) {
+      showToast("Only .webp files allowed");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      showLoader();
+
+      const res = await fetch(`${API_BASE}/upload-category`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        console.error(await res.text());
+        showToast("Image upload failed ❌");
+        return;
+      }
+
+      const data = await res.json();
+      const imageUrl = data.imageUrl;
+
+      await addDoc(collection(db, "subcategories"), {
+        SubCategories: name,
+        CategoriesCode: categoryId,
+        SubImageURL: imageUrl,
+        items: "", // initialize
+      });
+
+      $("subName").value = "";
+      $("subImage").value = "";
+      $("subCatParentInput").value = "";
+      $("subCatParentInput").dataset.value = "";
+
+      showToast("Subcategory added ✅");
+    } catch (err) {
+      console.error(err);
+      showToast("Error saving subcategory ❌");
+    } finally {
+      hideLoader();
+      loadData();
+    }
+  });
+
+  $("saveItemBtn").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    const name = $("itemName").value.trim();
+    const catId = $("itemCatParentInput").dataset.value;
+    const subId = $("itemSubParentInput").dataset.value;
+
+    if (!name || !catId || !subId) {
+      showToast("Fill all fields");
+      return;
+    }
+
+    if (!isValidCategoryId(catId)) {
+      showToast("Invalid category");
+      return;
+    }
+
+    if (!isValidSubcategoryId(subId, catId)) {
+      showToast("Invalid subcategory");
+      return;
+    }
+
+    if (isDuplicateItem(name, subId, catId)) {
+      showToast("Item already exists ⚠️");
+      return;
+    }
+
+    try {
+      showLoader();
+
+      const subRef = doc(db, "subcategories", subId);
+      const subSnap = await getDoc(subRef);
+
+      if (!subSnap.exists()) {
+        showToast("Subcategory not found ❌");
+        return;
+      }
+
+      const data = subSnap.data();
+
+      let itemsArray = [];
+
+      if (data.items) {
+        itemsArray = data.items
+          .split(",")
+          .map((x) => x.trim())
+          .filter(Boolean);
+      }
+
+      itemsArray.push(name);
+
+      const updatedItems = itemsArray.join(",");
+
+      await updateDoc(subRef, {
+        items: updatedItems,
+      });
+
+      $("itemName").value = "";
+      $("itemCatParentInput").value = "";
+      $("itemCatParentInput").dataset.value = "";
+      $("itemSubParentInput").value = "";
+      $("itemSubParentInput").dataset.value = "";
+
+      showToast("Item added");
+    } catch (err) {
+      console.error(err);
+      showToast("Error adding item");
+    } finally {
+      hideLoader();
+      loadData();
+    }
+  });
+
+  $("categoriesSearch").oninput = (e) =>
+    renderCategoriesTable(1, normalize(e.target.value));
+
+  $("subcategoriesSearch").oninput = (e) =>
+    renderSubcategoriesTable(1, normalize(e.target.value));
+
+  $("itemsSearch").oninput = (e) =>
+    renderItemsTable(1, normalize(e.target.value));
+});

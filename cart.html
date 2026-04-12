@@ -50,9 +50,8 @@
     <meta name="twitter:image" content="/assets/og-image.webp" />
 
     <title>SamiMart</title>
+    <link rel="icon" type="image/png" href="assets/logo/favicon.png" />
     <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css" />
-
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
 
     <link rel="stylesheet" href="assets/bootstrap/bootstrap-icons.min.css" />
 
@@ -163,6 +162,43 @@
         <!-- CART ITEMS WRAPPER -->
         <div id="cartItemsSection" class="d-none">
           <h4 class="fw-bold mb-4">Shopping Cart</h4>
+
+          <div id="cartLoader" class="my-2" aria-live="polite">
+            <div class="row g-3">
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                  <div class="skeleton-img rounded mb-3"></div>
+                  <div class="skeleton-title mx-auto"></div>
+                  <div class="skeleton-text mx-auto mt-2"></div>
+                  <div class="skeleton-button mx-auto mt-3"></div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                  <div class="skeleton-img rounded mb-3"></div>
+                  <div class="skeleton-title mx-auto"></div>
+                  <div class="skeleton-text mx-auto mt-2"></div>
+                  <div class="skeleton-button mx-auto mt-3"></div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                  <div class="skeleton-img rounded mb-3"></div>
+                  <div class="skeleton-title mx-auto"></div>
+                  <div class="skeleton-text mx-auto mt-2"></div>
+                  <div class="skeleton-button mx-auto mt-3"></div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card h-100 border-0 shadow-sm p-3">
+                  <div class="skeleton-img rounded mb-3"></div>
+                  <div class="skeleton-title mx-auto"></div>
+                  <div class="skeleton-text mx-auto mt-2"></div>
+                  <div class="skeleton-button mx-auto mt-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div id="cartItems" class="row g-3"></div>
 
           <div class="text-end mt-4">
@@ -388,7 +424,7 @@
       type="text/javascript"
       src="/assets/bootstrap/bootstrap.bundle.min.js"
     ></script>
-    <script src="js/main.js" defer></script>
-    <script src="js/cart.js" defer></script>
+    <script type="module" src="js/main.js" defer></script>
+    <script type="module" src="js/cart.js" defer></script>
   </body>
 </html>

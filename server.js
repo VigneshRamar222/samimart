@@ -4,50 +4,16 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const path = require("path");
-const session = require("express-session");
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
+const fs = require("fs");
+const multer = require("multer");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: Number(process.env.SESSION_EXPIRE_MS),
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    },
-  }),
-);
-
-(async () => {
-  const hash = "$2b$10$kGmK9cXx5ZP3rV8v1wF7cO0Sg2lTQy6X3fGz9ZJqLwV1n8Yx5hM0u";
-  const result = await bcrypt.compare("admin123", hash);
-  console.log(result);
-})();
-
-// const users = [
-//   {
-//     username: "admin",
-//     email: "admin@samimart.com",
-//     password: "$2b$10$wP7MZbQ9rZX7xkLq1l9fQO8s3Bz5m7GqXxC3QX6WnQe6KZrZcYk8S",
-//     // this is encrypted version of: admin123
-//   },
-// ];
-
-const users = JSON.parse(process.env.USERS);
-console.log(users);
-// Email transporter
 const transporter = nodemailer.createTransport({
   service: "gmail", // or your email provider
   auth: {
@@ -56,7 +22,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Test transporter
 transporter.verify((error, success) => {
   if (error) {
     console.log("Error configuring email transporter:", error);
@@ -65,9 +30,50 @@ transporter.verify((error, success) => {
   }
 });
 
-// Routes
 app.get("/", (req, res) => {
-  res.send("SamiMart Email Bot is running!");
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "assets/images/categories");
+  },
+  filename: (req, file, cb) => {
+    const cleanName = file.originalname.replace(/\s+/g, "_");
+    cb(null, Date.now() + "_" + cleanName);
+  },
+});
+const upload = multer({ storage });
+app.post("/upload-category", upload.single("image"), (req, res) => {
+  try {
+    console.log("category image upload API call reached");
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+    const imageUrl = `/assets/images/categories/${req.file.filename}`;
+    res.json({ imageUrl });
+  } catch (err) {
+    console.error("Upload error:", err);
+    res.status(500).json({ error: "Upload failed" });
+  }
+});
+
+app.delete("/delete-image", (req, res) => {
+  const { imageUrl } = req.body;
+  if (!imageUrl) {
+    return res.status(400).json({ error: "Image URL required" });
+  }
+  try {
+    const filename = imageUrl.split("/images/categories/")[1];
+    const filePath = path.join(__dirname, "assets/images/categories", filename);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Delete failed" });
+  }
 });
 
 app.post("/send-email", async (req, res) => {
@@ -78,7 +84,6 @@ app.post("/send-email", async (req, res) => {
   }
 
   try {
-    // 1️⃣ Send user auto-reply
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
@@ -89,7 +94,6 @@ app.post("/send-email", async (req, res) => {
              <p>— SamiMart Team</p>`,
     });
 
-    // 2️⃣ Send admin notification
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.ADMIN_EMAIL, // admin email from .env
@@ -109,8 +113,6 @@ app.post("/send-email", async (req, res) => {
 
 app.post("/send-cart-enquiry", async (req, res) => {
   const { userName, contactNo, email, remarks, items } = req.body;
-
-  console.log("Cart enquiry received:", req.body);
 
   try {
     if (!items || !items.length) {
@@ -142,10 +144,6 @@ app.post("/send-cart-enquiry", async (req, res) => {
       </table>
     `;
 
-    // ===============================
-    // ADMIN EMAIL
-    // ===============================
-
     const adminMail = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
@@ -163,10 +161,6 @@ app.post("/send-cart-enquiry", async (req, res) => {
     };
 
     await transporter.sendMail(adminMail);
-
-    // ===============================
-    // CUSTOMER AUTO REPLY
-    // ===============================
 
     const customerMail = {
       from: `"SamiMart" <${process.env.EMAIL_USER}>`,
@@ -208,8 +202,6 @@ app.post("/send-cart-enquiry", async (req, res) => {
 
     await transporter.sendMail(customerMail);
 
-    //res.json({ success: true });
-
     res.status(200).json({ success: "Emails sent successfully!" });
   } catch (error) {
     console.error(error);
@@ -217,193 +209,16 @@ app.post("/send-cart-enquiry", async (req, res) => {
   }
 });
 
-// Static folder (for images / uploads)
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// ------------------ API ROUTES ------------------
-app.use("/api/categories", require("./routes/categories"));
-app.use("/api/subcategories", require("./routes/subcategories"));
-
-let loginAttempts = {};
-let blockTime = 10 * 60 * 1000; // 10 minutes
-
-app.post("/login-step1", async (req, res) => {
-  try {
-    //const ip = req.ip;
-
-    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    // console.log(ip);
-    if (loginAttempts[ip] && loginAttempts[ip].count > 5) {
-      if (Date.now() < loginAttempts[ip].blockUntil) {
-        return res.json({
-          success: false,
-          message: "Too many login attempts. Try again after 10 minutes.",
-        });
-      } else {
-        loginAttempts[ip] = null; // unblock after time
-      }
-    }
-
-    const { username, password } = req.body;
-
-    // console.log(username);
-    // console.log(password);
-    // 1. Validate input
-    if (!username || !password) {
-      if (!loginAttempts[ip]) {
-        loginAttempts[ip] = { count: 1, blockUntil: 0 };
-      } else {
-        loginAttempts[ip].count += 1;
-
-        if (loginAttempts[ip].count > 5) {
-          loginAttempts[ip].blockUntil = Date.now() + blockTime;
-        }
-      }
-
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing credentials" });
-    }
-
-    // 2. Find user
-    const user = users.find((u) => u.username === username);
-    console.log(user);
-    if (!user) {
-      if (!loginAttempts[ip]) {
-        loginAttempts[ip] = { count: 1, blockUntil: 0 };
-      } else {
-        loginAttempts[ip].count += 1;
-
-        if (loginAttempts[ip].count > 5) {
-          loginAttempts[ip].blockUntil = Date.now() + blockTime;
-        }
-      }
-
-      return res.json({
-        success: false,
-        message: "Invalid username or password",
-      });
-    }
-
-    // 3. Compare encrypted password
-    console.log(password);
-    console.log(user.password);
-    const isMatch = await bcrypt.compare(password, user.password);
-    console.log(isMatch);
-    if (!isMatch) {
-      if (!loginAttempts[ip]) {
-        loginAttempts[ip] = { count: 1, blockUntil: 0 };
-      } else {
-        loginAttempts[ip].count += 1;
-
-        if (loginAttempts[ip].count > 5) {
-          loginAttempts[ip].blockUntil = Date.now() + blockTime;
-        }
-      }
-
-      return res.json({
-        success: false,
-        message: "Invalid username or password",
-      });
-    }
-
-    delete loginAttempts[ip];
-
-    // 4. Generate secure OTP
-    const otp = crypto.randomInt(100000, 999999).toString();
-
-    // 5. Save OTP in session
-    req.session.loginOtp = otp;
-    req.session.otpExpiry =
-      Date.now() + Number(process.env.OTP_EXPIRE_SECONDS) * 1000;
-    req.session.loginUser = user.username;
-
-    // 6. Create login link
-    //    const loginLink = `http://localhost:${PORT}/verify-login?otp=${otp}`;
-    const loginLink = `${process.env.BASE_URL}/verify-login?otp=${otp}`;
-
-    // 7. Send email to that user's mail id
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: "SamiMart Secure Login Link",
-      html: `
-        <h3>Secure Login</h3>
-        <p>Hello ${user.username},</p>
-        <p>Click the link below to login:</p>
-        <a href="${loginLink}">${loginLink}</a>
-        <p>This login link will expire in ${process.env.OTP_EXPIRE_SECONDS} seconds.</p>
-      `,
-    });
-
-    res.json({ success: true, message: "OTP login link sent to email" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-});
-
-app.get("/verify-login", (req, res) => {
-  const { otp } = req.query;
-
-  if (Date.now() > req.session.otpExpiry) {
-    req.session.loginOtp = null;
-    req.session.otpExpiry = null;
-    return res.send("Login link expired. Please generate a new link.");
-  }
-
-  if (!req.session.loginOtp || !req.session.otpExpiry) {
-    return res.send("Login session expired. Please try again.");
-  }
-
-  if (Date.now() > req.session.otpExpiry) {
-    return res.send("Login link expired. Please generate a new link.");
-  }
-
-  if (otp === req.session.loginOtp) {
-    //req.session.isLoggedIn = true;
-
-    req.session.regenerate((err) => {
-      if (err) return res.send("Session error");
-
-      req.session.isLoggedIn = true;
-      res.redirect("/master.html");
-    });
-
-    // Clear OTP after success
-    req.session.loginOtp = null;
-    req.session.otpExpiry = null;
-
-    return res.redirect("/master.html");
-  }
-
-  res.send("Invalid login link.");
-});
-
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/assets", express.static("assets"));
 
-app.get("/master.html", (req, res) => {
-  if (!req.session.isLoggedIn) {
-    return res.redirect("/login.html");
-  }
-
-  res.sendFile(path.join(__dirname, "public", "master.html"));
-});
-
-app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/login.html");
-  });
-});
-
-// ------------------ 404 HANDLER (must be last) ------------------
 app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: "Route not found",
   });
 });
-// ------------------ ERROR HANDLER ------------------
+
 app.use((err, req, res, next) => {
   console.error(err);
 
@@ -413,8 +228,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ------------------ SERVER START ------------------
-
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

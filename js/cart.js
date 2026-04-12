@@ -1,6 +1,49 @@
+import { db } from "/public/js/firebase-config.js";
+import {
+  collection,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { updateCartCount } from "/js/main.js";
+
+updateCartCount();
+//const API_BASE = window.location.origin;
+const API_BASE = "http://localhost:3000";
+
+function setCartLoadingState(isLoading) {
+  const cartLoader = document.getElementById("cartLoader");
+  const emptySection = document.getElementById("emptyCartSection");
+  const itemsSection = document.getElementById("cartItemsSection");
+
+  if (cartLoader) {
+    cartLoader.classList.toggle("is-hidden", !isLoading);
+  }
+
+  if (isLoading) {
+    emptySection?.classList.add("d-none");
+    itemsSection?.classList.add("d-none");
+  }
+}
+
+async function loadSubcategoriesWithCategoryNames() {
+  const subSnap = await getDocs(collection(db, "subcategories"));
+  const catSnap = await getDocs(collection(db, "categories"));
+
+  const categoryMap = {};
+  catSnap.docs.forEach((doc) => {
+    categoryMap[doc.id] = doc.data().Categories || "";
+  });
+
+  return subSnap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+    Categories: categoryMap[doc.data().CategoriesCode] || "",
+  }));
+}
+
 document.getElementById("year").textContent = new Date().getFullYear();
 
 document.addEventListener("DOMContentLoaded", async function () {
+  setCartLoadingState(true);
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const emptySection = document.getElementById("emptyCartSection");
   const itemsSection = document.getElementById("cartItemsSection");
@@ -9,37 +52,35 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (cart.length === 0) {
     emptySection?.classList.remove("d-none");
     itemsSection?.classList.add("d-none");
+    setCartLoadingState(false);
     return;
   }
 
-  emptySection?.classList.add("d-none");
-  itemsSection?.classList.remove("d-none");
-  cartItemsContainer.innerHTML = "";
+  try {
+    emptySection?.classList.add("d-none");
+    itemsSection?.classList.remove("d-none");
+    cartItemsContainer.innerHTML = "";
 
-  // Fetch JSON
-  const response = await fetch("/assets/JSON/subcategories.json");
-  const subcategories = await response.json();
+    const subcategories = await loadSubcategoriesWithCategoryNames();
 
-  cart.forEach((cartItem, index) => {
-    // Find matching subcategory
-    const matchedCategory = subcategories.find(
-      (sub) =>
-        Number(sub.CategoriesCode) === Number(cartItem.CategoriesCode) &&
-        Number(sub.SubCategoriesCode) === Number(cartItem.SubCategoriesCode),
-    );
+    cart.forEach((cartItem, index) => {
+      const matchedCategory = subcategories.find(
+        (sub) =>
+          String(sub.CategoriesCode) === String(cartItem.CategoriesCode) &&
+          String(sub.id) === String(cartItem.SubCategoriesCode),
+      );
 
-    // Prepare item list with remarks
-    const itemNamesWithRemarks = cartItem.items
-      .map((i) => {
-        if (i.remark && i.remark.trim() !== "") {
-          return `${i.name} (${i.remark})`;
-        } else {
-          return i.name;
-        }
-      })
-      .join(", ");
+      const itemNamesWithRemarks = cartItem.items
+        .map((i) => {
+          if (i.remark && i.remark.trim() !== "") {
+            return `${i.name} (${i.remark})`;
+          } else {
+            return i.name;
+          }
+        })
+        .join(", ");
 
-    const itemHTML = `
+      const itemHTML = `
 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
   <div class="card h-100 border-0 shadow-sm cart-card">
 
@@ -71,16 +112,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 </div>
 `;
 
-    cartItemsContainer.innerHTML += itemHTML;
-  });
+      cartItemsContainer.innerHTML += itemHTML;
+    });
+  } catch (err) {
+    console.error("Cart load failed:", err);
+    emptySection?.classList.remove("d-none");
+    itemsSection?.classList.add("d-none");
+  } finally {
+    setCartLoadingState(false);
+  }
 });
 
-function removeFromCart(index) {
+window.removeFromCart = function (index) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
   cart.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
-  location.reload(); // simple reload to refresh UI
-}
+  location.reload();
+};
 
 let enquiryForm = document.getElementById("enquiryForm");
 
@@ -110,17 +158,14 @@ if (enquiryForm) {
       return;
     }
 
-    // Fetch subcategories
-    const response = await fetch("/assets/JSON/subcategories.json");
-    const subcategories = await response.json();
+    const subcategories = await loadSubcategoriesWithCategoryNames();
 
-    // Map cart items
     const items = [];
     cart.forEach((cartItem) => {
       const matchedCategory = subcategories.find(
         (sub) =>
-          Number(sub.CategoriesCode) === Number(cartItem.CategoriesCode) &&
-          Number(sub.SubCategoriesCode) === Number(cartItem.SubCategoriesCode),
+          String(sub.CategoriesCode) === String(cartItem.CategoriesCode) &&
+          String(sub.id) === String(cartItem.SubCategoriesCode),
       );
 
       const category = matchedCategory ? matchedCategory.Categories : "-";
@@ -145,21 +190,20 @@ if (enquiryForm) {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/send-cart-enquiry", {
+      const res = await fetch(`${API_BASE}/send-cart-enquiry`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data_m),
       });
 
-      const result = await res.json();
+      const text = await res.text();
+      const result = text ? JSON.parse(text) : {};
 
       if (res.ok) {
         alert("Enquiry sent successfully!");
 
-        // Clear cart
         localStorage.setItem("cart", JSON.stringify([]));
 
-        // Close modal
         const modalEl = document.getElementById("enquiryModal");
         const modalInstance = bootstrap.Modal.getInstance(modalEl);
         modalInstance.hide();

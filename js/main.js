@@ -1,10 +1,10 @@
-/* =============================
-   FreshMart - Main JavaScript
-   ============================= */
+import { db } from "/public/js/firebase-config.js";
+import {
+  collection,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-// Navbar Active Link Highlighting
 (function () {
-  //const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const currentPage =
     window.location.pathname.split("/").pop().split("?")[0] || "index.html";
   const navLinks = document.querySelectorAll("#mainNavbar .nav-link");
@@ -18,7 +18,6 @@
   });
 })();
 
-// Navbar Scroll Shadow
 window.addEventListener("scroll", function () {
   const navbar = document.getElementById("mainNavbar");
   if (!navbar) return;
@@ -29,7 +28,6 @@ window.addEventListener("scroll", function () {
   }
 });
 
-// Smooth Scroll for Anchor Links
 document.addEventListener("DOMContentLoaded", function () {
   initSmoothScroll();
   initCardAnimation();
@@ -52,7 +50,6 @@ function initSmoothScroll() {
   });
 }
 
-// Card Entrance Animation on Scroll
 function initCardAnimation() {
   const cards = document.querySelectorAll(".card");
   if (!cards.length) return;
@@ -78,7 +75,6 @@ function initCardAnimation() {
   });
 }
 
-// Stats Counter Animation (About page)
 function initCounter() {
   const counters = document.querySelectorAll("[data-count]");
   if (!counters.length) return;
@@ -110,7 +106,6 @@ function initCounter() {
   });
 }
 
-// Back to Top Button (auto-inject)
 function initBackToTop() {
   const btn = document.createElement("button");
   btn.innerHTML = '<i class="bi bi-arrow-up-short fs-4"></i>';
@@ -149,29 +144,22 @@ function initBackToTop() {
   });
 }
 
-///update cart count for all pages
-function updateCartCount() {
+export function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const cartCountElem = document.getElementById("cartCount");
-  // get unique subcategory codes
-  //   const uniqueSubCategories = new Set(
-  //     cart.map(entry => entry.SubCategoriesCode)
-  //   );
 
-  //   const totalItems = cart.length;
-  // cartCountElem.textContent = totalItems;
-  const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-  cartCountElem.textContent = totalQty;
-  // const subCategoryCount = uniqueSubCategories.size;
+  if (!cartCountElem) return;
 
-  // if (cartCountElem) {
-  //   cartCountElem.textContent = subCategoryCount;
-  // }
+  const totalItems = cart.reduce(
+    (sum, item) => sum + ((item.items && item.items.length) || 0),
+    0,
+  );
+
+  cartCountElem.textContent = totalItems;
 }
 
 updateCartCount();
 
-////auto compete code for all pages
 const input = document.getElementById("searchInput");
 const suggestionBox = document.getElementById("searchSuggestions");
 
@@ -179,25 +167,36 @@ if (input && suggestionBox) {
   let searchData = [];
   let selectedIndex = -1;
 
-  const cached = localStorage.getItem("searchData");
+  async function loadSearchData() {
+    const subSnap = await getDocs(collection(db, "subcategories"));
+    const catSnap = await getDocs(collection(db, "categories"));
 
-  if (cached) {
-    searchData = JSON.parse(cached);
-  } else {
-    fetch("assets/JSON/subcategories.json")
-      .then((res) => res.json())
-      .then((data) => {
-        searchData = data.map((item) => ({
-          ...item,
-          subCategoryLower: item.SubCategories.toLowerCase(),
-          itemsArray: item.items ? item.items.toLowerCase().split(",") : [],
-        }));
-        localStorage.setItem("searchData", JSON.stringify(searchData));
-      })
-      .catch((err) => {
-        console.error("Search data load failed:", err);
-      });
+    const categoryMap = {};
+    catSnap.docs.forEach((doc) => {
+      categoryMap[doc.id] = doc.data().Categories || "";
+    });
+
+    searchData = subSnap.docs.map((doc) => {
+      const data = doc.data();
+
+      return {
+        id: doc.id,
+        ...data,
+        Categories: categoryMap[data.CategoriesCode] || "",
+        subCategoryLower: (data.SubCategories || "").toLowerCase(),
+        itemsArray: data.items
+          ? data.items
+              .split(",")
+              .map((i) => i.trim().toLowerCase())
+              .filter(Boolean)
+          : [],
+      };
+    });
   }
+
+  loadSearchData().catch((err) => {
+    console.error("Search data load failed:", err);
+  });
 
   let debounceTimer;
 
@@ -232,23 +231,10 @@ if (input && suggestionBox) {
       suggestionBox.appendChild(div);
       suggestionBox.style.display = "block";
 
-      //   <div class="fm-suggestion-item">
-      //   <strong>Milk Powder</strong>
-
-      //   <br>
-      //   <small class="text-muted">Beverages</small>
-      // </div><div class="fm-suggestion-item">
-      //   <strong>Milk &amp; Curd</strong>
-
-      //   <br>
-      //   <small class="text-muted">Chilled &amp; Dairy Foods</small>
-      // </div>
-
       div.onclick = () => {
         window.location.href = `categories.html?search=${encodeURIComponent(query)}`;
       };
       return;
-      //suggestionBox.appendChild(div);
     }
     if (query.length < 2) {
       suggestionBox.style.display = "none";
@@ -261,10 +247,6 @@ if (input && suggestionBox) {
       let matchedItem = "";
 
       if (item.items) {
-        // const found = item.itemsArray.find(i => i.includes(query));
-        if (!item.itemsArray) {
-          console.warn("Missing itemsArray:", item);
-        }
         const found = (item.itemsArray || []).find((i) => i.includes(query));
         if (found) {
           matchedItem = `<br><small class="text-primary">${found.trim()}</small>`;
@@ -279,7 +261,7 @@ if (input && suggestionBox) {
     `;
 
       div.onclick = () => {
-        window.location.href = `categories.html?catid=${item.CategoriesCode}&sub=${item.SubCategoriesCode}`;
+        window.location.href = `categories.html?catid=${item.CategoriesCode}&sub=${item.id}`;
       };
 
       suggestionBox.appendChild(div);
@@ -304,18 +286,15 @@ if (input && suggestionBox) {
 
       updateHighlight(items);
     } else if (e.key === "Enter") {
-      // alert("hi");
       e.preventDefault();
 
       const query = input.value.trim();
 
-      // If user selected suggestion
       if (selectedIndex > -1) {
         items[selectedIndex].click();
         return;
       }
 
-      // If user typed something (even unknown)
       if (query.length > 0) {
         window.location.href = `categories.html?search=${encodeURIComponent(query)}`;
       }
@@ -340,8 +319,5 @@ if (input && suggestionBox) {
     if (searchBar && !searchBar.contains(e.target)) {
       suggestionBox.style.display = "none";
     }
-    // if(!document.querySelector(".fm-search-bar").contains(e.target)){
-    //   suggestionBox.style.display = "none";
-    // }
   });
 }

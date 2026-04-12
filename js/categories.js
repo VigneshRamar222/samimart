@@ -1,4 +1,16 @@
+import { db } from "/public/js/firebase-config.js";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import { updateCartCount } from "/js/main.js";
+
 document.getElementById("year").textContent = new Date().getFullYear();
+
+const subcategoriesContainer = document.getElementById("subcategories");
+const categoriesLoader = document.getElementById("categoriesLoader");
 
 const categorySearchInputs = document.querySelectorAll(
   "#categorySearch, #categorySearchDesktop",
@@ -18,50 +30,82 @@ categorySearchInputs.forEach((input) => {
 
 const params = new URLSearchParams(window.location.search);
 const catid = params.get("catid");
-const sub = params.get("sub");
 const search = params.get("search");
+const sub = params.get("sub");
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let itemsPerPage = 10;
-let currentIndex = 0;
+let currentPage = 0; // FIX: renamed from currentIndex to avoid collision with keyboard nav
 let filteredItems = [];
 let subcategoryData = [];
 
-function loadDataOnce() {
-  return fetch("assets/JSON/subcategories.json")
-    .then((res) => res.json())
-    .then((data) => {
-      subcategoryData = data;
-    });
+function loadDataOnce(catid = "") {
+  let q;
+
+  if (catid && catid !== "") {
+    q = query(
+      collection(db, "subcategories"),
+      where("CategoriesCode", "==", catid),
+    );
+  } else {
+    q = query(collection(db, "subcategories"));
+  }
+
+  return getDocs(q).then((snapshot) => {
+    subcategoryData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  });
 }
 
-function initLoad(catid = "", sub = "") {
-  const container = document.getElementById("subcategories");
+function removeShowMoreButton() {
+  const btn = document.getElementById("showMoreBtn");
+  if (btn) btn.closest("div").remove();
+}
+
+function setLoadingState(isLoading, message = "Loading categories...") {
+  if (!categoriesLoader || !subcategoriesContainer) return;
+  categoriesLoader.style.display = isLoading ? "block" : "none";
+  subcategoriesContainer.classList.toggle("is-loading", isLoading);
+}
+
+function initLoad() {
+  const container = subcategoriesContainer;
+  removeShowMoreButton();
+  setLoadingState(false);
+
+  filteredItems = subcategoryData;
+
+  if (filteredItems.length === 0) {
+    container.innerHTML = "<p class='text-center'>No items found</p>";
+    return;
+  }
+
+  currentPage = 0;
   container.innerHTML = "";
-  filteredItems = catid
-    ? subcategoryData.filter(
-        (item) => item.CategoriesCode == catid && item.active == 1,
-      )
-    : subcategoryData.filter((item) => item.active == 1);
-  currentIndex = 0;
   renderItems();
 }
 
 function renderItems() {
-  const container = document.getElementById("subcategories");
+  const container = subcategoriesContainer;
+  setLoadingState(false);
+
   const nextItems = filteredItems.slice(
-    currentIndex,
-    currentIndex + itemsPerPage,
+    currentPage,
+    currentPage + itemsPerPage,
   );
 
   nextItems.forEach((item) => {
     const highlight = cart.some(
       (c) =>
-        Number(c.SubCategoriesCode) === Number(item.SubCategoriesCode) &&
-        Number(c.CategoriesCode) === Number(item.CategoriesCode),
+        String(c.SubCategoriesCode) === String(item.id) &&
+        String(c.CategoriesCode) === String(item.CategoriesCode),
     );
 
-    const itemsArray = item.items?.split(",").map((i) => i.trim()) || [];
+    const itemsArray = item.items
+      ? item.items.split(",").map((i) => i.trim())
+      : [];
     const itemCount = itemsArray.length;
     const image =
       item.SubImageURL || "/assets/images/subcategories/noitemfound.jpg";
@@ -75,8 +119,8 @@ function renderItems() {
           <span class="badge bg-success">${itemCount}+ items</span>
           <button class="btn btn-success btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#askItemModel"
             data-category="${item.CategoriesCode}" 
-            data-subcategory="${item.SubCategoriesCode}"
-            data-items="${item.items}">
+            data-subcategory="${item.id}"
+            data-items="${item.items || ""}">
             Add to Cart
           </button>
         </div>
@@ -86,9 +130,9 @@ function renderItems() {
     container.insertAdjacentHTML("beforeend", html);
   });
 
-  currentIndex += itemsPerPage;
+  currentPage += itemsPerPage; // FIX: use renamed variable
   let existingButton = document.getElementById("showMoreBtn");
-  const remainingItems = filteredItems.length - currentIndex;
+  const remainingItems = filteredItems.length - currentPage;
 
   if (remainingItems > 0) {
     const btnText = `Show More (${remainingItems} items left)`;
@@ -109,24 +153,73 @@ function renderItems() {
   }
 }
 
+function loadSubcategoriesBySearch(searchQuery) {
+  setLoadingState(false);
+  filteredItems = subcategoryData.filter((item) => {
+    const sub = item.SubCategories.toLowerCase();
+    const items = item.items ? item.items.toLowerCase() : "";
+    return (
+      sub.includes(searchQuery.toLowerCase()) ||
+      items.includes(searchQuery.toLowerCase())
+    );
+  });
+
+  const container = subcategoriesContainer;
+  removeShowMoreButton();
+  container.innerHTML = "";
+
+  if (filteredItems.length === 0) {
+    container.innerHTML = "<p class='text-center'>No results found</p>";
+    return;
+  }
+
+  currentPage = 0;
+  renderItems();
+}
+
+function loadSubcategoryByCode(subcategoryCode) {
+  setLoadingState(false);
+  filteredItems = subcategoryData.filter(
+    (item) => String(item.id) === String(subcategoryCode),
+  );
+
+  const container = subcategoriesContainer;
+  removeShowMoreButton();
+  container.innerHTML = "";
+
+  if (filteredItems.length === 0) {
+    container.innerHTML = "<p class='text-center'>No items found</p>";
+    return;
+  }
+
+  currentPage = 0;
+  renderItems();
+}
+
 const askItemModal = document.getElementById("askItemModel");
 let currentTriggerButton = null;
+
 askItemModal.addEventListener("show.bs.modal", function (event) {
   const button = event.relatedTarget;
   currentTriggerButton = button;
   const category = button.dataset.category;
   const subcategory = button.dataset.subcategory;
-  const items = button.dataset.items.split(",").map((i) => i.trim());
+  const items = button.dataset.items
+    ? button.dataset.items.split(",").map((i) => i.trim())
+    : [];
   const form = askItemModal.querySelector("#itemForm");
   form.innerHTML = "";
+
   const existingCartEntry = cart.find(
     (item) =>
-      Number(item.CategoriesCode) === Number(category) &&
-      Number(item.SubCategoriesCode) === Number(subcategory),
+      String(item.CategoriesCode) === String(category) &&
+      String(item.SubCategoriesCode) === String(subcategory),
   );
+
   const selectedInCart = existingCartEntry
     ? existingCartEntry.items.map((i) => i.name)
     : [];
+
   items.forEach((item, index) => {
     const cleanItem = item.trim();
     const id = `itemCheckbox${index}`;
@@ -134,28 +227,30 @@ askItemModal.addEventListener("show.bs.modal", function (event) {
     const div = document.createElement("div");
     div.classList.add("form-check");
     div.innerHTML = `
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <input class="form-check-input mt-0 item-check"
-                    type="checkbox"
-                    value="${cleanItem}"
-                    id="${id}"
-                    ${isChecked ? "checked" : ""}>
-              <label class="form-check-label flex-grow-1" for="${id}">
-                ${cleanItem}
-              </label>
-              <div class="item-remark-wrapper ${isChecked ? "active" : ""}">
-                <input type="text"
-                      class="form-control form-control-sm item-remark"
-                      placeholder="Remarks"
-                      data-item="${cleanItem}"
-                      value="${existingCartEntry?.items?.find((i) => i.name === cleanItem)?.remark || ""}">
-              </div>
-            </div>
-            `;
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <input class="form-check-input mt-0 item-check"
+              type="checkbox"
+              value="${cleanItem}"
+              id="${id}"
+              ${isChecked ? "checked" : ""}>
+        <label class="form-check-label flex-grow-1" for="${id}">
+          ${cleanItem}
+        </label>
+        <div class="item-remark-wrapper ${isChecked ? "active" : ""}">
+          <input type="text"
+                class="form-control form-control-sm item-remark"
+                placeholder="Remarks"
+                data-item="${cleanItem}"
+                value="${existingCartEntry?.items?.find((i) => i.name === cleanItem)?.remark || ""}">
+        </div>
+      </div>
+    `;
     form.appendChild(div);
+
     const checkbox = div.querySelector(".item-check");
     const remarkWrapper = div.querySelector(".item-remark-wrapper");
     const remarkBox = remarkWrapper.querySelector(".item-remark");
+
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
         remarkWrapper.classList.add("active");
@@ -168,6 +263,7 @@ askItemModal.addEventListener("show.bs.modal", function (event) {
       }
     });
   });
+
   askItemModal.dataset.category = category;
   askItemModal.dataset.subcategory = subcategory;
 });
@@ -175,6 +271,7 @@ askItemModal.addEventListener("show.bs.modal", function (event) {
 document.getElementById("confirmItems").addEventListener("click", () => {
   const form = document.getElementById("itemForm");
   const selectedItems = [];
+
   form.querySelectorAll(".item-check:checked").forEach((cb) => {
     const itemName = cb.value;
     const remarkInput = form.querySelector(
@@ -194,23 +291,25 @@ document.getElementById("confirmItems").addEventListener("click", () => {
   const category = askItemModal.dataset.category;
   const subcategory = askItemModal.dataset.subcategory;
   addToCart(category, subcategory, currentTriggerButton, selectedItems);
+
   const modalInstance = bootstrap.Modal.getOrCreateInstance(askItemModal);
   modalInstance.hide();
 });
+
 function addToCart(CategoriesCode, SubCategoriesCode, btn, itemslist) {
   const selectedItems = Array.isArray(itemslist) ? itemslist : [itemslist];
-  const existingEntry = cart.find(
+
+  const existingIndex = cart.findIndex(
     (item) =>
-      Number(item.CategoriesCode) === Number(CategoriesCode) &&
-      Number(item.SubCategoriesCode) === Number(SubCategoriesCode),
+      String(item.CategoriesCode) === String(CategoriesCode) &&
+      String(item.SubCategoriesCode) === String(SubCategoriesCode),
   );
 
-  if (existingEntry) {
-    existingEntry.items = selectedItems.filter(
+  if (existingIndex !== -1) {
+    cart[existingIndex].items = selectedItems.filter(
       (item, index, self) =>
         index === self.findIndex((i) => i.name === item.name),
     );
-
     showToast("Cart updated!");
   } else {
     cart.push({
@@ -220,107 +319,110 @@ function addToCart(CategoriesCode, SubCategoriesCode, btn, itemslist) {
     });
     showToast("Item(s) added to cart!");
   }
-  if (selectedItems.length === 0 && existingEntry) {
-    cart = cart.filter(
-      (item) =>
-        !(
-          item.CategoriesCode === CategoriesCode &&
-          item.SubCategoriesCode === SubCategoriesCode
-        ),
-    );
-    showToast("No items selected. Entry removed from cart.");
-  }
+
   localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
+  updateCartCount(); // FIX: now always defined above
   const card = btn.closest(".card");
   if (card) {
     card.classList.add("highlight-card");
     card.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
+
 function showToast(message) {
   const toast = document.createElement("div");
   toast.className =
     "toast align-items-center text-bg-success border-0 show position-fixed bottom-0 end-0 m-3";
   toast.innerHTML = `<div class="d-flex">
-            <div class="toast-body">${message}</div>
-          </div>`;
+    <div class="toast-body">${message}</div>
+  </div>`;
   document.body.appendChild(toast);
-
   setTimeout(() => toast.remove(), 2000);
 }
 
-fetch("assets/JSON/categories.json")
-  .then((res) => res.json())
-  .then((data) => {
-    const listMobile = document.getElementById("categoryFilter");
-    const listDesktop = document.getElementById("categoryFilterDesktop");
-    listMobile.innerHTML = "";
-    listDesktop.innerHTML = "";
+getDocs(collection(db, "categories")).then((snapshot) => {
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  const listMobile = document.getElementById("categoryFilter");
+  const listDesktop = document.getElementById("categoryFilterDesktop");
+
+  listMobile.innerHTML = "";
+  listDesktop.innerHTML = "";
+
+  [listMobile, listDesktop].forEach((list) => {
+    list.insertAdjacentHTML(
+      "beforeend",
+      `<li class="list-group-item ${!catid ? "active" : ""}" data-id="">
+        All Categories
+      </li>`,
+    );
+  });
+
+  let categoryFound = false;
+
+  data.forEach((cat) => {
+    const isActive = String(cat.id) === String(catid);
+
+    if (isActive) categoryFound = true;
+
     [listMobile, listDesktop].forEach((list) => {
       list.insertAdjacentHTML(
         "beforeend",
-        `
-              <li class="list-group-item ${!catid ? "active" : ""}" data-id="">
-                All Categories
-              </li>
-            `,
+        `<li class="list-group-item ${isActive ? "active" : ""}" data-id="${cat.id}">
+          ${cat.Categories}
+        </li>`,
       );
     });
-
-    let categoryFound = false;
-
-    data.forEach((cat) => {
-      const isActive = String(cat.categoriescode) === String(catid);
-
-      if (isActive) categoryFound = true;
-      [listMobile, listDesktop].forEach((list) => {
-        list.insertAdjacentHTML(
-          "beforeend",
-          `
-                    <li class="list-group-item ${isActive ? "active" : ""}" data-id="${cat.categoriescode}">
-                      ${cat.Categories}
-                    </li>
-                  `,
-        );
-      });
-    });
-    if (catid && !categoryFound) {
-      document
-        .querySelectorAll(
-          '#categoryFilter li[data-id=""], #categoryFilterDesktop li[data-id=""]',
-        )
-        .forEach((el) => el.classList.add("active"));
-    }
-    const active = document.querySelector(
-      "#categoryFilter .active, #categoryFilterDesktop .active",
-    );
-
-    if (active) {
-      active.scrollIntoView({ block: "center" });
-    }
   });
+
+  if (catid && !categoryFound) {
+    document
+      .querySelectorAll(
+        '#categoryFilter li[data-id=""], #categoryFilterDesktop li[data-id=""]',
+      )
+      .forEach((el) => el.classList.add("active"));
+  }
+
+  const active = document.querySelector(
+    "#categoryFilter .active, #categoryFilterDesktop .active",
+  );
+  if (active) {
+    active.scrollIntoView({ block: "center" });
+  }
+});
+
 document.addEventListener("click", function (e) {
   const li = e.target.closest("#categoryFilter li, #categoryFilterDesktop li");
 
   if (li) {
-    const catid = li.dataset.id;
+    const selectedCatId = li.dataset.id;
+    setLoadingState(
+      true,
+      selectedCatId ? "Loading category items..." : "Loading categories...",
+    );
+
     document
       .querySelectorAll("#categoryFilter li, #categoryFilterDesktop li")
       .forEach((li) => li.classList.remove("active"));
     document
       .querySelectorAll(
-        `#categoryFilter li[data-id="${catid}"], #categoryFilterDesktop li[data-id="${catid}"]`,
+        `#categoryFilter li[data-id="${selectedCatId}"], #categoryFilterDesktop li[data-id="${selectedCatId}"]`,
       )
       .forEach((li) => li.classList.add("active"));
 
-    initLoad(catid);
+    loadDataOnce(selectedCatId).then(() => {
+      initLoad();
+    });
 
-    if (!catid) {
+    if (selectedCatId) {
+      history.replaceState(null, "", `?catid=${selectedCatId}`);
+    } else {
       history.replaceState(null, "", window.location.pathname);
     }
 
-    // Close mobile offcanvas
     const offcanvas = bootstrap.Offcanvas.getInstance(
       document.getElementById("categoryOffcanvas"),
     );
@@ -331,87 +433,68 @@ document.addEventListener("click", function (e) {
   }
 });
 
-function loadSubcategoriesBySearch(query) {
-  const container = document.getElementById("subcategories");
-  container.innerHTML = "";
-
-  const filtered = subcategoryData.filter((item) => {
-    const sub = item.SubCategories.toLowerCase();
-    const items = item.items ? item.items.toLowerCase() : "";
-
-    return (
-      sub.includes(query.toLowerCase()) || items.includes(query.toLowerCase())
-    );
-  });
-
-  filtered.forEach((item) => {
-    const html = `<div class="col-md-3">
-      <div class="card p-3 text-center">
-        <h6>${item.SubCategories}</h6>
-      </div>
-    </div>`;
-
-    container.insertAdjacentHTML("beforeend", html);
-  });
-}
-
 function enableKeyboardNavigation(inputId, listSelector) {
   const input = document.querySelector(inputId);
-  let currentIndex = -1;
+  let focusedIndex = -1;
 
   input.addEventListener("keydown", function (e) {
     const items = Array.from(
       document.querySelectorAll(`${listSelector} li`),
-    ).filter((li) => li.style.display !== "none"); // only visible items
+    ).filter((li) => li.style.display !== "none");
 
     if (!items.length) return;
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      currentIndex = (currentIndex + 1) % items.length;
+      focusedIndex = (focusedIndex + 1) % items.length;
       updateActive(items);
     }
 
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      focusedIndex = (focusedIndex - 1 + items.length) % items.length;
       updateActive(items);
     }
 
-    if (e.key === "Enter" && currentIndex >= 0) {
-      items[currentIndex].click(); // trigger category click
+    if (e.key === "Enter" && focusedIndex >= 0) {
+      items[focusedIndex].click();
     }
   });
 
   function updateActive(items) {
-    // remove active from all
     document
-      .querySelectorAll("#categoryFilter li, #categoryFilterDesktop li")
+      .querySelectorAll(`${listSelector} li`)
       .forEach((li) => li.classList.remove("active"));
 
-    const activeItem = items[currentIndex];
+    const activeItem = items[focusedIndex];
     activeItem.classList.add("active");
-
-    // auto scroll into view
-    activeItem.scrollIntoView({
-      block: "nearest",
-      behavior: "smooth",
-    });
+    activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 }
-
 if (search) {
+  setLoadingState(true, "Searching products...");
   loadDataOnce().then(() => {
     loadSubcategoriesBySearch(search);
   });
 } else if (catid) {
-  loadDataOnce().then(() => {
-    initLoad(catid, sub);
+  setLoadingState(true, "Loading category items...");
+  loadDataOnce(catid).then(() => {
+    if (sub) {
+      loadSubcategoryByCode(sub);
+      return;
+    }
+    initLoad();
   });
 } else {
+  setLoadingState(true, "Loading categories...");
   loadDataOnce().then(() => {
+    if (sub) {
+      loadSubcategoryByCode(sub);
+      return;
+    }
     initLoad();
   });
 }
+
 enableKeyboardNavigation("#categorySearch", "#categoryFilter");
 enableKeyboardNavigation("#categorySearchDesktop", "#categoryFilterDesktop");

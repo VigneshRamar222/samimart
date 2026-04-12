@@ -715,3 +715,60 @@ body {
   opacity: 1;
   transform: scale(1.1);
 }
+
+#subcategories.is-loading {
+  display: none;
+}
+
+#cartLoader.is-hidden {
+  display: none;
+}
+
+.skeleton-img,
+.skeleton-text,
+.skeleton-title,
+.skeleton-badge,
+.skeleton-button {
+  background: linear-gradient(90deg, #eee, #ddd, #eee);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 90px;
+}
+
+.skeleton-title {
+  height: 18px;
+  width: 60%;
+  border-radius: 999px;
+}
+
+.skeleton-text {
+  height: 14px;
+  width: 80%;
+  border-radius: 999px;
+}
+
+.skeleton-badge {
+  height: 24px;
+  width: 88px;
+  border-radius: 999px;
+}
+
+.skeleton-button {
+  height: 31px;
+  width: 110px;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+
+  100% {
+    background-position: 200px 0;
+  }
+}

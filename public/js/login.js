@@ -2,10 +2,11 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
-import app from "../../js/firebase-config.js";
+import { app } from "/js/firebase-config.js";
 
 const auth = getAuth(app);
 
@@ -13,14 +14,12 @@ const msg = document.getElementById("message");
 const spinner = document.getElementById("spinner");
 const btn = document.getElementById("loginBtn");
 
-/* ---------------- SESSION CHECK ---------------- */
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     window.location.href = "master.html";
-//   }
-// });
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "master.html";
+  }
+});
 
-/* ---------------- LOGIN BUTTON ---------------- */
 document.getElementById("loginBtn").addEventListener("click", function () {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -45,29 +44,25 @@ document.getElementById("loginBtn").addEventListener("click", function () {
     .then((userCredential) => {
       const user = userCredential.user;
 
-      /* -------- EMAIL VERIFICATION (OTP style security) -------- */
       if (!user.emailVerified) {
         sendEmailVerification(user)
           .then(() => {
             msg.innerHTML =
               '<span style="color:green;">Verification link sent to your email 📧</span>';
-
-            spinner.style.display = "none";
-            btn.disabled = false;
-            return;
           })
           .catch((error) => {
             console.error("Error:", error);
             msg.innerHTML =
               '<span style="color:red;">Mail verification server error</span>';
-            spinner.style.display = "none";
-            btn.disabled = false;
-            return;
           });
+
+        spinner.style.display = "none";
+        btn.disabled = false;
+
         startVerificationCheck();
+        return;
       }
 
-      /* -------- LOGIN SUCCESS -------- */
       msg.innerHTML = '<span style="color:green;">Login successful</span>';
       window.location.href = "master.html";
 
@@ -97,3 +92,42 @@ function startVerificationCheck() {
     }
   }, 3000);
 }
+
+document
+  .getElementById("forgotPasswordBtn")
+  .addEventListener("click", function () {
+    const email = document.getElementById("email").value;
+
+    if (email === "") {
+      msg.innerHTML =
+        '<span style="color:red;">Enter your email to reset password</span>';
+      return;
+    }
+
+    spinner.style.display = "inline-block";
+    btn.disabled = true;
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        msg.innerHTML =
+          '<span style="color:green;">Password reset link sent 📧</span>';
+      })
+      .catch((error) => {
+        console.error(error);
+
+        if (error.code === "auth/user-not-found") {
+          msg.innerHTML =
+            '<span style="color:red;">No user found with this email</span>';
+        } else if (error.code === "auth/invalid-email") {
+          msg.innerHTML =
+            '<span style="color:red;">Invalid email format</span>';
+        } else {
+          msg.innerHTML =
+            '<span style="color:red;">Error sending reset email</span>';
+        }
+      })
+      .finally(() => {
+        spinner.style.display = "none";
+        btn.disabled = false;
+      });
+  });
