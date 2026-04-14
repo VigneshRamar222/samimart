@@ -78,7 +78,6 @@
               class="btn btn-primary w-100 mb-3"
               id="saveCategoryBtn"
             />
-            <!-- Delete Table -->
             <h6>Existing Categories</h6>
             <input
               type="text"
@@ -150,8 +149,6 @@
               id="saveSubCategoryBtn"
               value="Save Subcategory"
             />
-
-            <!-- Delete Table -->
             <h6>Existing Subcategories</h6>
             <input
               type="text"
@@ -234,12 +231,26 @@
 
             <!-- Delete Table -->
             <h6>Existing Items</h6>
-            <input
-              type="text"
-              id="itemsSearch"
-              class="form-control mb-1"
-              placeholder="Search Items"
-            />
+
+            <div class="row">
+              <div class="col-md-8">
+                <input
+                  type="text"
+                  id="itemsSearch"
+                  class="form-control mb-1"
+                  placeholder="Search Items"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  type="button"
+                  id="BEitemsSearch"
+                  value="Excel"
+                  class="btn btn-info"
+                />
+              </div>
+            </div>
+
             <div id="itemsTableContainer">
               <table class="table table-sm table-bordered" id="itemsTable">
                 <thead>
