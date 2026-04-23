@@ -12,7 +12,7 @@ const isLocalHost =
 
 const API_BASE = isLocalHost
   ? "http://localhost:3000"
-  : `${window.location.origin}/api`;
+  : "https://samimart-api.onrender.com";
 
 function setCartLoadingState(show) {
   const loader = document.getElementById("cartLoader");

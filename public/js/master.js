@@ -39,7 +39,7 @@ const isLocalHost =
 
 const API_BASE = isLocalHost
   ? "http://localhost:3000"
-  : `${window.location.origin}/api`;
+  : "https://samimart-api.onrender.com";
 
   const  ROWS_PER_PAGE = 5;
 let categories = [],

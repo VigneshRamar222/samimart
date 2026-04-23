@@ -6,10 +6,10 @@ const isLocalHost =
   window.location.hostname.startsWith("10.") ||
   window.location.hostname.startsWith("172.");
 
+
 const API_BASE = isLocalHost
   ? "http://localhost:3000"
-  : `${window.location.origin}/api`;
-
+  : "https://samimart-api.onrender.com";
 
 (document.getElementById("year").textContent = new Date().getFullYear()),
     document.getElementById("contactForm").addEventListener("submit", async function (e) {
