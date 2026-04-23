@@ -1,1 +1,477 @@
-import{app}from"/js/firebase-config.js";import{getAuth,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";import{getFirestore,collection,addDoc,getDocs,getDoc,updateDoc,deleteDoc,doc,query,where}from"https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";import{getStorage,ref,uploadBytes,getDownloadURL}from"https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";const db=getFirestore(app),storage=getStorage(app),auth=getAuth(app);document.getElementById("logoutBtn").addEventListener("click",()=>{signOut(auth).then(()=>{console.log("Logged out"),window.location.href="login.html"}).catch(e=>{console.error("Logout error:",e)})});const isLocalHost=["localhost","127.0.0.1"].includes(window.location.hostname)||window.location.hostname.startsWith("192.168.")||window.location.hostname.startsWith("10.")||window.location.hostname.startsWith("172."),API_BASE=isLocalHost?"http://localhost:3000":window.location.origin,ROWS_PER_PAGE=5;let categories=[],subcategories=[];const $=e=>document.getElementById(e),normalize=e=>e.trim().toLowerCase();function showLoader(){$("loaderOverlay").style.display="flex"}function hideLoader(){$("loaderOverlay").style.display="none"}function showToast(e){const t=document.getElementById("appToast");t.querySelector(".toast-body").textContent=e;new bootstrap.Toast(t,{delay:3e3}).show()}function paginate(e,t=1){const a=5*(t-1);return{items:e.slice(a,a+5),totalPages:Math.ceil(e.length/5)||1}}function renderPagination(e,t,a,o=1){const n=$(e);n.innerHTML="";let i=Math.max(1,o-Math.floor(2.5)),s=i+5-1;s>t&&(s=t,i=Math.max(1,s-5+1));const r=document.createElement("li");r.className="page-item "+(1===o?"disabled":"");const c=document.createElement("button");c.className="page-link",c.innerHTML="&laquo;",c.onclick=()=>{o>1&&a(o-1)},r.appendChild(c),n.appendChild(r),i>1&&(u(1),i>2&&g());for(let e=i;e<=s;e++)u(e);s<t&&(s<t-1&&g(),u(t));const l=document.createElement("li");l.className="page-item "+(o===t?"disabled":"");const d=document.createElement("button");function u(e){const t=document.createElement("li");t.className="page-item "+(e===o?"active":"");const i=document.createElement("button");i.className="page-link",i.textContent=e,i.onclick=()=>a(e),t.appendChild(i),n.appendChild(t)}function g(){const e=document.createElement("li");e.className="page-item disabled";const t=document.createElement("span");t.className="page-link",t.textContent="...",e.appendChild(t),n.appendChild(e)}d.className="page-link",d.innerHTML="&raquo;",d.onclick=()=>{o<t&&a(o+1)},l.appendChild(d),n.appendChild(l)}async function loadData(){try{showLoader();const e=await getDocs(collection(db,"categories"));categories=e.docs.map(e=>({categoriescode:e.id,...e.data()}));const t=await getDocs(collection(db,"subcategories"));subcategories=t.docs.map(e=>({SubCategoriesCode:e.id,...e.data()})),renderCategoriesTable(),renderSubcategoriesTable(),renderItemsTable(),initSearchableSelects()}catch(e){console.error(e),showToast("Failed to load data")}finally{hideLoader()}}function setupSearchableSelect(e,t,a,o){const n=$(e),i=$(t);let s=-1,r=[];function c(e=""){i.innerHTML="",s=-1,r=a.filter(t=>(t.text||"").toLowerCase().includes(e.toLowerCase())),r.length?(r.forEach((e,t)=>{const a=document.createElement("div");a.className="dropdown-item",a.textContent=e.text,a.onclick=()=>{n.value=e.text,n.dataset.value=e.value,i.classList.remove("show"),o&&o(e)},i.appendChild(a)}),i.classList.add("show")):i.classList.remove("show")}function l(e){e.forEach(e=>e.classList.remove("active")),s>=0&&(e[s].classList.add("active"),e[s].scrollIntoView({block:"nearest"}))}n.oninput=()=>c(n.value),n.onfocus=()=>c(n.value),n.onkeydown=e=>{const t=i.querySelectorAll(".dropdown-item");t.length&&("ArrowDown"===e.key&&(e.preventDefault(),s=(s+1)%t.length,l(t)),"ArrowUp"===e.key&&(e.preventDefault(),s=(s-1+t.length)%t.length,l(t)),"Enter"===e.key&&(e.preventDefault(),s>=0&&t[s].click()))},document.addEventListener("click",e=>{n.contains(e.target)||i.contains(e.target)||i.classList.remove("show")})}function initSearchableSelects(){const e=categories.map(e=>({value:e.categoriescode,text:e.Categories}));setupSearchableSelect("subCatParentInput","subCatParentDropdown",e),setupSearchableSelect("itemCatParentInput","itemCatParentDropdown",e,e=>{const t=subcategories.filter(t=>t.CategoriesCode==e.value).map(e=>({value:e.SubCategoriesCode,text:e.SubCategories}));$("itemSubParentInput").value="",$("itemSubParentInput").dataset.value="",setupSearchableSelect("itemSubParentInput","itemSubParentDropdown",t)})}function renderCategoriesTable(e=1,t=""){const a=document.querySelector("#categoriesTable tbody");a.innerHTML="";const o=categories.filter(e=>(e.Categories||"").toLowerCase().includes(t)),{items:n,totalPages:i}=paginate(o,e);n.forEach((t,o)=>{const n=document.createElement("tr");n.innerHTML=`\n     <td>${5*(e-1)+o+1}</td>\n     \n      <td>${t.Categories}</td>\n      <td>\n        <img src="${t.ImageURL}" width="60" height="60"\n        style="object-fit:cover;border-radius:6px;">\n      </td>\n      <td>\n        <button class="btn btn-sm btn-danger">Delete</button>\n      </td>\n    `,n.querySelector("button").onclick=()=>deleteCategory(t.categoriescode),a.appendChild(n)}),renderPagination("categoriesPagination",i,e=>renderCategoriesTable(e,t),e)}async function deleteCategory(e){try{showLoader();const t=query(collection(db,"subcategories"),where("CategoriesCode","==",e)),a=(await getDocs(t)).docs;let o=0;for(const e of a){const t=e.data();t.SubImageURL&&await deleteImageFromServer(t.SubImageURL),await deleteDoc(doc(db,"subcategories",e.id))}hideLoader();const n=`\nDelete Category?\n\nThis will delete:\n- 1 Category\n- ${a.length} Subcategories\n- ${o} Items\n`;if(!confirm(n))return;showLoader();for(const e of a)await deleteDoc(doc(db,"subcategories",e.id));const i=categories.find(t=>t.categoriescode===e);i?.ImageURL&&await deleteImageFromServer(i.ImageURL),await deleteDoc(doc(db,"categories",e)),showToast("Deleted successfully")}catch(e){console.error(e),showToast("Delete failed")}finally{hideLoader(),loadData()}}async function deleteImageFromServer(e){try{await fetch(`${API_BASE}/delete-image`,{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({imageUrl:e})})}catch(e){console.error("Image delete failed:",e)}}async function deleteSubcategory(e){try{showLoader();const t=doc(db,"subcategories",e),a=await getDoc(t);if(!a.exists())return void showToast("Subcategory not found");const o=a.data();let n=0;if(o.items){n=o.items.split(",").map(e=>e.trim()).filter(Boolean).length}hideLoader();const i=`\nDelete Subcategory?\n\nThis will delete:\n- 1 Subcategory\n- ${n} Items\n`;if(!confirm(i))return;showLoader(),o.SubImageURL&&await deleteImageFromServer(o.SubImageURL),await deleteDoc(t),showToast("Subcategory deleted")}catch(e){console.error(e),showToast("Delete failed ❌")}finally{hideLoader(),loadData()}}async function deleteItem(e,t,a){try{showLoader();const t=doc(db,"subcategories",e),o=await getDoc(t);if(!o.exists())return void showToast("Subcategory not found ❌");const n=o.data();let i=[];n.items&&(i=n.items.split(",").map(e=>e.trim()).filter(Boolean)),hideLoader();const s=`\nDelete Item?\n\nItem: ${a}\n\nTotal items in this subcategory: ${i.length}\n`;if(!confirm(s))return;showLoader();const r=i.filter(e=>e.toLowerCase()!==a.toLowerCase()).join(",");await updateDoc(t,{items:r}),showToast("Item deleted")}catch(e){console.error(e),showToast("Delete failed")}finally{hideLoader(),loadData()}}function renderSubcategoriesTable(e=1,t=""){const a=subcategories.filter(e=>(e.SubCategories||"").toLowerCase().includes(t)),{items:o,totalPages:n}=paginate(a,e),i=document.querySelector("#subcategoriesTable tbody");i.innerHTML="",o.forEach((t,a)=>{const o=categories.find(e=>e.categoriescode===t.CategoriesCode)?.Categories||"",n=document.createElement("tr");n.innerHTML=`\n      <td>${5*(e-1)+a+1}</td>\n      <td>${t.SubCategories}</td>\n      <td>${o}</td>\n       <td>\n        <img src="${t.SubImageURL}" width="60" height="60"\n        style="object-fit:cover;border-radius:6px;">\n      </td>\n      <td>\n        <button class="btn btn-danger btn-sm">Delete</button>\n      </td>\n    `,n.querySelector("button").onclick=()=>deleteSubcategory(t.SubCategoriesCode),i.appendChild(n)}),renderPagination("subcategoriesPagination",n,e=>renderSubcategoriesTable(e,t),e)}function renderItemsTable(e=1,t=""){let a=[];subcategories.forEach(e=>{if(!e.items)return;e.items.split(",").map(e=>e.trim()).filter(Boolean).forEach(t=>a.push({name:t.trim(),subId:e.SubCategoriesCode,subName:e.SubCategories,catId:e.CategoriesCode}))});const o=a.filter(e=>e.name.toLowerCase().includes(t.toLowerCase())),{items:n,totalPages:i}=paginate(o,e),s=document.querySelector("#itemsTable tbody");s.innerHTML="",$("BEitemsSearch").addEventListener("click",async function(e){e.preventDefault(),exportToExcel(o)}),n.forEach((t,a)=>{const o=categories.find(e=>e.categoriescode===t.catId)?.Categories||"",n=document.createElement("tr");n.innerHTML=`\n      <td>${5*(e-1)+a+1}</td>\n      <td>${t.name}</td>\n      <td>${o}</td>\n      <td>${t.subName}</td>\n      <td>\n        <button class="btn btn-danger btn-sm">Delete</button>\n      </td>\n    `,n.querySelector("button").onclick=()=>deleteItem(t.subId,t.catId,t.name),s.appendChild(n)}),renderPagination("itemsPagination",i,e=>renderItemsTable(e,t),e)}function exportToExcel(e){if(!e.length)return void alert("No data to export");let t="S.No,Item Name,Category,Subcategory\n";e.forEach((e,a)=>{const o=categories.find(t=>t.categoriescode===e.catId)?.Categories||"";t+=`${a+1},"${e.name}","${o}","${e.subName}"\n`});const a=new Blob([t],{type:"text/csv"}),o=window.URL.createObjectURL(a),n=document.createElement("a");n.href=o,n.download="Items.csv",n.click(),window.URL.revokeObjectURL(o)}function isDuplicateCategory(e){const t=e.trim().toLowerCase();return categories.some(e=>(e.Categories||"").trim().toLowerCase()===t)}function isDuplicateSubcategory(e,t){const a=e.trim().toLowerCase();return subcategories.some(e=>(e.SubCategories||"").trim().toLowerCase()===a&&String(e.CategoriesCode)===String(t))}function isValidCategoryId(e){return categories.some(t=>String(t.categoriescode)===String(e))}function isValidSubcategoryId(e,t){return subcategories.some(a=>String(a.SubCategoriesCode)===String(e)&&String(a.CategoriesCode)===String(t))}function isDuplicateItem(e,t,a){const o=subcategories.find(e=>String(e.SubCategoriesCode)===String(t)&&String(e.CategoriesCode)===String(a));return!(!o||!o.items)&&o.items.split(",").map(e=>e.trim().toLowerCase()).includes(e.trim().toLowerCase())}onAuthStateChanged(auth,e=>{if(e)return e.emailVerified?void(window._listenersAttached||(window._listenersAttached=!0,console.log("User authenticated:",e.email),loadData(),$("saveCategoryBtn").addEventListener("click",async function(e){e.preventDefault();const t=$("catName").value.trim(),a=$("catImage").files[0];if(!t||!a)return void showToast("Fill all fields");if(isDuplicateCategory(t))return void showToast("Category already exists");const o=new FormData;o.append("image",a);try{showLoader();const e=await fetch(`${API_BASE}/upload-category`,{method:"POST",body:o});if(!e.ok)return void showToast("Upload failed");const a=(await e.json()).imageUrl;await addDoc(collection(db,"categories"),{Categories:t,ImageURL:a}),hideLoader(),$("catName").value="",$("catImage").value="",loadData(),showToast("Category added")}catch(e){hideLoader(),console.error("CATCH ERROR:",e),showToast("Error")}finally{hideLoader()}}),$("saveSubCategoryBtn").addEventListener("click",async function(e){e.preventDefault();const t=$("subName").value.trim(),a=$("subCatParentInput").dataset.value,o=$("subImage").files[0];if(!t||!a||!o)return void showToast("Fill all fields");if(!isValidCategoryId(a))return void showToast("Please select valid category");if(isDuplicateSubcategory(t,a))return void showToast("Subcategory already exists");if(!o.name.toLowerCase().endsWith(".webp"))return void showToast("Only .webp files allowed");const n=new FormData;n.append("image",o);try{showLoader();const e=await fetch(`${API_BASE}/upload-category`,{method:"POST",body:n});if(!e.ok)return console.error(await e.text()),void showToast("Image upload failed");const o=(await e.json()).imageUrl;await addDoc(collection(db,"subcategories"),{SubCategories:t,CategoriesCode:a,SubImageURL:o,items:""}),$("subName").value="",$("subImage").value="",$("subCatParentInput").value="",$("subCatParentInput").dataset.value="",showToast("Subcategory added")}catch(e){console.error(e),showToast("Error saving subcategory")}finally{hideLoader(),loadData()}}),$("saveItemBtn").addEventListener("click",async function(e){e.preventDefault();const t=$("itemName").value.trim(),a=$("itemCatParentInput").dataset.value,o=$("itemSubParentInput").dataset.value;if(t&&a&&o)if(isValidCategoryId(a))if(isValidSubcategoryId(o,a))if(isDuplicateItem(t,o,a))showToast("Item already exists");else try{showLoader();const e=doc(db,"subcategories",o),a=await getDoc(e);if(!a.exists())return void showToast("Subcategory not found");const n=a.data();let i=[];n.items&&(i=n.items.split(",").map(e=>e.trim()).filter(Boolean)),i.push(t);const s=i.join(",");await updateDoc(e,{items:s}),$("itemName").value="",$("itemCatParentInput").value="",$("itemCatParentInput").dataset.value="",$("itemSubParentInput").value="",$("itemSubParentInput").dataset.value="",showToast("Item added")}catch(e){console.error(e),showToast("Error adding item")}finally{hideLoader(),loadData()}else showToast("Invalid subcategory");else showToast("Invalid category");else showToast("Fill all fields")}),$("categoriesSearch").oninput=e=>renderCategoriesTable(1,normalize(e.target.value)),$("subcategoriesSearch").oninput=e=>renderSubcategoriesTable(1,normalize(e.target.value)),$("itemsSearch").oninput=e=>renderItemsTable(1,normalize(e.target.value)))):(alert("Please verify your email first"),signOut(auth),void(window.location.href="login.html"));window.location.href="login.html"});
+import { app } from "/js/firebase-config.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    getDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    query,
+    where,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/12.11.0/firebase-storage.js";
+const db = getFirestore(app),
+    storage = getStorage(app),
+    auth = getAuth(app);
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth)
+        .then(() => {
+            console.log("Logged out"), (window.location.href = "login.html");
+        })
+        .catch((e) => {
+            console.error("Logout error:", e);
+        });
+});
+
+const isLocalHost =
+  ["localhost", "127.0.0.1"].includes(window.location.hostname) ||
+  window.location.hostname.startsWith("192.168.") ||
+  window.location.hostname.startsWith("10.") ||
+  window.location.hostname.startsWith("172.");
+
+const API_BASE = isLocalHost
+  ? "http://localhost:3000"
+  : "https://api.samimart.in";
+  
+  const  ROWS_PER_PAGE = 5;
+let categories = [],
+    subcategories = [];
+const $ = (e) => document.getElementById(e),
+    normalize = (e) => e.trim().toLowerCase();
+function showLoader() {
+    $("loaderOverlay").style.display = "flex";
+}
+function hideLoader() {
+    $("loaderOverlay").style.display = "none";
+}
+function showToast(e) {
+    const t = document.getElementById("appToast");
+    t.querySelector(".toast-body").textContent = e;
+    new bootstrap.Toast(t, { delay: 3e3 }).show();
+}
+function paginate(e, t = 1) {
+    const a = 5 * (t - 1);
+    return { items: e.slice(a, a + 5), totalPages: Math.ceil(e.length / 5) || 1 };
+}
+function renderPagination(e, t, a, o = 1) {
+    const n = $(e);
+    n.innerHTML = "";
+    let i = Math.max(1, o - Math.floor(2.5)),
+        s = i + 5 - 1;
+    s > t && ((s = t), (i = Math.max(1, s - 5 + 1)));
+    const r = document.createElement("li");
+    r.className = "page-item " + (1 === o ? "disabled" : "");
+    const c = document.createElement("button");
+    (c.className = "page-link"),
+        (c.innerHTML = "&laquo;"),
+        (c.onclick = () => {
+            o > 1 && a(o - 1);
+        }),
+        r.appendChild(c),
+        n.appendChild(r),
+        i > 1 && (u(1), i > 2 && g());
+    for (let e = i; e <= s; e++) u(e);
+    s < t && (s < t - 1 && g(), u(t));
+    const l = document.createElement("li");
+    l.className = "page-item " + (o === t ? "disabled" : "");
+    const d = document.createElement("button");
+    function u(e) {
+        const t = document.createElement("li");
+        t.className = "page-item " + (e === o ? "active" : "");
+        const i = document.createElement("button");
+        (i.className = "page-link"), (i.textContent = e), (i.onclick = () => a(e)), t.appendChild(i), n.appendChild(t);
+    }
+    function g() {
+        const e = document.createElement("li");
+        e.className = "page-item disabled";
+        const t = document.createElement("span");
+        (t.className = "page-link"), (t.textContent = "..."), e.appendChild(t), n.appendChild(e);
+    }
+    (d.className = "page-link"),
+        (d.innerHTML = "&raquo;"),
+        (d.onclick = () => {
+            o < t && a(o + 1);
+        }),
+        l.appendChild(d),
+        n.appendChild(l);
+}
+async function loadData() {
+    try {
+        showLoader();
+        const e = await getDocs(collection(db, "categories"));
+        categories = e.docs.map((e) => ({ categoriescode: e.id, ...e.data() }));
+        const t = await getDocs(collection(db, "subcategories"));
+        (subcategories = t.docs.map((e) => ({ SubCategoriesCode: e.id, ...e.data() }))),
+            renderCategoriesTable(),
+            renderSubcategoriesTable(),
+            renderItemsTable(),
+            initSearchableSelects();
+    } catch (e) {
+        console.error(e), showToast("Failed to load data");
+    } finally {
+        hideLoader();
+    }
+}
+function setupSearchableSelect(e, t, a, o) {
+    const n = $(e),
+        i = $(t);
+    let s = -1,
+        r = [];
+    function c(e = "") {
+        (i.innerHTML = ""),
+            (s = -1),
+            (r = a.filter((t) => (t.text || "").toLowerCase().includes(e.toLowerCase()))),
+            r.length
+                ? (r.forEach((e, t) => {
+                      const a = document.createElement("div");
+                      (a.className = "dropdown-item"),
+                          (a.textContent = e.text),
+                          (a.onclick = () => {
+                              (n.value = e.text), (n.dataset.value = e.value), i.classList.remove("show"), o && o(e);
+                          }),
+                          i.appendChild(a);
+                  }),
+                  i.classList.add("show"))
+                : i.classList.remove("show");
+    }
+    function l(e) {
+        e.forEach((e) => e.classList.remove("active")),
+            s >= 0 && (e[s].classList.add("active"), e[s].scrollIntoView({ block: "nearest" }));
+    }
+    (n.oninput = () => c(n.value)),
+        (n.onfocus = () => c(n.value)),
+        (n.onkeydown = (e) => {
+            const t = i.querySelectorAll(".dropdown-item");
+            t.length &&
+                ("ArrowDown" === e.key && (e.preventDefault(), (s = (s + 1) % t.length), l(t)),
+                "ArrowUp" === e.key && (e.preventDefault(), (s = (s - 1 + t.length) % t.length), l(t)),
+                "Enter" === e.key && (e.preventDefault(), s >= 0 && t[s].click()));
+        }),
+        document.addEventListener("click", (e) => {
+            n.contains(e.target) || i.contains(e.target) || i.classList.remove("show");
+        });
+}
+function initSearchableSelects() {
+    const e = categories.map((e) => ({ value: e.categoriescode, text: e.Categories }));
+    setupSearchableSelect("subCatParentInput", "subCatParentDropdown", e),
+        setupSearchableSelect("itemCatParentInput", "itemCatParentDropdown", e, (e) => {
+            const t = subcategories
+                .filter((t) => t.CategoriesCode == e.value)
+                .map((e) => ({ value: e.SubCategoriesCode, text: e.SubCategories }));
+            ($("itemSubParentInput").value = ""),
+                ($("itemSubParentInput").dataset.value = ""),
+                setupSearchableSelect("itemSubParentInput", "itemSubParentDropdown", t);
+        });
+}
+function renderCategoriesTable(e = 1, t = "") {
+    const a = document.querySelector("#categoriesTable tbody");
+    a.innerHTML = "";
+    const o = categories.filter((e) => (e.Categories || "").toLowerCase().includes(t)),
+        { items: n, totalPages: i } = paginate(o, e);
+    n.forEach((t, o) => {
+        const n = document.createElement("tr");
+        (n.innerHTML = `\n     <td>${5 * (e - 1) + o + 1}</td>\n     \n      <td>${t.Categories}</td>\n      <td>\n        <img src="${t.ImageURL}" width="60" height="60"\n        style="object-fit:cover;border-radius:6px;">\n      </td>\n      <td>\n        <button class="btn btn-sm btn-danger">Delete</button>\n      </td>\n    `),
+            (n.querySelector("button").onclick = () => deleteCategory(t.categoriescode)),
+            a.appendChild(n);
+    }),
+        renderPagination("categoriesPagination", i, (e) => renderCategoriesTable(e, t), e);
+}
+async function deleteCategory(e) {
+    try {
+        showLoader();
+        const t = query(collection(db, "subcategories"), where("CategoriesCode", "==", e)),
+            a = (await getDocs(t)).docs;
+        let o = 0;
+        for (const e of a) {
+            const t = e.data();
+            t.SubImageURL && (await deleteImageFromServer(t.SubImageURL)),
+                await deleteDoc(doc(db, "subcategories", e.id));
+        }
+        hideLoader();
+        const n = `\nDelete Category?\n\nThis will delete:\n- 1 Category\n- ${a.length} Subcategories\n- ${o} Items\n`;
+        if (!confirm(n)) return;
+        showLoader();
+        for (const e of a) await deleteDoc(doc(db, "subcategories", e.id));
+        const i = categories.find((t) => t.categoriescode === e);
+        i?.ImageURL && (await deleteImageFromServer(i.ImageURL)),
+            await deleteDoc(doc(db, "categories", e)),
+            showToast("Deleted successfully");
+    } catch (e) {
+        console.error(e), showToast("Delete failed");
+    } finally {
+        hideLoader(), loadData();
+    }
+}
+async function deleteImageFromServer(e) {
+    try {
+        await fetch(`${API_BASE}/delete-image`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ imageUrl: e }),
+        });
+    } catch (e) {
+        console.error("Image delete failed:", e);
+    }
+}
+async function deleteSubcategory(e) {
+    try {
+        showLoader();
+        const t = doc(db, "subcategories", e),
+            a = await getDoc(t);
+        if (!a.exists()) return void showToast("Subcategory not found");
+        const o = a.data();
+        let n = 0;
+        if (o.items) {
+            n = o.items
+                .split(",")
+                .map((e) => e.trim())
+                .filter(Boolean).length;
+        }
+        hideLoader();
+        const i = `\nDelete Subcategory?\n\nThis will delete:\n- 1 Subcategory\n- ${n} Items\n`;
+        if (!confirm(i)) return;
+        showLoader(),
+            o.SubImageURL && (await deleteImageFromServer(o.SubImageURL)),
+            await deleteDoc(t),
+            showToast("Subcategory deleted");
+    } catch (e) {
+        console.error(e), showToast("Delete failed ❌");
+    } finally {
+        hideLoader(), loadData();
+    }
+}
+async function deleteItem(e, t, a) {
+    try {
+        showLoader();
+        const t = doc(db, "subcategories", e),
+            o = await getDoc(t);
+        if (!o.exists()) return void showToast("Subcategory not found ❌");
+        const n = o.data();
+        let i = [];
+        n.items &&
+            (i = n.items
+                .split(",")
+                .map((e) => e.trim())
+                .filter(Boolean)),
+            hideLoader();
+        const s = `\nDelete Item?\n\nItem: ${a}\n\nTotal items in this subcategory: ${i.length}\n`;
+        if (!confirm(s)) return;
+        showLoader();
+        const r = i.filter((e) => e.toLowerCase() !== a.toLowerCase()).join(",");
+        await updateDoc(t, { items: r }), showToast("Item deleted");
+    } catch (e) {
+        console.error(e), showToast("Delete failed");
+    } finally {
+        hideLoader(), loadData();
+    }
+}
+function renderSubcategoriesTable(e = 1, t = "") {
+    const a = subcategories.filter((e) => (e.SubCategories || "").toLowerCase().includes(t)),
+        { items: o, totalPages: n } = paginate(a, e),
+        i = document.querySelector("#subcategoriesTable tbody");
+    (i.innerHTML = ""),
+        o.forEach((t, a) => {
+            const o = categories.find((e) => e.categoriescode === t.CategoriesCode)?.Categories || "",
+                n = document.createElement("tr");
+            (n.innerHTML = `\n      <td>${5 * (e - 1) + a + 1}</td>\n      <td>${t.SubCategories}</td>\n      <td>${o}</td>\n       <td>\n        <img src="${t.SubImageURL}" width="60" height="60"\n        style="object-fit:cover;border-radius:6px;">\n      </td>\n      <td>\n        <button class="btn btn-danger btn-sm">Delete</button>\n      </td>\n    `),
+                (n.querySelector("button").onclick = () => deleteSubcategory(t.SubCategoriesCode)),
+                i.appendChild(n);
+        }),
+        renderPagination("subcategoriesPagination", n, (e) => renderSubcategoriesTable(e, t), e);
+}
+function renderItemsTable(e = 1, t = "") {
+    let a = [];
+    subcategories.forEach((e) => {
+        if (!e.items) return;
+        e.items
+            .split(",")
+            .map((e) => e.trim())
+            .filter(Boolean)
+            .forEach((t) =>
+                a.push({
+                    name: t.trim(),
+                    subId: e.SubCategoriesCode,
+                    subName: e.SubCategories,
+                    catId: e.CategoriesCode,
+                })
+            );
+    });
+    const o = a.filter((e) => e.name.toLowerCase().includes(t.toLowerCase())),
+        { items: n, totalPages: i } = paginate(o, e),
+        s = document.querySelector("#itemsTable tbody");
+    (s.innerHTML = ""),
+        $("BEitemsSearch").addEventListener("click", async function (e) {
+            e.preventDefault(), exportToExcel(o);
+        }),
+        n.forEach((t, a) => {
+            const o = categories.find((e) => e.categoriescode === t.catId)?.Categories || "",
+                n = document.createElement("tr");
+            (n.innerHTML = `\n      <td>${5 * (e - 1) + a + 1}</td>\n      <td>${t.name}</td>\n      <td>${o}</td>\n      <td>${t.subName}</td>\n      <td>\n        <button class="btn btn-danger btn-sm">Delete</button>\n      </td>\n    `),
+                (n.querySelector("button").onclick = () => deleteItem(t.subId, t.catId, t.name)),
+                s.appendChild(n);
+        }),
+        renderPagination("itemsPagination", i, (e) => renderItemsTable(e, t), e);
+}
+function exportToExcel(e) {
+    if (!e.length) return void alert("No data to export");
+    let t = "S.No,Item Name,Category,Subcategory\n";
+    e.forEach((e, a) => {
+        const o = categories.find((t) => t.categoriescode === e.catId)?.Categories || "";
+        t += `${a + 1},"${e.name}","${o}","${e.subName}"\n`;
+    });
+    const a = new Blob([t], { type: "text/csv" }),
+        o = window.URL.createObjectURL(a),
+        n = document.createElement("a");
+    (n.href = o), (n.download = "Items.csv"), n.click(), window.URL.revokeObjectURL(o);
+}
+function isDuplicateCategory(e) {
+    const t = e.trim().toLowerCase();
+    return categories.some((e) => (e.Categories || "").trim().toLowerCase() === t);
+}
+function isDuplicateSubcategory(e, t) {
+    const a = e.trim().toLowerCase();
+    return subcategories.some(
+        (e) => (e.SubCategories || "").trim().toLowerCase() === a && String(e.CategoriesCode) === String(t)
+    );
+}
+function isValidCategoryId(e) {
+    return categories.some((t) => String(t.categoriescode) === String(e));
+}
+function isValidSubcategoryId(e, t) {
+    return subcategories.some(
+        (a) => String(a.SubCategoriesCode) === String(e) && String(a.CategoriesCode) === String(t)
+    );
+}
+function isDuplicateItem(e, t, a) {
+    const o = subcategories.find(
+        (e) => String(e.SubCategoriesCode) === String(t) && String(e.CategoriesCode) === String(a)
+    );
+    return (
+        !(!o || !o.items) &&
+        o.items
+            .split(",")
+            .map((e) => e.trim().toLowerCase())
+            .includes(e.trim().toLowerCase())
+    );
+}
+onAuthStateChanged(auth, (e) => {
+    if (e)
+        return e.emailVerified
+            ? void (
+                  window._listenersAttached ||
+                  ((window._listenersAttached = !0),
+                  console.log("User authenticated:", e.email),
+                  loadData(),
+                  $("saveCategoryBtn").addEventListener("click", async function (e) {
+                      e.preventDefault();
+                      const t = $("catName").value.trim(),
+                          a = $("catImage").files[0];
+                      if (!t || !a) return void showToast("Fill all fields");
+                      if (isDuplicateCategory(t)) return void showToast("Category already exists");
+                      const o = new FormData();
+                      o.append("image", a);
+                      try {
+                          showLoader();
+                          const e = await fetch(`${API_BASE}/upload-category`, { method: "POST", body: o });
+                          if (!e.ok) return void showToast("Upload failed");
+                          const a = (await e.json()).imageUrl;
+                          await addDoc(collection(db, "categories"), { Categories: t, ImageURL: a }),
+                              hideLoader(),
+                              ($("catName").value = ""),
+                              ($("catImage").value = ""),
+                              loadData(),
+                              showToast("Category added");
+                      } catch (e) {
+                          hideLoader(), console.error("CATCH ERROR:", e), showToast("Error");
+                      } finally {
+                          hideLoader();
+                      }
+                  }),
+                  $("saveSubCategoryBtn").addEventListener("click", async function (e) {
+                      e.preventDefault();
+                      const t = $("subName").value.trim(),
+                          a = $("subCatParentInput").dataset.value,
+                          o = $("subImage").files[0];
+                      if (!t || !a || !o) return void showToast("Fill all fields");
+                      if (!isValidCategoryId(a)) return void showToast("Please select valid category");
+                      if (isDuplicateSubcategory(t, a)) return void showToast("Subcategory already exists");
+                      if (!o.name.toLowerCase().endsWith(".webp")) return void showToast("Only .webp files allowed");
+                      const n = new FormData();
+                      n.append("image", o);
+                      try {
+                          showLoader();
+                          const e = await fetch(`${API_BASE}/upload-category`, { method: "POST", body: n });
+                          if (!e.ok) return console.error(await e.text()), void showToast("Image upload failed");
+                          const o = (await e.json()).imageUrl;
+                          await addDoc(collection(db, "subcategories"), {
+                              SubCategories: t,
+                              CategoriesCode: a,
+                              SubImageURL: o,
+                              items: "",
+                          }),
+                              ($("subName").value = ""),
+                              ($("subImage").value = ""),
+                              ($("subCatParentInput").value = ""),
+                              ($("subCatParentInput").dataset.value = ""),
+                              showToast("Subcategory added");
+                      } catch (e) {
+                          console.error(e), showToast("Error saving subcategory");
+                      } finally {
+                          hideLoader(), loadData();
+                      }
+                  }),
+                  $("saveItemBtn").addEventListener("click", async function (e) {
+                      e.preventDefault();
+                      const t = $("itemName").value.trim(),
+                          a = $("itemCatParentInput").dataset.value,
+                          o = $("itemSubParentInput").dataset.value;
+                      if (t && a && o)
+                          if (isValidCategoryId(a))
+                              if (isValidSubcategoryId(o, a))
+                                  if (isDuplicateItem(t, o, a)) showToast("Item already exists");
+                                  else
+                                      try {
+                                          showLoader();
+                                          const e = doc(db, "subcategories", o),
+                                              a = await getDoc(e);
+                                          if (!a.exists()) return void showToast("Subcategory not found");
+                                          const n = a.data();
+                                          let i = [];
+                                          n.items &&
+                                              (i = n.items
+                                                  .split(",")
+                                                  .map((e) => e.trim())
+                                                  .filter(Boolean)),
+                                              i.push(t);
+                                          const s = i.join(",");
+                                          await updateDoc(e, { items: s }),
+                                              ($("itemName").value = ""),
+                                              ($("itemCatParentInput").value = ""),
+                                              ($("itemCatParentInput").dataset.value = ""),
+                                              ($("itemSubParentInput").value = ""),
+                                              ($("itemSubParentInput").dataset.value = ""),
+                                              showToast("Item added");
+                                      } catch (e) {
+                                          console.error(e), showToast("Error adding item");
+                                      } finally {
+                                          hideLoader(), loadData();
+                                      }
+                              else showToast("Invalid subcategory");
+                          else showToast("Invalid category");
+                      else showToast("Fill all fields");
+                  }),
+                  ($("categoriesSearch").oninput = (e) => renderCategoriesTable(1, normalize(e.target.value))),
+                  ($("subcategoriesSearch").oninput = (e) => renderSubcategoriesTable(1, normalize(e.target.value))),
+                  ($("itemsSearch").oninput = (e) => renderItemsTable(1, normalize(e.target.value))))
+              )
+            : (alert("Please verify your email first"), signOut(auth), void (window.location.href = "login.html"));
+    window.location.href = "login.html";
+});

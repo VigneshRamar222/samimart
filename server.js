@@ -231,3 +231,7 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.get("/", (req, res) => {
+  res.send("API running");
+});

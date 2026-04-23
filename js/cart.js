@@ -10,7 +10,9 @@ const isLocalHost =
   window.location.hostname.startsWith("10.") ||
   window.location.hostname.startsWith("172.");
 
-const API_BASE = isLocalHost ? "http://localhost:3000" : window.location.origin;
+const API_BASE = isLocalHost
+  ? "http://localhost:3000"
+  : "https://api.samimart.in";
 
 function setCartLoadingState(show) {
   const loader = document.getElementById("cartLoader");
@@ -37,7 +39,6 @@ async function loadSubcategoriesWithCategoryNames() {
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* ── helpers ─────────────────────────────────────────────── */
 
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || [];
@@ -47,7 +48,6 @@ function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-/* update Check-All button label for one card */
 function refreshCheckAll(cardEl) {
   const boxes   = cardEl.querySelectorAll(".item-checkbox");
   const checked = cardEl.querySelectorAll(".item-checkbox:checked");
@@ -56,8 +56,6 @@ function refreshCheckAll(cardEl) {
   const allChecked = boxes.length > 0 && checked.length === boxes.length;
   btn.textContent  = allChecked ? "Uncheck All" : "Check All";
 }
-
-/* ── render ───────────────────────────────────────────────── */
 
 async function renderCart() {
   setCartLoadingState(true);
@@ -89,8 +87,6 @@ async function renderCart() {
 
       const imgSrc    = subcat?.SubImageURL || "/assets/images/categories/noitemfound.jpg";
       const subcatName = subcat?.SubCategories || "-";
-
-      /* build items list HTML */
       const itemsHTML = entry.items.map((item, itemIndex) => {
         const displayName = item.remark?.trim()
           ? `${item.name} <span class="text-muted">(${item.remark})</span>`
@@ -99,16 +95,11 @@ async function renderCart() {
         return `
 <li class="list-group-item px-3 py-2" id="item-row-${cartIndex}-${itemIndex}">
   <div class="d-flex align-items-center gap-2">
-    <!-- checkbox -->
     <input type="checkbox"
            class="form-check-input item-checkbox flex-shrink-0"
            data-cart="${cartIndex}"
            data-item="${itemIndex}">
-
-    <!-- name -->
     <span class="item-name flex-grow-1 small text-capitalize">${displayName}</span>
-
-    <!-- edit remark button -->
     <button class="btn btn-sm btn-outline-secondary py-0 px-2 btn-edit-remark"
             data-cart="${cartIndex}"
             data-item="${itemIndex}"
@@ -116,8 +107,6 @@ async function renderCart() {
       <i class="bi bi-pencil"></i>
     </button>
   </div>
-
-  <!-- inline remark editor (hidden by default) -->
   <div class="remark-editor mt-2 d-none" id="remark-editor-${cartIndex}-${itemIndex}">
     <input type="text"
            class="form-control form-control-sm mb-1 remark-input"
@@ -139,7 +128,6 @@ async function renderCart() {
 </li>`;
       }).join("");
 
-      /* card wrapper */
       const colEl = document.createElement("div");
       colEl.className = "col-lg-3 col-md-4 col-sm-6 mb-4";
       colEl.innerHTML = `
@@ -152,20 +140,14 @@ async function renderCart() {
          class="img-fluid"
          style="height:120px; object-fit:contain;">
   </div>
-
-  <!-- subcategory name + Check All -->
   <div class="card-header bg-white border-bottom d-flex align-items-center justify-content-between py-2 px-3">
     <h6 class="mb-0 fw-bold text-capitalize small">${subcatName}</h6>
     <button class="btn btn-sm btn-outline-primary py-0 px-2 btn-check-all"
             data-cart="${cartIndex}">Check All</button>
   </div>
-
-  <!-- items list -->
   <ul class="list-group list-group-flush flex-grow-1" id="items-list-${cartIndex}">
     ${itemsHTML}
   </ul>
-
-  <!-- remove button -->
   <div class="card-footer bg-white border-top text-center py-2">
     <button class="btn btn-sm btn-danger btn-remove-checked"
             data-cart="${cartIndex}">
@@ -177,10 +159,7 @@ async function renderCart() {
 
       containerEl.appendChild(colEl);
     });
-
-    /* attach all events after DOM is built */
     attachEvents();
-
   } catch (err) {
     console.error("Cart load failed:", err);
     document.getElementById("emptyCartSection")?.classList.remove("d-none");
@@ -189,20 +168,13 @@ async function renderCart() {
     setCartLoadingState(false);
   }
 }
-
-/* ── events ───────────────────────────────────────────────── */
-
 function attachEvents() {
-
-  /* individual checkbox → refresh Check-All label */
   document.querySelectorAll(".item-checkbox").forEach(cb => {
     cb.addEventListener("change", () => {
       const card = document.getElementById(`cart-card-${cb.dataset.cart}`);
       refreshCheckAll(card);
     });
   });
-
-  /* Check All / Uncheck All toggle */
   document.querySelectorAll(".btn-check-all").forEach(btn => {
     btn.addEventListener("click", () => {
       const card    = document.getElementById(`cart-card-${btn.dataset.cart}`);
@@ -213,8 +185,6 @@ function attachEvents() {
       refreshCheckAll(card);
     });
   });
-
-  /* open remark editor */
   document.querySelectorAll(".btn-edit-remark").forEach(btn => {
     btn.addEventListener("click", () => {
       const editorId = `remark-editor-${btn.dataset.cart}-${btn.dataset.item}`;
@@ -222,8 +192,6 @@ function attachEvents() {
       btn.classList.add("d-none");
     });
   });
-
-  /* cancel remark editor */
   document.querySelectorAll(".btn-cancel-remark").forEach(btn => {
     btn.addEventListener("click", () => {
       const editorId = `remark-editor-${btn.dataset.cart}-${btn.dataset.item}`;
@@ -235,15 +203,12 @@ function attachEvents() {
         editor.querySelector(".remark-input").value = originalRemark;
         editor.classList.add("d-none");
       }
-      /* show pencil button again */
       const editBtn = document.querySelector(
         `.btn-edit-remark[data-cart="${btn.dataset.cart}"][data-item="${btn.dataset.item}"]`
       );
       editBtn?.classList.remove("d-none");
     });
   });
-
-  /* save remark */
   document.querySelectorAll(".btn-submit-remark").forEach(btn => {
     btn.addEventListener("click", () => {
       const ci     = parseInt(btn.dataset.cart);
@@ -256,8 +221,6 @@ function attachEvents() {
         cart[ci].items[ii].remark = newRemark;
         saveCart(cart);
       }
-
-      /* update displayed name without full re-render */
       const nameSpan   = document.querySelector(`#item-row-${ci}-${ii} .item-name`);
       const itemName   = cart[ci].items[ii].name;
       nameSpan.innerHTML = newRemark
@@ -271,8 +234,6 @@ function attachEvents() {
       editBtn?.classList.remove("d-none");
     });
   });
-
-  /* remove checked items */
   document.querySelectorAll(".btn-remove-checked").forEach(btn => {
     btn.addEventListener("click", () => {
       const ci      = parseInt(btn.dataset.cart);
@@ -283,8 +244,6 @@ function attachEvents() {
         alert("Please check at least one item to remove.");
         return;
       }
-
-      /* collect item indices in descending order to splice safely */
       const indices = Array.from(checked)
         .map(cb => parseInt(cb.dataset.item))
         .sort((a, b) => b - a);
@@ -292,7 +251,6 @@ function attachEvents() {
       const cart = getCart();
       indices.forEach(ii => { cart[ci].items.splice(ii, 1); });
 
-      /* if no items left in this entry, remove the whole entry */
       if (cart[ci].items.length === 0) cart.splice(ci, 1);
 
       saveCart(cart);
@@ -300,13 +258,7 @@ function attachEvents() {
     });
   });
 }
-
-/* ── init ─────────────────────────────────────────────────── */
-
 document.addEventListener("DOMContentLoaded", renderCart);
-
-/* ── user details auto-fill ───────────────────────────────── */
-
 function saveUserDetails(userName, contactNo, email) {
   localStorage.setItem("enquiryUserDetails", JSON.stringify({ userName, contactNo, email }));
 }
@@ -322,11 +274,8 @@ function autoFillUserDetails() {
   if (emailEl     && saved.email)     emailEl.value     = saved.email;
 }
 
-/* auto-fill when enquiry modal opens */
 const enquiryModalEl = document.getElementById("enquiryModal");
 enquiryModalEl && enquiryModalEl.addEventListener("show.bs.modal", autoFillUserDetails);
-
-/* ── enquiry form ─────────────────────────────────────────── */
 
 const enquiryForm = document.getElementById("enquiryForm");
 enquiryForm && enquiryForm.addEventListener("submit", async function (e) {
@@ -353,7 +302,6 @@ enquiryForm && enquiryForm.addEventListener("submit", async function (e) {
     return;
   }
 
-  /* save user details for next time */
   saveUserDetails(userName, contactNo, email);
 
   const subcategories = await loadSubcategoriesWithCategoryNames();
