@@ -24,7 +24,7 @@ const db = getFirestore(app),
 document.getElementById("logoutBtn").addEventListener("click", () => {
     signOut(auth)
         .then(() => {
-            console.log("Logged out"), (window.location.href = "login.html");
+             (window.location.href = "login.html");
         })
         .catch((e) => {
             console.error("Logout error:", e);
@@ -243,7 +243,7 @@ async function deleteSubcategory(e) {
             await deleteDoc(t),
             showToast("Subcategory deleted");
     } catch (e) {
-        console.error(e), showToast("Delete failed ❌");
+        console.error(e), showToast("Delete failed");
     } finally {
         hideLoader(), loadData();
     }
@@ -253,7 +253,7 @@ async function deleteItem(e, t, a) {
         showLoader();
         const t = doc(db, "subcategories", e),
             o = await getDoc(t);
-        if (!o.exists()) return void showToast("Subcategory not found ❌");
+        if (!o.exists()) return void showToast("Subcategory not found");
         const n = o.data();
         let i = [];
         n.items &&
@@ -368,7 +368,6 @@ onAuthStateChanged(auth, (e) => {
             ? void (
                   window._listenersAttached ||
                   ((window._listenersAttached = !0),
-                  console.log("User authenticated:", e.email),
                   loadData(),
                   $("saveCategoryBtn").addEventListener("click", async function (e) {
                       e.preventDefault();

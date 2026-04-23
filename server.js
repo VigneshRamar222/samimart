@@ -8,7 +8,7 @@ const fs = require("fs");
 const multer = require("multer");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -30,16 +30,12 @@ transporter.verify((error, success) => {
   }
 });
 app.get("/", (req, res) => {
- res.send("SamiMart API is running v2 test");
+ res.send("SamiMart API is running");
 });
-
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "index.html"));
-// });
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "assets/images/categories");
+    cb(null, `assets/images/categories`);
   },
   filename: (req, file, cb) => {
     const cleanName = file.originalname.replace(/\s+/g, "_");
@@ -53,7 +49,7 @@ app.post("/upload-category", upload.single("image"), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
-    const imageUrl = `/assets/images/categories/${req.file.filename}`;
+    const imageUrl = `${req.protocol}://${req.get("host")}/assets/images/categories/${req.file.filename}`;
     res.json({ imageUrl });
   } catch (err) {
     console.error("Upload error:", err);
@@ -63,21 +59,33 @@ app.post("/upload-category", upload.single("image"), (req, res) => {
 
 app.delete("/delete-image", (req, res) => {
   const { imageUrl } = req.body;
+
   if (!imageUrl) {
     return res.status(400).json({ error: "Image URL required" });
   }
+
   try {
-    const filename = imageUrl.split("/images/categories/")[1];
-    const filePath = path.join(__dirname, "assets/images/categories", filename);
+    const url = new URL(imageUrl);
+    const prefix = "/assets/images/categories/";
+
+    if (!url.pathname.startsWith(prefix)) {
+      return res.status(400).json({ error: "Invalid image URL" });
+    }
+
+    const filename = decodeURIComponent(url.pathname.slice(prefix.length));
+    const filePath = path.join(__dirname, "assets", "images", "categories", filename);
+
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
+
     res.json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Delete failed" });
   }
 });
+
 
 app.post("/send-email", async (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -190,8 +198,8 @@ app.post("/send-cart-enquiry", async (req, res) => {
       </p>
 
       <p>
-      📞 +91 96555 12111<br>
-      📧 samimart.tn@gmail.com
+      Phone: +91 96555 12111<br>
+      Email: samimart.tn@gmail.com
       </p>
 
       <br>
