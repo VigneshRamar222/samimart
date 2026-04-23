@@ -8,7 +8,7 @@ const isLocalHost =
 
 const API_BASE = isLocalHost
   ? "http://localhost:3000"
-  : "https://api.samimart.in";
+  : `${window.location.origin}/api`;
 
 
 (document.getElementById("year").textContent = new Date().getFullYear()),

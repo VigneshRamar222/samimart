@@ -39,8 +39,8 @@ const isLocalHost =
 
 const API_BASE = isLocalHost
   ? "http://localhost:3000"
-  : "https://api.samimart.in";
-  
+  : `${window.location.origin}/api`;
+
   const  ROWS_PER_PAGE = 5;
 let categories = [],
     subcategories = [];

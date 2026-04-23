@@ -19,7 +19,7 @@
     "firebase-ai-logic": {
       "source": "firebase/agent-skills",
       "sourceType": "github",
-      "computedHash": "6ddf74ac9b3366d396e5fa85e695a7c5871e39edffc385533eaee2be159fcf03"
+      "computedHash": "454e17900a16e50008ebff708000d1daa7bdbce8991b805a56b2e556ab6614f6"
     },
     "firebase-app-hosting-basics": {
       "source": "firebase/agent-skills",
