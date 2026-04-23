@@ -29,10 +29,13 @@ transporter.verify((error, success) => {
     console.log("Email transporter is ready");
   }
 });
-
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+ res.send("SamiMart API is running v2 test");
 });
+
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "index.html"));
+// });
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -232,6 +235,3 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.get("/", (req, res) => {
- res.send("SamiMart API is running v2 test");
-});
